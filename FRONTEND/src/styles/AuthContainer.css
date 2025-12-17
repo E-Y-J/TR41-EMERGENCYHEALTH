@@ -19,12 +19,21 @@
   position: absolute;
   inset: 0;
   z-index: 2;
+  pointer-events: none;
+}
+
+.login-box .login-tab,
+.signup-box .signup-tab {
+  pointer-events: auto;
 }
 
 .login-body.active,
 .signup-body.active {
+  display: block;
   z-index: 4;
+  pointer-events: auto;
 }
+
 .login-tab {
   position: absolute;
   left: 0px;
@@ -38,11 +47,12 @@
 }
 
 .login-body {
+  display: none;
   margin-top: 60px;
   height: 350px;
 
   background: #dcdcdc;
-  border-radius: 16px;
+  border-radius: 12px;
 
   z-index: 2;
 }
@@ -60,17 +70,19 @@
 }
 
 .signup-body {
+  display: none;
   margin-top: 60px;
   height: 350px;
 
   background: #cdcdcd;
-  border-radius: 16px;
+  border-radius: 12px;
 
   z-index: 2;
 }
 
-button {
+.login-btn,
+.signup-btn {
   text-align: center;
-
+  padding: 1rem;
   z-index: 5;
 }
