@@ -1,5 +1,0 @@
-- Create AuthContext and AuthProvider for global auth state
-- Implement login, logout, and signup functions
-- Add localStorage persistence for token and user data
-- Auto-login after successful signup
-- Add useAuth hook for consuming auth context"
