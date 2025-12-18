@@ -23,11 +23,13 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
                         type="email"
                         placeholder="Enter email"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <input
                         type="password"
                         placeholder="Password"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <button
                         type="submit"

@@ -23,21 +23,25 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
                         type="text"
                         placeholder="First Name"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <input
                         type="text"
                         placeholder="Last Name"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <input
                         type="email"
                         placeholder="Email"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <input
                         type="password"
                         placeholder="Create a Password"
                         className="border border-white focus:outline-none focus:border-gray-500 rounded p-2"
+                        required
                     />
                     <button
                         type="submit"
