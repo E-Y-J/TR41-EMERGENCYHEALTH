@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -34,7 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
   };
 
-  const signup = async (formData: { email: string; password: string }) => {
+  const signup = async (formData: {
+    fname: string;
+    lname: string;
+    email: string;
+    password: string;
+  }) => {
     // call the API to create user
     const resUser = await fetch("http://127.0.0.1:5000/pationts", {
       method: "POST",
