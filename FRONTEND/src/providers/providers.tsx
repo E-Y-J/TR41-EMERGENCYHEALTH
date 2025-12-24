@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
+interface User {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(() => {
     const t = localStorage.getItem("auth_token");
     if (!t || t === "undefined" || t === "null") {
@@ -12,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     return t;
   });
-  const [user, setUser] = useState<string | null>(() => {
+  const [user, setUser] = useState<User | null>(() => {
     const u = localStorage.getItem("auth_user");
     if (!u || u === "undefined" || u === "null") {
       return null;
@@ -20,26 +28,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return JSON.parse(u);
   });
 
-  const login = (newToken: string, newUser: string) => {
+  const login = (newToken: string, newUser: User) => {
     localStorage.setItem("auth_token", newToken);
-    localStorage.setItem("auth_user", newUser);
+    localStorage.setItem("auth_user", JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
   };
 
   const logout = () => {
+    console.log("Logging out");
     localStorage.removeItem("auth_token");
     localStorage.removeItem("auth_user");
     setToken(null);
     setUser(null);
+    navigate("/auth");
   };
 
-  const signup = async (formData: { email: string; password: string }) => {
-    // call the API to create user
-    const resUser = await fetch("http://127.0.0.1:5000/pationts", {
+  const signup = async (formData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+  }) => {
+    // call the API to create user (map first_name -> fname, last_name -> lname)
+    const resUser = await fetch("http://127.0.0.1:5000/patients/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        password: formData.password,
+      }),
     });
     if (!resUser.ok) {
       const err = await resUser.text();
@@ -48,8 +68,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const UserData = await resUser.json();
     console.log("user Data", UserData);
 
-    // call the API to get the token and login the user after signup
-    const loginRes = await fetch("http://127.0.0.1:5000/login", {
+    // call the login function and pass the token and user after signup
+    const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -64,8 +84,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    const userToken = loginData.auth_token || null;
-    login(userToken, JSON.stringify(UserData));
+    const userToken = loginData.token;
+    login(userToken, loginData.User);
   };
 
   return (

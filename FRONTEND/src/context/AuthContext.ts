@@ -1,11 +1,23 @@
 import { createContext } from "react";
 
+interface User {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
 interface AuthContextType {
   token: string | null;
-  user: string | null;
-  login: (newToken: string, newUser: string) => void;
+  user: User | null;
+  login: (newToken: string, newUser: User) => void;
   logout: () => void;
-  signup: (formData: { email: string; password: string }) => Promise<void>;
+  signup: (formData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
