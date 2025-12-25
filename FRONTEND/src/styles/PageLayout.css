@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+button {
+  cursor: pointer;
+}
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2b2b2b;
+}
+
+/* for reference only */
+Color Palette {
+  primary: #4caf50 Accents #81c784 #2e7d32 text #2b2b2b Bg if needed #ffffff;
+}

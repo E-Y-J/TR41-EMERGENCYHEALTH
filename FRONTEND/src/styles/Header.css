@@ -1,0 +1,33 @@
+/* header {
+  
+} */
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-logo {
+  margin: 20px 0 0 20px;
+  width: auto;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+}
+
+header nav ul li {
+  display: flex;
+  align-items: center;
+  margin: 0px 20px 0 0;
+}
+
+header nav a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  color: #2e7d32;
+}
