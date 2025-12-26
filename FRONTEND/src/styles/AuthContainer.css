@@ -9,8 +9,7 @@
   border-radius: 16px;
 
   background-color: transparent;
-  box-shadow: 0rem 0.9rem 10px 5px #e8e8e8;
-
+  
   z-index: 1;
 }
 
@@ -22,6 +21,11 @@
   pointer-events: none;
 }
 
+.login-box.active,
+.signup-box.active {
+  z-index: 4;
+}
+
 .login-box .login-tab,
 .signup-box .signup-tab {
   pointer-events: auto;
@@ -30,7 +34,7 @@
 .login-body.active,
 .signup-body.active {
   display: block;
-  z-index: 4;
+  z-index: 5;
   pointer-events: auto;
 }
 
@@ -40,10 +44,10 @@
   width: 200px;
   height: 70px;
 
-  background: #dcdcdc;
+  background: #81C784;
   border-radius: 10px 10px 0 0;
 
-  z-index: 3;
+  z-index: 1;
 }
 
 .login-body {
@@ -51,7 +55,7 @@
   margin-top: 60px;
   height: 350px;
 
-  background: #dcdcdc;
+  background: #81C784;
   border-radius: 12px;
 
   z-index: 2;
@@ -63,10 +67,10 @@
   width: 200px;
   height: 70px;
 
-  background: #cdcdcd;
+  background: #4CAF50;
   border-radius: 10px 10px 0 0;
 
-  z-index: 3;
+  z-index: 1;
 }
 
 .signup-body {
@@ -74,7 +78,7 @@
   margin-top: 60px;
   height: 350px;
 
-  background: #cdcdcd;
+  background: #4CAF50;
   border-radius: 12px;
 
   z-index: 2;

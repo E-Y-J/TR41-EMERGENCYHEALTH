@@ -1,17 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import AuthContainer from "./components/AuthContainer";
-import HomePage from "./components/HomePage";
-import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import PageLayout from "./components/PageLayout";
 
 function App() {
   return (
-    <>
-      <Header />
+    <PageLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthContainer />} />
       </Routes>
-    </>
+    </PageLayout>
   );
 }
 
