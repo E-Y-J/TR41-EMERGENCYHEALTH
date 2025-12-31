@@ -59,5 +59,23 @@ Task#4(Jessica)
 - Routing Setup
   - Updated App.tsx with routes for Home (/), Account (/account), and QR Code (/my-qr) pages
   - Integrated React Router Link components in Footer for client-side navigation
+- Component Development
+  - Created basic Account page component with placeholder content
+
+Task#5(Jessica)
+
+- Styling Improvements
+  - Converted QRCodePage from inline styles to Tailwind CSS classes
+  - Added global heading styles (h1-h4) in PageLayout.css for consistent typography
+- Navigation Enhancements
+  - Made navbar logo clickable and redirect to home page using React Router Link
+  - Added "My QR Code" link to navbar (visible only when logged in)
+  - Added "Account" link to navbar (visible only when logged in)
+  - Both links use conditional rendering based on user authentication state
+- HomePage Updates
+  - Added paramedics.jpg image to HomePage
+  - Implemented proper image path and Tailwind styling
+  - Created informative paragraph explaining service workflow (sign up, enter medical info, get QR code for emergency responders)
+  - Arranged image and text side-by-side using flexbox layout for better visual presentation
   
 ##################################################################################################################################

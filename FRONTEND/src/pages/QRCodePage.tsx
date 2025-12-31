@@ -8,34 +8,25 @@ const QRCodePage = () => {
   const displayURL = qrURL || "https://www.google.com";
 
   return (
-    <div style={{ textAlign: "center", marginTop: 40 }}>
-      <h2>Emergency QR Code</h2>
-      <p>Scan to open the emergency responder AI chatbot.</p>
+    <div className="text-center mt-10">
+      <h3 className="mb-3">This is your personal QR Code!</h3>
+      <p className="mb-2">Scan to open the emergency responder AI chatbot.</p>
 
-      <div
-        style={{
-          margin: "0 auto",
-          width: "fit-content",
-          padding: 16,
-          background: "white",
-        }}
-      >
+      <div className="mx-auto w-fit p-4 bg-white">
         <QRCode value={displayURL} size={500} />
       </div>
 
-      <p style={{ marginTop: 16, wordBreak: "break-all", fontSize: 20 }}>
+      <p className="mt-4 break-all text-xl">
         {displayURL}
       </p>
 
-      <div
-        style={{
-          marginTop: 16,
-          background: "green",
-          display: "inline-block",
-          padding: 8,
-        }}
-      >
-        <button onClick={() => window.print()}>Print</button>
+      <div className="mt-4 mb-12">
+        <button
+          onClick={() => window.print()}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
+        >
+          Print
+        </button>
       </div>
     </div>
   );
