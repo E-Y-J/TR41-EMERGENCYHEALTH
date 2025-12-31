@@ -27,7 +27,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/qrcode" className="text-gray-400 hover:text-white text-sm transition-colors">
+                                <Link to="/my-qr" className="text-gray-400 hover:text-white text-sm transition-colors">
                                     My QR Code
                                 </Link>
                             </li>

@@ -6,5 +6,5 @@ export const useAuth = () => {
   if (!utils) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-  return utils; // { user, token, login, logout, signup }
+  return utils; // { user, token, login, logout, signup, qrURL }
 };

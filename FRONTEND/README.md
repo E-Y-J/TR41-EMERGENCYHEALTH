@@ -1,6 +1,6 @@
 spring #1: Auth/QR/form
 
-Task#1(Ali)
+Task#1:Auth(Ali)
 
 - Create AuthContext and AuthProvider for global auth state
 - Implement login, logout, and signup functions
@@ -8,7 +8,7 @@ Task#1(Ali)
 - Auto-login after successful signup
 - Add useAuth hook for consuming auth context"
 
-Task#2(Ali)
+Task#2:backend connection(Ali)
 
 - Login Component
   - Added form state management with controlled inputs for email and password
@@ -27,7 +27,21 @@ Task#2(Ali)
 - AuthContext
   - Updated TypeScript interface to include fname and lname fields in signup method signature
 
-Task#3(Jessica)
+Task#3: QR code(Ali)
+
+- AuthProvider
+  - Added qrURL state to store QR code URL
+  - Updated login and signup functions to accept and store QR code URL
+  - Persisted QR code URL in localStorage
+- useAuth Hook
+  - Updated return type to include qrURL from auth context
+- Login Component
+  - Updated login function to handle qrURL returned from backend
+- QRCodePage Component
+  - Created new component to display QR code using react-qr-code library
+  - Retrieves qrURL from auth context and renders QR code and URL text
+
+Task#4(Jessica)
 
 - Login and Logout Forms
   - Created complete login form with email and password inputs
@@ -43,7 +57,7 @@ Task#3(Jessica)
   - Added Footer component with Quick Links, Contact info, and company details
   - Implemented sticky footer that stays at bottom of page using flexbox layout
 - Routing Setup
-  - Updated App.tsx with routes for Home (/), Account (/account), and QR Code (/qrcode) pages
+  - Updated App.tsx with routes for Home (/), Account (/account), and QR Code (/my-qr) pages
   - Integrated React Router Link components in Footer for client-side navigation
   
 ##################################################################################################################################

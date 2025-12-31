@@ -20,6 +20,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     return t;
   });
+
+  const [qrURL, setQrURL] = useState<string | null>(() => {
+    const qURL = localStorage.getItem("auth_qr");
+    if (!qURL || qURL === "undefined" || qURL === "null") {
+      return null;
+    }
+    return qURL;
+  });
+
   const [user, setUser] = useState<User | null>(() => {
     const u = localStorage.getItem("auth_user");
     if (!u || u === "undefined" || u === "null") {
@@ -28,11 +37,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return JSON.parse(u);
   });
 
-  const login = (newToken: string, newUser: User) => {
+  const login = (newToken: string, newUser: User, newQr: string) => {
     localStorage.setItem("auth_token", newToken);
     localStorage.setItem("auth_user", JSON.stringify(newUser));
+    localStorage.setItem("auth_qr", newQr);
     setToken(newToken);
     setUser(newUser);
+    setQrURL(newQr);
+    navigate("/");
   };
 
   const logout = () => {
@@ -41,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.removeItem("auth_user");
     setToken(null);
     setUser(null);
-    navigate("/auth");
+    navigate("/");
   };
 
   const signup = async (formData: {
@@ -84,12 +96,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    const userToken = loginData.token;
-    login(userToken, loginData.User);
+    login(loginData.token, loginData.User, loginData.qr);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signup }}>
+    <AuthContext.Provider value={{ token, user, login, logout, signup, qrURL }}>
       {children}
     </AuthContext.Provider>
   );
