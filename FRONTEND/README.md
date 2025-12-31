@@ -1,6 +1,6 @@
 spring #1: Auth/QR/form
 
-Task#1(Ali)
+Task#1:Auth(Ali)
 
 - Create AuthContext and AuthProvider for global auth state
 - Implement login, logout, and signup functions
@@ -8,7 +8,7 @@ Task#1(Ali)
 - Auto-login after successful signup
 - Add useAuth hook for consuming auth context"
 
-Task#2(Ali)
+Task#2:backend connection(Ali)
 
 - Login Component
   - Added form state management with controlled inputs for email and password
@@ -26,5 +26,19 @@ Task#2(Ali)
   - Automatically stores auth token and user data after successful signup
 - AuthContext
   - Updated TypeScript interface to include fname and lname fields in signup method signature
-  
+
+Task#3: QR code(Ali)
+
+- AuthProvider
+  - Added qrURL state to store QR code URL
+  - Updated login and signup functions to accept and store QR code URL
+  - Persisted QR code URL in localStorage
+- useAuth Hook
+  - Updated return type to include qrURL from auth context
+- Login Component
+  - Updated login function to handle qrURL returned from backend
+- QRCodePage Component
+  - Created new component to display QR code using react-qr-code library
+  - Retrieves qrURL from auth context and renders QR code and URL text
+
 ##################################################################################################################################
