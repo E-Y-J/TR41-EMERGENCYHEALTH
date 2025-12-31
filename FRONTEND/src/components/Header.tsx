@@ -1,5 +1,6 @@
 import { useAuth } from "../hook/useAuth";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import AuthModal from "./Auth/AuthModal";
 import "../styles/Header.css";
 
@@ -15,10 +16,18 @@ const Header = () => {
     <>
       <header>
         <nav>
-          <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
+          <Link to="/">
+            <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
+          </Link>
           {user ? (
             <ul>
               <p>Welcome, {user.first_name}!</p>
+              <li>
+                <Link to="/my-qr">My QR Code</Link>
+              </li>
+              <li>
+                <Link to="/account">Account</Link>
+              </li>
               <li>
                 <a onClick={logout}>Logout</a>
               </li>

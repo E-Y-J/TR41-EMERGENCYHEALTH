@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import Footer from './Footer';
 
 type PageLayoutProps = {
     children?: React.ReactNode;
@@ -7,16 +8,17 @@ type PageLayoutProps = {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     return (
-        <>
+        <div className="flex flex-col min-h-screen">
             <div>
-                <div>
-                    <Header />
-                </div>
-                <div>
-                    {children}
-                </div>
+                <Header />
             </div>
-        </>
+            <div className="grow">
+                {children}
+            </div>
+            <div>
+                <Footer />
+            </div>
+        </div>
     );
 };
 
