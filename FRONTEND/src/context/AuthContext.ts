@@ -8,9 +8,10 @@ interface User {
 }
 
 interface AuthContextType {
+  qrURL: string | null;
   token: string | null;
   user: User | null;
-  login: (newToken: string, newUser: User) => void;
+  login: (newToken: string, newUser: User, newQr: string) => void;
   logout: () => void;
   signup: (formData: {
     first_name: string;

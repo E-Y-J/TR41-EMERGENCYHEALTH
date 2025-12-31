@@ -7,6 +7,10 @@ const Header = () => {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
+  const handleOpenQr = () => {
+    window.open("/my-qr", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       <header>
@@ -18,6 +22,9 @@ const Header = () => {
               <li>
                 <a onClick={logout}>Logout</a>
               </li>
+              <li>
+                <button onClick={handleOpenQr}>View / Print QR Code</button>
+              </li>
             </ul>
           ) : (
             <ul>
@@ -28,7 +35,10 @@ const Header = () => {
           )}
         </nav>
       </header>
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </>
   );
 };

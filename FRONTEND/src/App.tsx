@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import QRCodePage from "./pages/QRCodePage";
 import PageLayout from "./components/PageLayout";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <PageLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/my-qr" element={<QRCodePage />} />
       </Routes>
     </PageLayout>
   );
