@@ -77,5 +77,12 @@ Task#5(Jessica)
   - Implemented proper image path and Tailwind styling
   - Created informative paragraph explaining service workflow (sign up, enter medical info, get QR code for emergency responders)
   - Arranged image and text side-by-side using flexbox layout for better visual presentation
+
+Task#6(Jessica)
+
+- Account Page Refactoring
+  - Reorganized all forms into new Forms/ directory
+  - created skeleton exports for forms to begin structuring Account page
+  - Added form components to Account.tsx.
   
 ##################################################################################################################################
