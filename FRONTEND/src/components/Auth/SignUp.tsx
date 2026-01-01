@@ -1,8 +1,9 @@
 import "../../styles/AuthContainer.css";
 import { useAuth } from "../../hook/useAuth";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm, type FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { signupSchema, type SignupFormData } from "../../schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface SignUpProps {
   active: boolean;
@@ -13,17 +14,18 @@ interface SignUpProps {
 const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
   const navigate = useNavigate();
   const { signup } = useAuth();
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm();
+    setError,
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+  });
 
-  const onSubmit = async (data: FieldValues) => {
+  const onSubmit = async (data: SignupFormData) => {
     try {
-      setErrorMessage("");
       const payload = {
         first_name: data.firstName,
         last_name: data.lastName,
@@ -34,10 +36,11 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
       reset();
       navigate("/");
     } catch (error: any) {
-      setErrorMessage(error.message || "Signup failed. Please try again.");
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 1000);
+      // Set server error for signup form
+      setError("root.serverError", {
+        type: "manual",
+        message: error.message || "Signup failed. Please try again.",
+      });
     }
   };
 
@@ -51,7 +54,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
       <div className={`signup-body p-7 ${active ? "active" : ""}`}>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <input
-            {...register("firstName", { required: true })}
+            {...register("firstName")}
             type="text"
             placeholder="First Name"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -60,7 +63,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
             <p className="text-red-500">First name is required</p>
           )}
           <input
-            {...register("lastName", { required: true })} //the spread operator helps to register the methods and the properties of the useForm hook to the input field
+            {...register("lastName")} //the spread operator helps to register the methods and the properties of the useForm hook to the input field
             type="text"
             placeholder="Last Name"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -69,10 +72,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
             <p className="text-red-500">Last name is required</p>
           )}
           <input
-            {...register("email", {
-              required: "Email is required",
-              pattern: /^\S+@\S+$/i,
-            })}
+            {...register("email")}
             type="email"
             placeholder="Email"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -81,17 +81,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
             <p className="text-red-500">{`${errors.email.message}`}</p>
           )}
           <input
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              pattern: {
-                value: /^(?=.*[A-Z]).*$/,
-                message: "Password must contain at least one uppercase letter",
-              },
-            })}
+            {...register("password")}
             type="password"
             placeholder="Create a Password"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -100,11 +90,18 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
             <p className="text-red-500">{`${errors.password.message}`}</p>
           )}
 
-          <button type="submit">
+          <button
+            type="submit"
+            className="border border-gray-100 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Signing Up..." : "Sign Up"}
           </button>
-          {errorMessage && (
-            <p className="text-red-500 text-center">{errorMessage}</p>
+
+          {errors.root?.serverError && (
+            <p className="text-red-500 text-center">
+              {errors.root.serverError.message}
+            </p>
           )}
         </form>
       </div>

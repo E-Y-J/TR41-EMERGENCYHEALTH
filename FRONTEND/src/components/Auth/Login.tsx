@@ -1,8 +1,9 @@
 import "../../styles/AuthContainer.css";
 import { useAuth } from "../../hook/useAuth";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { useForm, type FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { loginSchema, type LoginFormData } from "../../schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 
 interface LoginProps {
   active: boolean;
@@ -13,17 +14,18 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
     reset,
-  } = useForm();
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const onSubmit = async (data: FieldValues) => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      setErrorMessage("");
       // call the API to get the token and log the user after signup
       const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
         method: "POST",
@@ -44,10 +46,10 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
       reset();
       navigate("/");
     } catch (error: any) {
-      setErrorMessage(error.message || "Login failed. Please try again.");
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 1000);
+      setError("root.serverError", {
+        type: "manual",
+        message: error.message || "Login failed. Please try again.",
+      });
     }
   };
 
@@ -61,13 +63,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
       <div className={`login-body p-7 ${active ? "active" : ""}`}>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <input
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^\S+@\S+$/i,
-                message: "Invalid email address",
-              },
-            })}
+            {...register("email")}
             type="email"
             placeholder="Enter email"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -77,9 +73,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
             <p className="text-red-500">{`${errors.email.message}`}</p>
           )}
           <input
-            {...register("password", {
-              required: "Password is required",
-            })}
+            {...register("password")}
             type="password"
             placeholder="Password"
             className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
@@ -91,11 +85,14 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
           <button
             type="submit"
             className="border border-gray-100 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto"
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Logging in..." : "Login"}
           </button>
-          {errorMessage && (
-            <p className="text-red-500 text-center">{errorMessage}</p>
+          {errors.root?.serverError && (
+            <p className="text-red-500 text-center">
+              {errors.root.serverError.message}
+            </p>
           )}
         </form>
       </div>

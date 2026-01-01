@@ -30,17 +30,18 @@ Task#2:backend connection(Ali)
 Task#2: updtate login/signup forms using react-hook-form (Ali)
 
 - Login Component
-  - Added form validation for email format and required fields
-  - Displayed error messages for invalid inputs and failed login attempts
-  - add isSubmitting on the button to switch text to "Logging in..."
-  - reset form after successful login
-  - added custom error state to show API error messages
+  - Integrated react-hook-form for form state management and validation
+  - Added zod schema validation for email and password fields
+  - Displayed validation error messages below respective input fields
+  - Disabled submit button while form is submitting
 - SignUp Component
-  - Implemented form validation for required fields, email format, and password length
-  - Displayed error messages for invalid inputs and failed signup attempts
-  - added custom error state to show API error messages
-  - add isSubmitting on the button to switch text to "Logging in..."
-  - reset form after successful signup
+  - Integrated react-hook-form for form state management and validation
+  - Added zod schema validation for fname, lname, email, and password fields
+  - Displayed validation error messages below respective input fields
+  - Disabled submit button while form is submitting
+- schemas/authSchema.ts
+  - Created Zod schemas for login and signup forms
+  - Defined validation rules for each field (e.g., required fields, email format)
 
 Task#3: QR code(Ali)
 
