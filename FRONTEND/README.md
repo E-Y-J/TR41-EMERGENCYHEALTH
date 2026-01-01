@@ -27,6 +27,22 @@ Task#2:backend connection(Ali)
 - AuthContext
   - Updated TypeScript interface to include fname and lname fields in signup method signature
 
+Task#2: updtate login/signup forms using react-hook-form (Ali)
+
+- Login Component
+  - Integrated react-hook-form for form state management and validation
+  - Added zod schema validation for email and password fields
+  - Displayed validation error messages below respective input fields
+  - Disabled submit button while form is submitting
+- SignUp Component
+  - Integrated react-hook-form for form state management and validation
+  - Added zod schema validation for fname, lname, email, and password fields
+  - Displayed validation error messages below respective input fields
+  - Disabled submit button while form is submitting
+- schemas/authSchema.ts
+  - Created Zod schemas for login and signup forms
+  - Defined validation rules for each field (e.g., required fields, email format)
+
 Task#3: QR code(Ali)
 
 - AuthProvider
@@ -84,5 +100,5 @@ Task#6(Jessica)
   - Reorganized all forms into new Forms/ directory
   - created skeleton exports for forms to begin structuring Account page
   - Added form components to Account.tsx.
-  
+
 ##################################################################################################################################
