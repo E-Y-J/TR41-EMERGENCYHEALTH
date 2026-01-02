@@ -37,8 +37,8 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
         }),
       });
       if (!loginRes.ok) {
-        const err = await loginRes.text();
-        throw new Error(err || "Login failed");
+        const err = await loginRes.json();
+        throw new Error(err.Message || err.message || "Login failed");
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
