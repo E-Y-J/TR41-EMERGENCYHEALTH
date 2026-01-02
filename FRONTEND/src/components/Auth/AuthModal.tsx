@@ -16,7 +16,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 <button className="modal-close" onClick={onClose}>
                     x
                 </button>
-                <AuthContainer />
+                <AuthContainer onClose={onClose} />
             </div>
         </div>
     );

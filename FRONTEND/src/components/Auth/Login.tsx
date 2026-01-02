@@ -7,15 +7,17 @@ interface LoginProps {
   active: boolean;
   switchTab: () => void;
   boxActive: boolean;
+  onClose: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
+const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,33 +25,43 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
       ...prev,
       [name]: value,
     }));
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // call the API to get the token and log the user after signup
-    const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-      }),
-    });
-    if (!loginRes.ok) {
-      const err = await loginRes.text();
-      throw new Error(err || "Login failed");
-    }
-    const loginData = await loginRes.json();
-    console.log("login Data", loginData);
-    // get the token, user and qrURL from the response
-    login(loginData.token, loginData.User, loginData.qr);
+    setError(""); // Clear any previous errors
 
-    setForm({
-      email: "",
-      password: "",
-    });
-    navigate("/");
+    try {
+      // call the API to get the token and log the user after signup
+      const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      });
+      if (!loginRes.ok) {
+        await loginRes.text();
+        setError("Invalid email or password");
+        return;
+      }
+      const loginData = await loginRes.json();
+      console.log("login Data", loginData);
+      // get the token, user and qrURL from the response
+      login(loginData.token, loginData.User, loginData.qr);
+
+      setForm({
+        email: "",
+        password: "",
+      });
+      onClose(); // Close the modal
+      navigate("/");
+    } catch (_err) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -61,13 +73,18 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
       </div>
       <div className={`login-body p-7 ${active ? "active" : ""}`}>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 p-2 rounded">
+              {error}
+            </div>
+          )}
           <input
             type="email"
             name="email"
             value={form.email}
             onChange={handleChange}
             placeholder="Enter email"
-            className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+            className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
           <input
@@ -76,7 +93,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
             value={form.password}
             onChange={handleChange}
             placeholder="Password"
-            className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+            className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
           <button

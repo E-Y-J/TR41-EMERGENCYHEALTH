@@ -7,9 +7,10 @@ interface SignUpProps {
     active: boolean;
     switchTab: () => void;
     boxActive: boolean;
+    onClose: () => void;
 }
 
-const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
+const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive, onClose }) => {
     const navigate = useNavigate();
     const { signup } = useAuth();
     const [form, setForm] = useState({
@@ -42,6 +43,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
             email: "",
             password: "",
         });
+        onClose(); // Close the modal
         navigate("/");
     };
     return (
@@ -59,7 +61,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
                         value={form.fname}
                         onChange={handleChange}
                         placeholder="First Name"
-                        className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+                        className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
                         required
                     />
                     <input
@@ -68,7 +70,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
                         value={form.lname}
                         onChange={handleChange}
                         placeholder="Last Name"
-                        className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+                        className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
                         required
                     />
                     <input
@@ -77,7 +79,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="Email"
-                        className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+                        className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
                         required
                     />
                     <input
@@ -86,12 +88,12 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive }) => {
                         value={form.password}
                         onChange={handleChange}
                         placeholder="Create a Password"
-                        className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+                        className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
                         required
                     />
                     <button
                         type="submit"
-                        className="border border-gray-100 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto cursor-pointer"
+                        className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto cursor-pointer"
                     >
                         Sign Up
                     </button>

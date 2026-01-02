@@ -8,20 +8,19 @@ const Header = () => {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  const handleOpenQr = () => {
-    window.open("/my-qr", "_blank", "noopener,noreferrer");
-  };
 
   return (
     <>
       <header>
-        <nav>
+        <nav className="ms-2 me-3">
           <Link to="/">
             <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
           </Link>
           {user ? (
             <ul>
-              <p>Welcome, {user.first_name}!</p>
+              <li>
+                <span className="text-2xl p-6">Welcome, {user.first_name}!</span>
+              </li>
               <li>
                 <Link to="/my-qr">My QR Code</Link>
               </li>
@@ -30,9 +29,6 @@ const Header = () => {
               </li>
               <li>
                 <a onClick={logout}>Logout</a>
-              </li>
-              <li>
-                <button onClick={handleOpenQr}>View / Print QR Code</button>
               </li>
             </ul>
           ) : (
