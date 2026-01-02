@@ -1,7 +1,9 @@
 import "../../styles/AuthContainer.css";
 import { useAuth } from "../../hook/useAuth";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { signupSchema, type SignupFormData } from "../../schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface SignUpProps {
     active: boolean;
@@ -20,12 +22,25 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive, onClose }
         password: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const onSubmit = async (data: SignupFormData) => {
+        try {
+            const payload = {
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                password: data.password,
+            };
+            await signup(payload);
+            reset();
+            onClose(); // Close the modal
+            navigate("/");
+        } catch (error: any) {
+            // Set server error for signup form
+            setError("root.serverError", {
+                type: "manual",
+                message: error.message || "Signup failed. Please try again.",
+            });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

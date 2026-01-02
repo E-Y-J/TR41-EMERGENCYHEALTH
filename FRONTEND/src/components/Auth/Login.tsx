@@ -1,7 +1,9 @@
 import "../../styles/AuthContainer.css";
 import { useAuth } from "../../hook/useAuth";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { loginSchema, type LoginFormData } from "../../schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 
 interface LoginProps {
   active: boolean;
@@ -13,54 +15,43 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
   });
-  const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear error when user starts typing
-    if (error) setError("");
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(""); // Clear any previous errors
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
       // call the API to get the token and log the user after signup
       const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: form.email,
-          password: form.password,
+          email: data.email,
+          password: data.password,
         }),
       });
       if (!loginRes.ok) {
-        await loginRes.text();
-        setError("Invalid email or password");
-        return;
+        const err = await loginRes.text();
+        throw new Error(err || "Login failed");
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
       // get the token, user and qrURL from the response
       login(loginData.token, loginData.User, loginData.qr);
-
-      setForm({
-        email: "",
-        password: "",
-      });
-      onClose(); // Close the modal
+      reset();
+      onClose();
       navigate("/");
-    } catch (_err) {
-      setError("Invalid email or password");
+    } catch (error: any) {
+      setError("root.serverError", {
+        type: "manual",
+        message: error.message || "Login failed. Please try again.",
+      });
     }
   };
 
@@ -72,36 +63,39 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
         </button>
       </div>
       <div className={`login-body p-7 ${active ? "active" : ""}`}>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 p-2 rounded">
-              {error}
-            </div>
-          )}
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <input
+            {...register("email")}
             type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
             placeholder="Enter email"
             className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
+          {errors.email && (
+            <p className="text-red-500">{`${errors.email.message}`}</p>
+          )}
           <input
+            {...register("password")}
             type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
             placeholder="Password"
             className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
+          {errors.password && (
+            <p className="text-red-500">{`${errors.password.message}`}</p>
+          )}
           <button
             type="submit"
             className="border border-gray-100 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto"
+            disabled={isSubmitting}
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
+          {errors.root?.serverError && (
+            <p className="text-red-500 text-center">
+              {errors.root.serverError.message}
+            </p>
+          )}
         </form>
       </div>
     </div>
