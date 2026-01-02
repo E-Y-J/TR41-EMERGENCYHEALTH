@@ -9,10 +9,10 @@ type PageLayoutProps = {
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     return (
         <div className="flex flex-col min-h-screen">
-            <div>
+            <div className='mb-6'>
                 <Header />
             </div>
-            <div className="grow">
+            <div className="grow mx-6">
                 {children}
             </div>
             <div>

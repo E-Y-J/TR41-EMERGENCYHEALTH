@@ -2,7 +2,7 @@
 const HomePage = () => {
   return (
     <div className="text-center">
-      <h1 className="m-4">Welcome to EmergyScan</h1>
+      <h1 className="mb-4">Welcome to EmergyScan</h1>
       <h4>Your emergency health companion</h4>
       <div className="flex items-center gap-6 max-w-7xl mx-auto mt-8 px-4">
         <img src="/paramedics.jpg" alt="Paramedics" className="w-1/2 rounded-lg" />

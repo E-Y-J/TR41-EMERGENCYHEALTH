@@ -9,7 +9,7 @@
   border-radius: 16px;
 
   background-color: transparent;
-  
+
   z-index: 1;
 }
 
@@ -44,7 +44,7 @@
   width: 200px;
   height: 70px;
 
-  background: #81C784;
+  background: #81c784;
   border-radius: 10px 10px 0 0;
 
   z-index: 1;
@@ -53,9 +53,11 @@
 .login-body {
   display: none;
   margin-top: 60px;
-  height: 350px;
+  min-height: 350px;
+  max-height: 500px;
+  overflow-y: auto;
 
-  background: #81C784;
+  background: #81c784;
   border-radius: 12px;
 
   z-index: 2;
@@ -67,7 +69,7 @@
   width: 200px;
   height: 70px;
 
-  background: #4CAF50;
+  background: #4caf50;
   border-radius: 10px 10px 0 0;
 
   z-index: 1;
@@ -76,9 +78,11 @@
 .signup-body {
   display: none;
   margin-top: 60px;
-  height: 350px;
+  min-height: 350px;
+  max-height: 500px;
+  overflow-y: auto;
 
-  background: #4CAF50;
+  background: #4caf50;
   border-radius: 12px;
 
   z-index: 2;
@@ -86,7 +90,17 @@
 
 .login-btn,
 .signup-btn {
-  text-align: center;
+  width: 100%;
+  text-align: start;
   padding: 1rem;
   z-index: 5;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(223, 223, 223) inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

@@ -101,4 +101,40 @@ Task#6(Jessica)
   - created skeleton exports for forms to begin structuring Account page
   - Added form components to Account.tsx.
 
+Task#7(Jessica)
+
+- Authentication Modal Auto-Close
+  - Updated AuthModal to pass onClose callback to AuthContainer
+  - Modified AuthContainer to accept and forward onClose prop to Login and SignUp components
+  - Implemented auto-close functionality in Login component after successful authentication
+  - Implemented auto-close functionality in SignUp component after successful registration
+  - Modal now automatically closes when user logs in or signs up
+- Login Component Enhancements
+  - Added error state management for login failures
+  - Implemented error display with red alert banner for invalid credentials
+  - Added error clearing on input change for better UX
+  - Updated input styling with improved focus states (gray-700 border on focus)
+  - Wrapped login API call in try-catch block for better error handling
+- SignUp Component Styling
+  - Updated all input fields with consistent styling (gray-50 background, gray-200 border)
+  - Improved focus states to match Login component styling
+  - Enhanced submit button border color for better visibility
+- Header Component Updates
+  - Converted welcome message from paragraph to list item with larger text (text-2xl)
+  - Removed "View / Print QR Code" button (redundant with "My QR Code" link)
+  - Added margin spacing (ms-2 me-3) to navigation for better layout
+- Account Page Layout
+  - Restructured layout using grid system (grid-cols-5)
+  - PersonalInfo form now in sticky sidebar (col-span-2) that stays visible on scroll
+  - Medical forms (Allergies, Medications, Conditions) in main content area (col-span-3)
+  - Added white backgrounds, shadows, rounded corners, and borders to form containers
+  - Improved spacing and visual hierarchy
+- PageLayout Component
+  - Added bottom margin (mb-6) to header container
+  - Added horizontal margins (mx-6) to main content area for better spacing
+- Minor Fixes
+  - Fixed HomePage heading margin (m-4 → mb-4)
+  - Added CSS rules to prevent autofill styling issues in AuthContainer.css
+  - Updated login/signup tab buttons to span full width of tabs for better visual consistency
+  
 ##################################################################################################################################

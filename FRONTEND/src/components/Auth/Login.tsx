@@ -9,9 +9,10 @@ interface LoginProps {
   active: boolean;
   switchTab: () => void;
   boxActive: boolean;
+  onClose: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
+const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const {
@@ -36,14 +37,15 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
         }),
       });
       if (!loginRes.ok) {
-        const err = await loginRes.text();
-        throw new Error(err || "Login failed");
+        const err = await loginRes.json();
+        throw new Error(err.Message || err.message || "Login failed");
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
       // get the token, user and qrURL from the response
       login(loginData.token, loginData.User, loginData.qr);
       reset();
+      onClose();
       navigate("/");
     } catch (error: any) {
       setError("root.serverError", {
@@ -66,7 +68,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
             {...register("email")}
             type="email"
             placeholder="Enter email"
-            className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+            className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
           {errors.email && (
@@ -76,7 +78,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive }) => {
             {...register("password")}
             type="password"
             placeholder="Password"
-            className="border border-gray-100 focus:outline-none focus:border-gray-500 rounded p-2"
+            className="bg-gray-50 text-black border border-gray-200 focus:outline-none focus:border-gray-700 rounded p-2"
             required
           />
           {errors.password && (
