@@ -27,7 +27,7 @@ Task#2:backend connection(Ali)
 - AuthContext
   - Updated TypeScript interface to include fname and lname fields in signup method signature
 
-Task#2: updtate login/signup forms using react-hook-form (Ali)
+Task#2b: updtate login/signup forms using react-hook-form (Ali)
 
 - Login Component
   - Integrated react-hook-form for form state management and validation
@@ -56,6 +56,20 @@ Task#3: QR code(Ali)
 - QRCodePage Component
   - Created new component to display QR code using react-qr-code library
   - Retrieves qrURL from auth context and renders QR code and URL text
+
+Task#4: Forms(Ali)
+
+- api
+  - Created API functions to handle CRUD operations for Personal Info, Allergies, Medications, and Conditions
+  - Implemented POST requests to respective endpoints
+  - Created TypeScript interfaces for form data
+- Forms Components
+  - Developed controlled form components for PersonalInfo, Allergies, Medications, and Conditions
+  - Integrated react-hook-form for form state management and validation
+  - Added zod schema validation for each form
+  - Implemented form submission handlers to call respective API functions
+  - Displayed validation error messages below respective input fields
+  - Disabled submit button while form is submitting
 
 Task#4(Jessica)
 
@@ -136,5 +150,5 @@ Task#7(Jessica)
   - Fixed HomePage heading margin (m-4 → mb-4)
   - Added CSS rules to prevent autofill styling issues in AuthContainer.css
   - Updated login/signup tab buttons to span full width of tabs for better visual consistency
-  
+
 ##################################################################################################################################
