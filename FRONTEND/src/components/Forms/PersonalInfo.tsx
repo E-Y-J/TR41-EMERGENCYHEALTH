@@ -260,14 +260,14 @@ const PersonalInfo = ({ onCancel }: PersonalInfoProps) => {
             <button
               type="button"
               onClick={onCancel}
-              className="bg-gray-200 border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
+              className="bg-gray-200 hover:bg-gray-300 border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="bg-[#81c784] border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
+              className="bg-[#81c784] hover:bg-[#2e7d32] border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
             >
               {isPending ? "Saving..." : "Save"}
             </button>

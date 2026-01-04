@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const personalSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
-  middle_name: z.string().optional().or(z.literal("")),
+  middle_name: z.string().nullable().optional().or(z.literal("")),
   last_name: z.string().min(1, "Last name is required"),
   address: z.string().min(1, "Address is required"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
@@ -13,14 +13,14 @@ export const personalSchema = z.object({
   blood_type: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
     message: "Please select a blood type",
   }),
-  preferred_hospital: z.string().optional().or(z.literal("")),
+  preferred_hospital: z.string().nullable().optional().or(z.literal("")),
   emergency_contact_name: z
     .string()
     .min(1, "Emergency contact name is required"),
   emergency_contact_relationship: z
     .string()
     .min(1, "Emergency contact relationship is required"),
-  emergency_contact_phone: z.string().optional().or(z.literal("")),
+  emergency_contact_phone: z.string().nullable().optional().or(z.literal("")),
 });
 
 export const allergySchema = z.object({
