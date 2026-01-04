@@ -1,4 +1,3 @@
-import React from "react";
 import {
   type ConditionFormData,
   conditionSchema,
@@ -7,11 +6,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../api/http";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
-const Conditions = () => {
+interface ConditionsProps {
+  onCancel: () => void;
+}
+
+const Conditions = ({ onCancel }: ConditionsProps) => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,7 +38,7 @@ const Conditions = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["condition"] });
       reset();
-      navigate("/");
+      onCancel();
     },
   });
 
@@ -46,57 +47,68 @@ const Conditions = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-gray-100 mt-10 rounded-lg shadow">
-      <h2 className="text-center mb-6">Add Condition Information</h2>
+    <div className="mx-auto p-6 bg-gray-50  border border-gray-200 rounded-md shadow">
+      <h3 className="text-center mb-6">Add Condition Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="border-2 solid-gray-300 p-6 rounded-lg"
+        className="border border-gray-300 bg-gray-100 p-6 rounded"
       >
-        <div className="mb-4">
-          <label className="block mb-2">Condition Name:</label>
-          <input
-            type="text"
-            {...register("condition_name")}
-            className="w-full border p-2 rounded bg-white text-black"
-          />
-          {errors.condition_name && (
-            <p className="text-red-500 mt-1">{errors.condition_name.message}</p>
-          )}
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="block mb-2">Condition Name:</label>
+            <input
+              type="text"
+              {...register("condition_name")}
+              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+            />
+            {errors.condition_name && (
+              <p className="text-red-500 mt-1">{errors.condition_name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block mb-2">Is Chronic:</label>
+            <select
+              {...register("isChronic")}
+              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+            >
+              <option value="">Select Option</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            {errors.isChronic && (
+              <p className="text-red-500 mt-1">{errors.isChronic.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block mb-2">Notes:</label>
+            <textarea
+              {...register("notes")}
+              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+            />
+            {errors.notes && (
+              <p className="text-red-500 mt-1">{errors.notes.message}</p>
+            )}
+          </div>
+          <div className="flex gap-4 justify-center">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isPending}
+              className="bg-[#81c784] border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3"
+            >
+              {isPending ? "Saving..." : "Save"}
+            </button>
+          </div>
         </div>
-        
-        <div className="mb-4">
-          <label className="block mb-2">Is Chronic:</label>
-          <select
-            {...register("isChronic")}
-            className="w-full border p-2 rounded bg-white text-black"
-          >
-            <option value="">Select Option</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-          {errors.isChronic && (
-            <p className="text-red-500 mt-1">{errors.isChronic.message}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2">Notes:</label>
-          <textarea
-            {...register("notes")}
-            className="w-full border p-2 rounded bg-white text-black"
-          />
-          {errors.notes && (
-            <p className="text-red-500 mt-1">{errors.notes.message}</p>
-          )}
-        </div>
-        <button
-          type="submit"
-          disabled={isPending}
-          className=" w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isPending ? "Saving..." : "Add Condition"}
-        </button>
         {isSuccess && (
-          <p className="text-green-500 mt-2">Condition added successfully!</p>
+          <p className="text-[#4caf50] mt-2">Condition added successfully!</p>
         )}
         {isError && (
           <p className="text-red-500 mt-2">

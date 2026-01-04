@@ -8,4 +8,3 @@ with emergiscan_app.app_context():
 
 if __name__ == "__main__":
     emergiscan_app.run()
-
