@@ -119,24 +119,13 @@ Task#7(Jessica)
 
 - Authentication Modal Auto-Close
   - Updated AuthModal to pass onClose callback to AuthContainer
-  - Modified AuthContainer to accept and forward onClose prop to Login and SignUp components
-  - Implemented auto-close functionality in Login component after successful authentication
-  - Implemented auto-close functionality in SignUp component after successful registration
-  - Modal now automatically closes when user logs in or signs up
-- Login Component Enhancements
-  - Added error state management for login failures
-  - Implemented error display with red alert banner for invalid credentials
-  - Added error clearing on input change for better UX
-  - Updated input styling with improved focus states (gray-700 border on focus)
+  - Modified AuthContainer to accept and forward onClose prop to Login and Login/Sign Up components
+  - Implemented auto-close functionality in Login and Signup component after successful authentication
+  - Implemented Error Handling
   - Wrapped login API call in try-catch block for better error handling
-- SignUp Component Styling
-  - Updated all input fields with consistent styling (gray-50 background, gray-200 border)
-  - Improved focus states to match Login component styling
-  - Enhanced submit button border color for better visibility
 - Header Component Updates
-  - Converted welcome message from paragraph to list item with larger text (text-2xl)
   - Removed "View / Print QR Code" button (redundant with "My QR Code" link)
-  - Added margin spacing (ms-2 me-3) to navigation for better layout
+  - Updated Styling
 - Account Page Layout
   - Restructured layout using grid system (grid-cols-5)
   - PersonalInfo form now in sticky sidebar (col-span-2) that stays visible on scroll
@@ -146,9 +135,38 @@ Task#7(Jessica)
 - PageLayout Component
   - Added bottom margin (mb-6) to header container
   - Added horizontal margins (mx-6) to main content area for better spacing
-- Minor Fixes
-  - Fixed HomePage heading margin (m-4 → mb-4)
+- Styling Fixes
   - Added CSS rules to prevent autofill styling issues in AuthContainer.css
   - Updated login/signup tab buttons to span full width of tabs for better visual consistency
+
+##################################################################################################################################
+Task#8(Jessica)
+
+- CORS Configuration
+  - Updated backend CORS settings to accept requests from any localhost.
+  - Added support for GET, POST, PUT, DELETE, and OPTIONS methods
+  - Enabled credentials in CORS requests
+- API Integration
+  - Fixed axios interceptor to use correct localStorage key (auth_token instead of token)
+  - Ensured authentication token is properly attached to all API requests
+- Personal Info Management
+  - Implemented PUT endpoint integration for updating patient information
+  - Changed form submission from POST to PUT request to /patients/{user_id}
+  - Added pre-population of form with existing patient data when editing
+  - Added useQuery hook to fetch current personal info for edit mode
+  - Implemented useEffect to populate form fields with existing data
+- Form Field Mapping
+  - Fixed field name mismatch: changed phone_number to phone to match backend model
+  - Added emergency_contact_phone field to form (was missing)
+  - Updated schema validation to accept empty strings for optional fields
+- Display/Edit Toggle
+  - Created toggle functionality between Forms and Displays in Account.
+  - PersonalInfoDisplay shows data with Edit button
+  - Clicking Edit switches to form mode pre-populated with existing data
+  - Clicking Cancel or Save switches back to display mode
+  - Implemented same toggle for Allergies, Medications, and Conditions
+  - Added onCancel prop to all form components
+- Styling
+  - Made styling consistent between forms and displays in the Account page.
 
 ##################################################################################################################################

@@ -23,7 +23,7 @@ const QRCodePage = () => {
       <div className="mt-4 mb-12">
         <button
           onClick={() => window.print()}
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
+          className="bg-[#81c784] hover:bg-[#2e7d32] text-white px-6 py-2 rounded"
         >
           Print
         </button>

@@ -96,7 +96,7 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive, onClose }
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto cursor-pointer disabled:opacity-50"
+                        className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1 mx-auto cursor-pointer disabled:opacity-50"
                     >
                         {isSubmitting ? "Signing up..." : "Sign Up"}
                     </button>
