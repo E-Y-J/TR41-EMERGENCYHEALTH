@@ -2,6 +2,8 @@ from EmergiScan_App.models import db
 from flask import Flask
 from EmergiScan_App.extensions import ma
 from EmergiScan_App.blueprints.patients import patients_bp
+from EmergiScan_App.blueprints.allergies import allergies_bp
+from EmergiScan_App.blueprints.conditions import conditions_bp
 
 #Here we create the app
 def create_app(config_name):
@@ -15,5 +17,7 @@ def create_app(config_name):
 
     #Add the blueprints here
     emergiscan_app.register_blueprint(patients_bp, url_prefix="/patients")
+    emergiscan_app.register_blueprint(allergies_bp, url_prefix="/allergies")
+    emergiscan_app.register_blueprint(conditions_bp, url_prefix="/conditions")
     return emergiscan_app
 
