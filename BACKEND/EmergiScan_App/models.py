@@ -30,6 +30,8 @@ class Patients(Base):
     emergency_contact_phone: Mapped[str] = mapped_column(db.String(50), nullable=True) #Not mandatory like the name
     allergies: Mapped[List["Allergy"]] = db.relationship(back_populates="patient_allergy")
     health_conditions: Mapped[List["Conditions"]] = db.relationship(back_populates="patient_health_condition")
+    medical_record: Mapped[List["Medications"]] =db.relationship(back_populates="patient_medical_record")
+    
 
 
 
@@ -54,3 +56,16 @@ class Conditions(Base):
     notes: Mapped[str] = mapped_column(db.String(300), nullable=False)
     patient_health_condition: Mapped["Patients"] = db.relationship(back_populates="health_conditions")
 
+class Medications(Base):
+    __tablename__ = "medications"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
+    medicine_name: Mapped[str] = mapped_column(db.String(200), nullable=True) #Some people are not on medication so this is not mandatory
+    medication_purpose: Mapped[str] = mapped_column(db.String(300), nullable=True)
+    dosage: Mapped[str] = mapped_column(db.String(100), nullable=True)
+    frequency: Mapped[int] = mapped_column(db.Integer(), nullable=True)
+    route: Mapped[str] = mapped_column(db.String(200), nullable=True)
+    isactive: Mapped[str] = mapped_column(db.String(100), nullable=True)
+    notes: Mapped[str] = mapped_column(db.String(100), nullable=True)
+    patient_medical_record: Mapped["Patients"] = db.relationship(back_populates="medical_record")

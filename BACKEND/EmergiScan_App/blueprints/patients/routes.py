@@ -4,7 +4,7 @@ from flask import request, jsonify
 from sqlalchemy import select
 from EmergiScan_App.models import Patients, db
 from EmergiScan_App.blueprints.patients.schema import patients_schema, patientschema, loginschema, signupschema
-from EmergiScan_App.utils.util import encode_token, ph
+from EmergiScan_App.utils.util import encode_token, ph, required_token
 from argon2.exceptions import VerifyMismatchError
 
 
@@ -62,10 +62,22 @@ def signup():
     #checks if the patient already exist in the database before creating new account
     if existing_patient:
         return jsonify({"error": "Patient already exist"}), 400
-    new_patient = Patients(**patient_info)
+    new_patient = Patients(
+        first_name = patient_info["first_name"],
+        middle_name= patient_info["middle_name"],
+        last_name= patient_info["last_name"],
+        email = patient_info["email"],
+        password = patient_info["password"]
+    )
     db.session.add(new_patient)
     db.session.commit()
-    return signupschema.jsonify(new_patient), 201
+    return signupschema.jsonify({
+        "id": new_patient.id,
+        "first_name": new_patient.first_name,
+        "middle_name": new_patient.middle_name,
+        "last_name": new_patient.last_name,
+        "email": new_patient.email
+    }), 201
 
 #Creates patient personal information
 @patients_bp.route("/<int:patient_id>", methods=['PUT'])

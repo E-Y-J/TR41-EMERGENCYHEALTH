@@ -72,6 +72,8 @@ def delete_allergy(patient_id, allergy_id):
     if not allergy or allergy.patient_id != patient.id:
         return jsonify({"error": "Allergy not found or unauthorized to delete!"}), 404
     
+    allergy_name = allergy.allergen #gets the name of the medication that you want to delete
+
     db.session.delete(allergy)
     db.session.commit()
-    return jsonify({"message": f"allergy:{allergy_id} deleted successfully!"})
+    return jsonify({"message": f"Allergy: {allergy_name} deleted successfully!"})

@@ -1,0 +1,359 @@
+swagger: '2.0'
+info:
+  title: "Emergiscan_API"
+  description: "This is a restful API for managing patient data, including: allergy, medications and conditions."
+  version: "1.0.0"
+host: "127.0.0.1:5000"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+
+#Patients Path
+paths: 
+  /patients/signup:
+    post:
+      tags:
+        - Patients
+      summary: "Signup endpoint, registers a new patient"
+      description: "Creates a new patient account by storing basic and essential patient information in the database."
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          description: "Signup credentials"
+          schema:
+            $ref: "#/definitions/PatientSignupCredentials" #this is the first definition
+      responses:
+        201:
+          description: "Signup successful"
+          schema:
+            $ref: "#/definitions/PatientSignupResponse" #this is the response in the definitions
+
+  /patients/login:
+    post:
+      tags:
+        - Patients
+      summary: "Login patients"
+      description: "Login patient and validates patients with token during login"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          description: "Login credentials"
+          schema:
+            $ref: "#/definitions/PatientLoginCredentials" 
+      responses:
+        201:
+          description: "Login successful"
+          schema:
+            $ref: "#/definitions/PatientLoginResponse" 
+
+  /patients/:
+    get:
+        tags:
+          - Patients
+        summary: "Retrieves all Patients"
+        description: "This endpoint retrieves all patients in the database"
+        responses:
+          200:
+            description: "Retrieved patients sucessfully"
+            schema:
+              $ref: "#/definitions/RetrieveAllPatients"
+
+  /patients/{patient_id}:
+    get:
+      tags:
+        - Patients
+      summary: "Retrieves a single patient"
+      description: "This endpoint retrieves a single patient"
+      parameters:
+        - name: patient_id
+          in: path
+          required: true
+          type: integer
+          description: "The ID of the patient"
+      responses:
+        200:
+          description: "Retrieve Patient Successfully"
+          schema:
+            $ref: "#/definitions/RetrieveAPatient"
+
+
+    put:
+      tags:
+        - Patients
+      summary: "Updates patient information"
+      description: "Endpoint to update a patient"
+      parameters:
+        - in: path
+          name: "patient_id"
+          required: true
+          description: Patient's Id that is about to be updated
+          type: integer
+
+        - in: "body"
+          name: "body"
+          description: "Add the rest of the patient information here"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdatesPatientInfo"
+      responses:
+        200:
+          description: "Successfully updated a Patient"
+          schema:
+            $ref: "#/definitions/UpdatesPatientResponse"
+          examples:
+            application/json:
+              id: 1
+              first_name: Jane
+              middle_name: Paris
+              last_name: Doe
+              phone: 000-000-0000
+              email: janed@email.com
+              password: pass123
+              address: 123 Main Street
+              blood_type: O+
+              date_of_birth: 2000-01-01
+              gender: female
+              emergency_contact_name: John Doe
+              emergency_contact_phone: 000-000-0000
+              emergency_contact_relationship: Spouse
+              preferred_hospital: Capital Health
+
+    delete:
+      tags:
+        - Patients
+      summary: "Endpoint to delete a patient"
+      description: "This endpoint is use to delete a patient."
+      parameters:
+        - in: path
+          name: patient_id
+          type: integer
+          description: The ID of the patient you want to delete
+          required: true
+      responses:
+        200:
+          description: "Successfully deleted a patient"
+      schema:
+        $ref: "#/definitions/DeletePatientResponse"
+      examples:
+        application/json:
+          message: "Successfully deleted user <patient_id>"
+
+
+definitions:
+  PatientSignupCredentials:
+      type: "object"
+      properties:
+        first_name:
+          type: "string"
+        middle_name:
+          type: "string"
+          nullable: true
+        last_name:
+          type: "string"
+        email:
+          type: "string"
+        password:
+          type: "string"
+
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+
+  PatientSignupResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        first_name:
+          type: "string"
+        middle_name:
+          type: "string"  
+        last_name:
+          type: "string"
+        email:
+          type: "string"
+
+  PatientLoginCredentials:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+    required:
+      - email
+      - password
+
+  PatientLoginResponse:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+        message:
+          type: "string"
+        status:
+          type: "string"
+
+  RetrieveAllPatients:
+    type: "array" #use array because we are getting a list of patients here
+    items:
+      type: "object"
+    properties:
+      id:
+        type: "integer"
+      first_name:
+        type: "string"
+      middle_name:
+        type: "string"
+      last_name:
+        type: "string"
+      email:
+        type: "string"
+      address:
+        type: "string"
+      blood_type:
+        type: "string"
+      date_of_birth:
+        type: "date"
+      emergency_contact_name:
+        type: "string"
+      emergency_contact_phone:
+        type: "integer"
+      emergency_contact_relationship:
+        type: "string"
+      gender:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "integer"
+      preferred_hospital:
+        type: "string"
+
+  RetrieveAPatient:
+    
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      first_name:
+        type: "string"
+      middle_name:
+        type: "string"
+      last_name:
+        type: "string"
+      email:
+        type: "string"
+      address:
+        type: "string"
+      blood_type:
+        type: "string"
+      date_of_birth:
+        type: "date"
+      emergency_contact_name:
+        type: "string"
+      emergency_contact_phone:
+        type: "integer"
+      emergency_contact_relationship:
+        type: "string"
+      gender:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "integer"
+      preferred_hospital:
+        type: "string"
+
+  UpdatesPatientInfo:
+    type: "object"
+    properties:
+      first_name:
+        type: "string"
+      middle_name:
+        type: "string"
+      last_name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      address:
+        type: "string"
+      blood_type:
+        type: "string"
+      date_of_birth:
+        type: "string"
+        format: date
+      emergency_contact_name:
+        type: "string"
+      emergency_contact_phone:
+        type: "string"
+      emergency_contact_relationship:
+        type: "string"
+      gender:
+        type: "string"
+      phone:
+        type: "string"
+      preferred_hospital:
+        type: "string"
+
+    required:
+      - first_name
+      - last_name
+      - email
+      - password
+
+  UpdatesPatientResponse:
+    items:
+      type: "object"
+    properties:
+      id:
+        type: "integer"
+      first_name:
+        type: "string"
+      middle_name:
+        type: "string"
+      last_name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      address:
+        type: "string"
+      blood_type:
+        type: "string"
+      date_of_birth:
+        type: "date"
+      emergency_contact_name:
+        type: "string"
+      emergency_contact_phone:
+        type: "string"
+      emergency_contact_relationship:
+        type: "string"
+      gender:
+        type: "string"
+      phone:
+        type: "string"
+      preferred_hospital:
+        type: "string"
+
+  DeletePatientResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
