@@ -9,7 +9,7 @@ interface ConditionsDisplayProps {
 
 const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
     const fetchConditions = async (): Promise<ConditionFormData[]> => {
-        const res = await api.get("/patients/conditions");
+        const res = await api.get("/conditions/");
         return res.data;
     };
 

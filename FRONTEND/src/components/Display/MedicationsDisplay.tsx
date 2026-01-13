@@ -9,7 +9,7 @@ interface MedicationsDisplayProps {
 
 const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
     const fetchMedications = async (): Promise<MedicationFormData[]> => {
-        const res = await api.get("/patients/medication");
+        const res = await api.get("/medications/");
         return res.data;
     };
 

@@ -23,7 +23,7 @@ const Conditions = ({ onCancel }: ConditionsProps) => {
   });
 
   const createCondition = async (payload: ConditionFormData) => {
-    const res = await api.post("/patients/conditions", payload);
+    const res = await api.post("/conditions/", payload);
     return res.data;
   };
 

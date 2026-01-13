@@ -24,7 +24,7 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
   });
 
   async function createAllergy(payload: AllergyFormData) {
-    const res = await api.post("/patients/allergies", payload);
+    const res = await api.post("/allergies/", payload);
     return res.data;
   }
 

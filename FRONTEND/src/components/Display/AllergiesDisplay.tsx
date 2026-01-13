@@ -10,7 +10,7 @@ interface AllergiesDisplayProps {
 const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
     const fetchAllergies = async (): Promise<AllergyFormData[]> => {
-        const res = await api.get("/patients/allergies");
+        const res = await api.get("/allergies/");
         return res.data;
     };
 
