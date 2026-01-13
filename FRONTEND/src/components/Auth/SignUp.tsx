@@ -35,10 +35,9 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive, onClose }
             };
             await signup(payload);
             reset();
-            onClose(); // Close the modal
+            onClose();
             navigate("/");
         } catch (error: any) {
-            // Set server error for signup form
             setError("root.serverError", {
                 type: "manual",
                 message: error.message || "Signup failed. Please try again.",

@@ -27,7 +27,6 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      // call the API to get the token and log the user after signup
       const loginRes = await fetch("http://127.0.0.1:5000/patients/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,7 +41,6 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
-      // get the token, user and qrURL from the response
       login(loginData.token, loginData.User, loginData.qr);
       reset();
       onClose();
