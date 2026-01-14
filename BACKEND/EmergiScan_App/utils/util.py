@@ -8,6 +8,10 @@ from flask import request, jsonify
 SECRET_KEY = "we help make emmergency response efficient and reliable"
 
 
+# Create PasswordHasher instance
+ph = PasswordHasher()
+
+
 # Encode token for the user
 def encode_token(patient_id):
     payload = {
