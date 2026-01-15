@@ -1,0 +1,5 @@
+DocID,PatientID,DocType,Date,Title,Text,SourceID
+DOC-001,PAT-1001,allergies,2025-01-05,Allergies List,"Penicillin: hives and facial swelling (severe). Shellfish: throat tightness (severe). Latex: rash (moderate).",ALG-ALL
+DOC-002,PAT-1001,medications,2025-01-05,Active Medications,"Insulin glargine 18 units nightly. Insulin lispro 6 units with meals. Sevelamer 800 mg with meals. Epoetin alfa at dialysis.",MED-ACT
+DOC-003,PAT-1001,conditions,2025-01-05,Problem List,"ESRD on hemodialysis (Mon/Wed/Fri). AV fistula left arm—avoid BP/IV. Type 2 diabetes. Hypertension. Hyperlipidemia.",CON-PL
+DOC-004,PAT-1001,labs,2025-01-03,Recent Labs,"K 5.6 high; Phos 6.2 high; Hgb 10.2 low; A1c 7.6 on 2025-01-05.",LAB-REC
