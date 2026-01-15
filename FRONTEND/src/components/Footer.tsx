@@ -34,12 +34,12 @@ export default function Footer() {
                             {user && (
                                 <>
                                     <li>
-                                        <Link to="/account" className="text-gray-400 hover:text-white text-sm transition-colors">
+                                        <Link to="/account" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
                                             Account
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/my-qr" className="text-gray-400 hover:text-white text-sm transition-colors">
+                                        <Link to="/my-qr" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
                                             My QR Code
                                         </Link>
                                     </li>

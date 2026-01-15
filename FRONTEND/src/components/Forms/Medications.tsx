@@ -24,7 +24,7 @@ const Medications = ({ onCancel }: MedicationsProps) => {
   });
 
   const createMedication = async (payload: MedicationFormData) => {
-    const res = await api.post("/patients/medication", payload);
+    const res = await api.post("/medications/", payload);
     return res.data;
   };
 
