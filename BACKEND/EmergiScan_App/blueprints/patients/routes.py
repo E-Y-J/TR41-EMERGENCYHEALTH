@@ -61,10 +61,10 @@ def signup():
 
     # checks if the patient already exist in the database before creating new account
     if existing_patient:
-        return jsonify({"error": "Patient already exist"}), 400
+        return jsonify({"error": "Email already registered"}), 400
     new_patient = Patients(
         first_name = patient_info["first_name"],
-        middle_name= patient_info["middle_name"],
+        #middle_name= patient_info["middle_name"],
         last_name= patient_info["last_name"],
         email = patient_info["email"],
         password = patient_info["password"]
@@ -74,52 +74,36 @@ def signup():
     return signupschema.jsonify({
         "id": new_patient.id,
         "first_name": new_patient.first_name,
-        "middle_name": new_patient.middle_name,
+        #"middle_name": new_patient.middle_name,
         "last_name": new_patient.last_name,
         "email": new_patient.email
     }), 201
 
 
 # Creates patient personal information
-@patients_bp.route("/<int:patient_id>", methods=["PUT"])
+@patients_bp.route("/me", methods=["PUT"])
+@required_token
 def update_patient_info(patient_id):
     patient = db.session.get(Patients, patient_id)  # gets the specific patient
     if not patient:
         return jsonify({"error": "Sorry, patient does not exist"}), 404
+    
+    data = request.get_json()
+    for key, value in data.items():
+        if value == "":
+            data[key] = None
+    
     try:
         patient_data = patientschema.load(request.json, partial=True)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
     for key, value in patient_data.items():
-        if value not in ("", None):  # allows some fields to be blank
+        if value is not None:  # allows some fields to be blank
             setattr(patient, key, value)
 
     db.session.commit()
     return patientschema.jsonify(patient)
-
-
-# Get current logged in user information
-@patients_bp.route("/me", methods=["GET", "POST"])
-def get_current_patient():
-    auth_header = request.headers.get("Authorization")
-    if not auth_header:
-        return jsonify({"Message": "No token provided"}), 401
-
-    try:
-        token = auth_header.split(" ")[1]  # Bearer <token>
-    except IndexError:
-        return jsonify({"Message": "Invalid token format"}), 401
-
-    patient_id = decode_token(token)
-    if not patient_id:
-        return jsonify({"Message": "Invalid or expired token"}), 401
-
-    patient = db.session.get(Patients, int(patient_id))
-    if not patient:
-        return jsonify({"Message": "Patient not found"}), 404
-
-    return patientschema.jsonify(patient), 200
 
 
 # Retrieve all users
@@ -130,7 +114,8 @@ def get_users():
     return patients_schema.jsonify(patients)
 
 #Retrieve a single user
-@patients_bp.route("/<int:patient_id>", methods=['GET'])
+@patients_bp.route("/me", methods=['GET'])
+@required_token
 def get_user(patient_id):
     patient = db.session.get(Patients, patient_id)
     if not patient:
@@ -138,7 +123,8 @@ def get_user(patient_id):
     return patientschema.jsonify(patient), 200
 
 #Deletes a user
-@patients_bp.route("/<int:patient_id>", methods=['DELETE'])
+@patients_bp.route("/me", methods=['DELETE'])
+@required_token
 def delete_user(patient_id):
     patient = db.session.get(Patients, patient_id)
     if not patient:
