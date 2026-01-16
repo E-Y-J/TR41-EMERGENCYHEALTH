@@ -3,9 +3,7 @@ import { useAuth } from "../hook/useAuth";
 
 const QRCodePage = () => {
   const { qrURL } = useAuth();
-
-  // testing URL
-  const displayURL = qrURL || "https://www.google.com";
+  const displayURL = qrURL;
 
   return (
     <div className="text-center mt-10">
@@ -13,7 +11,7 @@ const QRCodePage = () => {
       <p className="mb-2">Scan to open the emergency responder AI chatbot.</p>
 
       <div className="mx-auto w-fit p-4 bg-white">
-        <QRCode value={displayURL} size={500} />
+        {displayURL && <QRCode value={displayURL} size={500} />}
       </div>
 
       <p className="mt-4 break-all text-xl">
