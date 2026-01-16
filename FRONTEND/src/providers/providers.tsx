@@ -96,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    login(loginData.token, loginData.User, loginData.qr);
+    login(loginData.token, loginData.User, loginData.qr_url);
   };
 
   return (

@@ -71,6 +71,12 @@ Task#4: Forms(Ali)
   - Displayed validation error messages below respective input fields
   - Disabled submit button while form is submitting
 
+Task#5: Display qr-token(Ali)
+
+- QRCodePage Component
+  - Updated to display QR code and URL only when user is logged in
+  - display the qr-token url from the backend
+
 Task#4(Jessica)
 
 - Login and Logout Forms
