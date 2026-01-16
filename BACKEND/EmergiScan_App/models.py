@@ -20,7 +20,7 @@ class Patients(Base):
     email: Mapped[str] = mapped_column(db.String(200), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(db.String(300), nullable=False)
     phone: Mapped[str] = mapped_column(db.String(50), nullable=True, unique=True)
-    date_of_birth: Mapped[date] = mapped_column(db.Date, nullable=True)
+    date_of_birth: Mapped[date] = mapped_column(db.String, nullable=True)
     gender: Mapped[str] = mapped_column(db.String(10), nullable=True) 
     blood_type: Mapped[str] = mapped_column(db.String(5), nullable=True) #Frontend please enforce rules for these to be filled out in the form I am unable to make it mandatory from my end due to signup reasons
     address: Mapped[str] = mapped_column(db.String(200), nullable=True)

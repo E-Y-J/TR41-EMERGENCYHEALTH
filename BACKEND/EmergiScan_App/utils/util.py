@@ -6,6 +6,7 @@ from functools import wraps
 from flask import request, jsonify
 
 SECRET_KEY = "we help make emmergency response efficient and reliable"
+ph = PasswordHasher()
 
 
 # Create PasswordHasher instance
