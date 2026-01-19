@@ -14,6 +14,8 @@ interface AllergiesProps {
 
 const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
   const queryClient = useQueryClient();
+  const isEditing = !!initialData;
+
 
   const {
     register,
@@ -59,7 +61,7 @@ const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
       <h3 className="text-center mb-6">
-        {/* {idEditing ? "Edit" : "Add"} */} Allergy Information</h3>
+        {isEditing ? "Edit" : "Add"} Allergy Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="border border-gray-300 bg-gray-100 p-6 rounded"

@@ -6,13 +6,16 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface MedicationsProps {
   onCancel: () => void;
+  initialData?: MedicationFormData | null;
 }
 
-const Medications = ({ onCancel }: MedicationsProps) => {
+const Medications = ({ onCancel, initialData }: MedicationsProps) => {
   const queryClient = useQueryClient();
+  const isEditing = !!initialData;
 
   const {
     register,
@@ -21,7 +24,29 @@ const Medications = ({ onCancel }: MedicationsProps) => {
     reset,
   } = useForm<MedicationFormData>({
     resolver: zodResolver(medicationSchema),
+    defaultValues: initialData ?? {
+      medication_name: '',
+      medication_purpose: '',
+      dosage: '',
+      frequency: '',
+      route: undefined,
+      isActive: undefined,
+      notes: '',
+    }
   });
+
+  useEffect(() => {
+    reset(initialData ?? {
+      medication_name: '',
+      medication_purpose: '',
+      dosage: '',
+      frequency: '',
+      route: undefined,
+      isActive: undefined,
+      notes: '',
+    }
+    )
+  }, [initialData, reset])
 
   const createMedication = async (payload: MedicationFormData) => {
     const res = await api.post("/medications/", payload);
@@ -49,7 +74,8 @@ const Medications = ({ onCancel }: MedicationsProps) => {
 
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
-      <h3 className="text-center mb-6">Add Medication Information</h3>
+      <h3 className="text-center mb-6">
+        {isEditing ? "Edit" : "Add"} Medication Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="border border-gray-300 bg-gray-100 p-6 rounded"
@@ -136,15 +162,18 @@ const Medications = ({ onCancel }: MedicationsProps) => {
           <div>
             <label className="block mb-2">Is Active</label>
             <select
-              {...register("isActive")}
+              {...register("isActive", {
+                setValueAs: (value) =>
+                  value === "yes" ? true : value === "no" ? false : undefined,
+              })}
               className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
             >
               <option value="">Select Option</option>
               <option value="yes">Yes</option>
-              <option value="no">Injection</option>
+              <option value="no">No</option>
             </select>
-            {errors.route && (
-              <p className="text-red-500 mt-1">{errors.route.message}</p>
+            {errors.isActive && (
+              <p className="text-red-500 mt-1">{errors.isActive.message}</p>
             )}
           </div>
           <div>
@@ -174,16 +203,20 @@ const Medications = ({ onCancel }: MedicationsProps) => {
             </button>
           </div>
         </div>
-        {isSuccess && (
-          <p className="text-[#4caf50] mt-2">Medication added successfully!</p>
-        )}
-        {isError && (
-          <p className="text-red-500 mt-2">
-            {error.message || "failed to add medication"}
-          </p>
-        )}
-      </form>
-    </div>
+        {
+          isSuccess && (
+            <p className="text-[#4caf50] mt-2">Medication added successfully!</p>
+          )
+        }
+        {
+          isError && (
+            <p className="text-red-500 mt-2">
+              {error.message || "failed to add medication"}
+            </p>
+          )
+        }
+      </form >
+    </div >
   );
 };
 

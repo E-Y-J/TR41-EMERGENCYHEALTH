@@ -170,3 +170,24 @@ Task#8(Jessica)
   - Made styling consistent between forms and displays in the Account page.
 
 ##################################################################################################################################
+##################################################################################################################################
+Task#9(Jessica)
+
+- Backend Model Updates
+  - Fixed date_of_birth field type from String to Date in Patients model
+- Medications Form Enhancement
+  - Added initialData prop to accept pre-populated medication data for editing
+  - Added Edit/Add dynamic heading based on whether initialData exists
+  - Fixed "Is Active" dropdown values from "yes"/"Injection" to "yes"/"no"
+  - Added setValueAs transform to convert dropdown string values to boolean
+  - Fixed error display to show isActive errors instead of route errors
+  - Updated defaultValues to include all medication fields
+- Allergies Form Enhancement
+  - Added initialData prop to accept pre-populated medication data for editing
+  - Added Edit/Add dynamic heading based on whether initialData exists
+  - Added Edit/Add dynamic heading using derived isEditing value (!!initialData)
+- Medications/Allergies Display Updates
+  - Removed max-width constraint for better layout consistency
+  - Updated button styling for "Add New" and "Edit" buttons to match design system
+
+##################################################################################################################################

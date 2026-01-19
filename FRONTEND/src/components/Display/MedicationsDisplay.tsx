@@ -47,12 +47,12 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+        <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-semibold">Medications</h3>
                 <button
                     onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-gray-100 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
                 >
                     Add New
                 </button>
@@ -65,7 +65,7 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                             <h4 className="font-semibold text-lg">{medication.medication_name}</h4>
                             <button
                                 onClick={() => onEdit(medication)}
-                                className="border border-gray-200 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
+                                className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
                             >
                                 Edit
                             </button>
