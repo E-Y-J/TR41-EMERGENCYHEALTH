@@ -40,7 +40,7 @@ export const medicationSchema = z.object({
   dosage: z.string().optional(),
   frequency: z.string().optional(),
   route: z
-    .enum(["Oral", "Injection", "Topical", "Inhalation"], {
+    .enum(["Oral", "Injection", "Topical", "Inhalation", "Rectal"], {
       message: "Please select a route",
     })
     .optional(),

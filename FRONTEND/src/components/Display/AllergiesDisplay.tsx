@@ -33,24 +33,27 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
     if (!data || data.length === 0) {
         return (
-            <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <button
-                    onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block"
-                >
-                    Add Allergy
-                </button>
+            <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+                <h3 className="text-xl font-semibold mb-6">Allergies</h3>
+                <div className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <button
+                        onClick={onAdd}
+                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
+                    >
+                        Add Allergy
+                    </button>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+        <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-semibold">Allergies</h3>
                 <button
                     onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-gray-100 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
                 >
                     Add New
                 </button>
@@ -58,12 +61,12 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((allergy, index) => (
-                    <div key={index} className="border border-gray-200 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-4 rounded">
                         <div className="flex justify-between items-start mb-3">
                             <h4 className="font-semibold">{allergy.allergen}</h4>
                             <button
                                 onClick={() => onEdit(allergy)}
-                                className="border border-gray-200 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
+                                className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
                             >
                                 Edit
                             </button>

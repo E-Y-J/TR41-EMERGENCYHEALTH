@@ -82,7 +82,17 @@ const Medications = ({ onCancel }: MedicationsProps) => {
             )}
           </div>
           <div>
-            <label className="block mb-2">Dosage</label>
+            <label className="block mb-2">Frequency</label>
+            <input
+              type="text"
+              {...register("frequency")}
+              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+              placeholder="e.g., twice per day, one puff every 8 hours"
+            />
+            {errors.frequency && (
+              <p className="text-red-500 mt-1">{errors.frequency.message}</p>
+            )}
+            {/* <label className="block mb-2">Dosage</label>
             <input
               type="number"
               min={0}
@@ -116,10 +126,12 @@ const Medications = ({ onCancel }: MedicationsProps) => {
               <option value="Injection">Injection</option>
               <option value="Topical">Topical</option>
               <option value="Inhalation">Inhalation</option>
+              <option value="Rectal">Rectal</option>
+
             </select>
             {errors.route && (
               <p className="text-red-500 mt-1">{errors.route.message}</p>
-            )}
+            )} */}
           </div>
           <div>
             <label className="block mb-2">Is Active</label>

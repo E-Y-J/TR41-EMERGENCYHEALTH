@@ -32,13 +32,16 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
 
     if (!data || data.length === 0) {
         return (
-            <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <button
-                    onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block"
-                >
-                    Add Medication
-                </button>
+            <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+                <h3 className="text-xl font-semibold mb-6">Medications</h3>
+                <div className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <button
+                        onClick={onAdd}
+                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
+                    >
+                        Add Medication
+                    </button>
+                </div>
             </div>
         );
     }

@@ -50,7 +50,7 @@ const PersonalInfo = ({ onCancel }: PersonalInfoProps) => {
     if (!user?.id) {
       throw new Error("User not logged in");
     }
-    const res = await api.put(`/patients/${user.id}`, payload);
+    const res = await api.put(`/patients/me`, payload);
     return res.data;
   };
 

@@ -9,9 +9,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AllergiesProps {
   onCancel: () => void;
+  initialData?: AllergyFormData | null;
 }
 
-const Allergies = ({ onCancel }: AllergiesProps) => {
+const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
   const queryClient = useQueryClient();
 
   const {
@@ -21,6 +22,12 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
     reset,
   } = useForm<AllergyFormData>({
     resolver: zodResolver(allergySchema),
+    defaultValues: initialData || {
+      allergen: '',
+      allergy_type: '',
+      reaction: '',
+      severity: undefined,
+    }
   });
 
   async function createAllergy(payload: AllergyFormData) {
@@ -51,7 +58,8 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
 
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
-      <h3 className="text-center mb-6">Add Allergy Information</h3>
+      <h3 className="text-center mb-6">
+        {/* {idEditing ? "Edit" : "Add"} */} Allergy Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="border border-gray-300 bg-gray-100 p-6 rounded"
