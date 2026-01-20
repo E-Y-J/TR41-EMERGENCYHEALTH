@@ -24,6 +24,7 @@ export const personalSchema = z.object({
 });
 
 export const allergySchema = z.object({
+  id: z.number().optional(),
   allergen: z.string().min(1, "Allergen is required"),
   allergy_type: z.string().optional(),
   reaction: z.string().optional(),
@@ -35,6 +36,7 @@ export const allergySchema = z.object({
 });
 
 export const medicationSchema = z.object({
+  id: z.number().optional(),
   medication_name: z.string().min(1, "Medication name is required"),
   medication_purpose: z.string().optional(),
   dosage: z.string().optional(),
@@ -44,7 +46,7 @@ export const medicationSchema = z.object({
       message: "Please select a route",
     })
     .optional(),
-  isActive: z.boolean({ message: "Please choose an option" }),
+  isActive: z.boolean({ message: "Please choose an option" }).optional(),
   notes: z.string().optional(),
 });
 

@@ -1,6 +1,8 @@
 import { api } from "../../api/http";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import type { MedicationFormData } from "../../schemas/healthSchema";
+
 
 interface MedicationsDisplayProps {
     onAdd: () => void;
@@ -8,15 +10,42 @@ interface MedicationsDisplayProps {
 }
 
 const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
+    const queryClient = useQueryClient();
+    const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+
     const fetchMedications = async (): Promise<MedicationFormData[]> => {
         const res = await api.get("/medications/");
         return res.data;
     };
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["medication"],
+        queryKey: ["medications"],
         queryFn: fetchMedications,
     });
+
+    async function deleteMedication(id: number) {
+        const res = await api.delete(`/medications/${id}`);
+        return res.data;
+    }
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteMedication,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["medications"] });
+            setConfirmDelete(null);
+        }
+    });
+
+    const handleDelete = (medication: MedicationFormData) => {
+        if (!medication.id) return;
+
+        if (confirmDelete === medication.id) {
+            deleteMutation.mutate(medication.id);
+        } else {
+            setConfirmDelete(medication.id);
+            setTimeout(() => setConfirmDelete(null), 3000);
+        }
+    };
 
     if (isLoading) {
         return <div className="text-center p-4">Loading...</div>;
@@ -64,8 +93,8 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                         <div className="flex justify-between items-start mb-3">
                             <h4 className="font-semibold text-lg">{medication.medication_name}</h4>
                             <button
-                                onClick={() => onEdit(medication)}
                                 className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
+                                onClick={() => onEdit(medication)}
                             >
                                 Edit
                             </button>
@@ -74,42 +103,57 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                             {medication.medication_purpose && (
                                 <div>
                                     <p className="text-sm text-gray-600">Purpose</p>
-                                    <p className="font-medium">{medication.medication_purpose}</p>
+                                    <p className="text-md">{medication.medication_purpose}</p>
                                 </div>
                             )}
 
                             {medication.dosage && (
                                 <div>
                                     <p className="text-sm text-gray-600">Dosage</p>
-                                    <p className="font-medium">{medication.dosage}</p>
+                                    <p className="text-md">{medication.dosage}</p>
                                 </div>
                             )}
 
                             {medication.frequency && (
                                 <div>
                                     <p className="text-sm text-gray-600">Frequency</p>
-                                    <p className="font-medium">{medication.frequency}</p>
+                                    <p className="text-md">{medication.frequency}</p>
                                 </div>
                             )}
 
                             {medication.route && (
                                 <div>
                                     <p className="text-sm text-gray-600">Route</p>
-                                    <p className="font-medium">{medication.route}</p>
+                                    <p className="text-md">{medication.route}</p>
                                 </div>
                             )}
 
                             <div>
                                 <p className="text-sm text-gray-600">Active</p>
-                                <p className="font-medium">{medication.isActive ? "Yes" : "No"}</p>
+                                <p className="text-md">{medication.isActive ? "Yes" : "No"}</p>
                             </div>
 
                             {medication.notes && (
                                 <div className="md:col-span-2">
                                     <p className="text-sm text-gray-600">Notes</p>
-                                    <p className="font-medium">{medication.notes}</p>
+                                    <p className="text-md">{medication.notes}</p>
                                 </div>
                             )}
+                            <div className="flex justify-end align-text-bottom">
+                                <button
+                                    className={`focus:outline-none pe-1 pt-4 px-auto rounded ${confirmDelete === medication.id
+                                        ? 'text-red-600 text-sm'
+                                        : 'text-[#81c784] text-lg'
+                                        }`}
+                                    onClick={() => handleDelete(medication)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === medication.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 ))}

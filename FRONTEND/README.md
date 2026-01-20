@@ -139,7 +139,6 @@ Task#7(Jessica)
   - Added CSS rules to prevent autofill styling issues in AuthContainer.css
   - Updated login/signup tab buttons to span full width of tabs for better visual consistency
 
-##################################################################################################################################
 Task#8(Jessica)
 
 - CORS Configuration
@@ -169,8 +168,6 @@ Task#8(Jessica)
 - Styling
   - Made styling consistent between forms and displays in the Account page.
 
-##################################################################################################################################
-##################################################################################################################################
 Task#9(Jessica)
 
 - Backend Model Updates
@@ -179,15 +176,24 @@ Task#9(Jessica)
   - Added initialData prop to accept pre-populated medication data for editing
   - Added Edit/Add dynamic heading based on whether initialData exists
   - Fixed "Is Active" dropdown values from "yes"/"Injection" to "yes"/"no"
-  - Added setValueAs transform to convert dropdown string values to boolean
   - Fixed error display to show isActive errors instead of route errors
   - Updated defaultValues to include all medication fields
+  - Implemented dual mutations (create and update) 
+  - Fixed query key from "medication" to "medications" for consistency
+  - Updated success/error messages to dynamically display "added" or "updated"
 - Allergies Form Enhancement
   - Added initialData prop to accept pre-populated medication data for editing
   - Added Edit/Add dynamic heading based on whether initialData exists
-  - Added Edit/Add dynamic heading using derived isEditing value (!!initialData)
+  - Implemented dual mutations (create and update) similar to Allergies form
 - Medications/Allergies Display Updates
   - Removed max-width constraint for better layout consistency
   - Updated button styling for "Add New" and "Edit" buttons to match design system
-
-##################################################################################################################################
+- Schema Updates
+  - Added optional id field to allergySchema for edit functionality
+  - Added optional id field to medicationSchema for edit functionality
+  - Made isActive field optional in medicationSchema to match backend nullable constraint
+- Display Components Enhancement
+  - Added delete functionality to AllergiesDisplay and MedicationsDisplay with confirmation prompt
+  - Implemented "Are you sure?" confirmation that appears for 3 seconds before resetting
+  - Added useMutation and useQueryClient to handle delete operations
+  - Fixed query key from "medication" to "medications" in MedicationsDisplay

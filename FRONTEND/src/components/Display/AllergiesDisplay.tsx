@@ -1,5 +1,6 @@
 import { api } from "../../api/http";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from 'react';
 import type { AllergyFormData } from "../../schemas/healthSchema";
 
 interface AllergiesDisplayProps {
@@ -8,6 +9,8 @@ interface AllergiesDisplayProps {
 }
 
 const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
+    const queryClient = useQueryClient();
+    const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
     const fetchAllergies = async (): Promise<AllergyFormData[]> => {
         const res = await api.get("/allergies/");
@@ -18,6 +21,30 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
         queryKey: ["allergies"],
         queryFn: fetchAllergies,
     });
+
+    async function deleteAllergy(id: number) {
+        const res = await api.delete(`/allergies/${id}`);
+        return res.data;
+    }
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteAllergy,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["allergies"] });
+            setConfirmDelete(null);
+        }
+    });
+
+    const handleDelete = (allergy: AllergyFormData) => {
+        if (!allergy.id) return;
+
+        if (confirmDelete === allergy.id) {
+            deleteMutation.mutate(allergy.id);
+        } else {
+            setConfirmDelete(allergy.id);
+            setTimeout(() => setConfirmDelete(null), 3000);
+        }
+    };
 
     if (isLoading) {
         return <div className="text-center p-4">Loading...</div>;
@@ -65,8 +92,8 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
                         <div className="flex justify-between items-start mb-3">
                             <h4 className="font-semibold">{allergy.allergen}</h4>
                             <button
-                                onClick={() => onEdit(allergy)}
                                 className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
+                                onClick={() => onEdit(allergy)}
                             >
                                 Edit
                             </button>
@@ -75,23 +102,38 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
                             {allergy.allergy_type && (
                                 <div>
                                     <p className="text-sm text-gray-600">Type</p>
-                                    <p className="font-medium">{allergy.allergy_type}</p>
+                                    <p className="text-md">{allergy.allergy_type}</p>
                                 </div>
                             )}
 
                             {allergy.reaction && (
                                 <div>
                                     <p className="text-sm text-gray-600">Reaction</p>
-                                    <p className="font-medium">{allergy.reaction}</p>
+                                    <p className="text-md">{allergy.reaction}</p>
                                 </div>
                             )}
 
                             {allergy.severity && (
                                 <div>
                                     <p className="text-sm text-gray-600">Severity</p>
-                                    <p className="font-medium">{allergy.severity}</p>
+                                    <p className="text-md">{allergy.severity}</p>
                                 </div>
+
                             )}
+                            <div className="flex justify-end align-text-bottom">
+                                <button
+                                    className={`focus:outline-none pe-1 pt-4 px-auto rounded ${confirmDelete === allergy.id
+                                        ? 'text-red-600 text-sm'
+                                        : 'text-[#81c784] text-lg'
+                                        }`}
+                                    onClick={() => handleDelete(allergy)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === allergy.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ))}

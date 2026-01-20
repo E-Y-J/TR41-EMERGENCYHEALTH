@@ -36,24 +36,33 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
   });
 
   useEffect(() => {
-    reset(initialData ?? {
-      medication_name: '',
-      medication_purpose: '',
-      dosage: '',
-      frequency: '',
-      route: undefined,
-      isActive: undefined,
-      notes: '',
+    if (initialData) {
+      reset(initialData);
+    } else {
+      reset({
+        medication_name: '',
+        medication_purpose: '',
+        dosage: '',
+        frequency: '',
+        route: undefined,
+        isActive: undefined,
+        notes: '',
+      });
     }
-    )
-  }, [initialData, reset])
+  }, [initialData, reset]);
 
-  const createMedication = async (payload: MedicationFormData) => {
+  async function createMedication(payload: MedicationFormData) {
     const res = await api.post("/medications/", payload);
     return res.data;
-  };
+  }
 
-  const {
+  async function updateMedication(payload: MedicationFormData) {
+    if (!payload.id) throw new Error("Medication ID is required for update");
+    const res = await api.put(`/medications/${payload.id}`, payload);
+    return res.data
+  }
+
+  /* const {
     mutate: createMutation,
     isPending,
     isError,
@@ -66,11 +75,42 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
       reset();
       onCancel();
     },
+  }); */
+
+  const createMutation = useMutation({
+    mutationFn: createMedication,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["medications"] });
+      reset();
+      onCancel();
+    },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: updateMedication,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["medications"] });
+      reset();
+      onCancel();
+    },
+  });
+
+  /* const onSubmit = (data: MedicationFormData) => {
+  createMutation(data);
+}; */
+
   const onSubmit = (data: MedicationFormData) => {
-    createMutation(data);
+    if (isEditing) {
+      updateMutation.mutate(data);
+    } else {
+      createMutation.mutate(data);
+    }
   };
+
+  const isPending = isEditing ? updateMutation.isPending : createMutation.isPending;
+  const isError = isEditing ? updateMutation.isError : createMutation.isError;
+  const error = isEditing ? updateMutation.error : createMutation.error;
+  const isSuccess = isEditing ? updateMutation.isSuccess : createMutation.isSuccess;
 
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
@@ -203,18 +243,15 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
             </button>
           </div>
         </div>
-        {
-          isSuccess && (
-            <p className="text-[#4caf50] mt-2">Medication added successfully!</p>
-          )
-        }
-        {
-          isError && (
-            <p className="text-red-500 mt-2">
-              {error.message || "failed to add medication"}
-            </p>
-          )
-        }
+        {isSuccess && (
+          <p className="text-[#4caf50] mt-2">
+            Medication {isEditing ? "updated" : "added"} successfully!</p>
+        )}
+        {isError && (
+          <p className="text-red-500 mt-2">
+            {error?.message || `Failed to ${isEditing ? "update" : "add"} medication`}
+          </p>
+        )}
       </form >
     </div >
   );
