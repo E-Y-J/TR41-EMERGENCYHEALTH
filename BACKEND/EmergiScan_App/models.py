@@ -34,7 +34,7 @@ class Patients(Base):
     email: Mapped[str] = mapped_column(db.String(200), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(db.String(300), nullable=False)
     phone: Mapped[str] = mapped_column(db.String(50), nullable=True, unique=True)
-    date_of_birth: Mapped[date] = mapped_column(db.String, nullable=True)
+    date_of_birth: Mapped[date] = mapped_column(db.Date, nullable=True)
     gender: Mapped[str] = mapped_column(db.String(10), nullable=True) 
     blood_type: Mapped[str] = mapped_column(db.String(5), nullable=True) #Frontend please enforce rules for these to be filled out in the form I am unable to make it mandatory from my end due to signup reasons
     address: Mapped[str] = mapped_column(db.String(200), nullable=True)
@@ -68,7 +68,7 @@ class Conditions(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
     conditions_name: Mapped[str] = mapped_column(db.String(150), nullable=True)
-    is_chronic: Mapped[bool] = mapped_column(default=False)
+    is_chronic: Mapped[str] = mapped_column(db.String(200))
     notes: Mapped[str] = mapped_column(db.String(300), nullable=False)
     patient_health_condition: Mapped["Patients"] = db.relationship(back_populates="health_conditions")
 
@@ -77,11 +77,11 @@ class Medications(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
-    medicine_name: Mapped[str] = mapped_column(db.String(200), nullable=True) #Some people are not on medication so this is not mandatory
+    medication_name: Mapped[str] = mapped_column(db.String(200), nullable=True) #Some people are not on medication so this is not mandatory
     medication_purpose: Mapped[str] = mapped_column(db.String(300), nullable=True)
     dosage: Mapped[str] = mapped_column(db.String(100), nullable=True)
-    frequency: Mapped[int] = mapped_column(db.Integer(), nullable=True)
+    frequency: Mapped[str] = mapped_column(db.String(100), nullable=True)
     route: Mapped[str] = mapped_column(db.String(200), nullable=True)
-    isactive: Mapped[str] = mapped_column(db.String(100), nullable=True)
+    isactive: Mapped[str] = mapped_column(db.String(50), nullable=True)
     notes: Mapped[str] = mapped_column(db.String(100), nullable=True)
     patient_medical_record: Mapped["Patients"] = db.relationship(back_populates="medical_record")
