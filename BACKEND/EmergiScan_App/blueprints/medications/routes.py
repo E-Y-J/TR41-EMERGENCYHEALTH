@@ -71,7 +71,8 @@ def delete_condition(patient_id, medication_id):
     if not medication or medication.patient_id != patient.id:
         return jsonify({"error": "Medication not found or unauthorized to delete!"}), 404
     
-    medication_name = medication.medicine_name #gets the name of the medication that you want to delete
+    # medication_name = medication.medicine_name #gets the name of the medication that you want to delete
+    medication_name = medication.medication_name #gets the name of the medication that you want to delete
 
     db.session.delete(medication)
     db.session.commit()
