@@ -7,12 +7,17 @@ import PersonalInfoDisplay from '../components/Display/PersonalInfoDisplay';
 import AllergiesDisplay from '../components/Display/AllergiesDisplay';
 import MedicationsDisplay from '../components/Display/MedicationsDisplay';
 import ConditionsDisplay from '../components/Display/ConditionsDisplay';
+import type { AllergyFormData, MedicationFormData, ConditionFormData } from '../schemas/healthSchema';
 
 const Account = () => {
     const [editingPersonalInfo, setEditingPersonalInfo] = useState(false);
-    const [editingAllergies, setEditingAllergies] = useState(false);
-    const [editingMedications, setEditingMedications] = useState(false);
-    const [editingConditions, setEditingConditions] = useState(false);
+    const [editingAllergy, setEditingAllergy] = useState(false);
+    const [editingMedication, setEditingMedication] = useState(false);
+    const [editingCondition, setEditingCondition] = useState(false);
+
+    const [selectedAllergy, setSelectedAllergy] = useState<AllergyFormData | null>(null);
+    const [selectedMedication, setSelectedMedication] = useState<MedicationFormData | null>(null);
+    const [selectedCondition, setSelectedCondition] = useState<ConditionFormData | null>(null);
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -29,35 +34,65 @@ const Account = () => {
                 </div>
                 <div className="col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
                     <div>
-                        {/* <Allergies onCancel={() => {}} /> */}
-                        {editingAllergies ? (
-                            <Allergies onCancel={() => setEditingAllergies(false)} />
+                        {editingAllergy ? (
+                            <Allergies onCancel={() => {
+                                setSelectedAllergy(null);
+                                setEditingAllergy(false);
+                            }}
+                                initialData={selectedAllergy}
+                            />
                         ) : (
                             <AllergiesDisplay
-                                onAdd={() => setEditingAllergies(true)}
-                                onEdit={() => setEditingAllergies(true)}
+                                onAdd={() => {
+                                    setSelectedAllergy(null);
+                                    setEditingAllergy(true);
+                                }}
+                                onEdit={(allergy) => {
+                                    setSelectedAllergy(allergy);
+                                    setEditingAllergy(true);
+                                }}
                             />
                         )}
                     </div>
                     <div>
-                        {/* <Medications onCancel={() => { }} /> */}
-                        {editingMedications ? (
-                            <Medications onCancel={() => setEditingMedications(false)} />
+                        {editingMedication ? (
+                            <Medications onCancel={() => {
+                                setSelectedMedication(null);
+                                setEditingMedication(false)
+                            }}
+                                initialData={selectedMedication}
+                            />
                         ) : (
                             <MedicationsDisplay
-                                onAdd={() => setEditingMedications(true)}
-                                onEdit={() => setEditingMedications(true)}
+                                onAdd={() => {
+                                    setSelectedMedication(null);
+                                    setEditingMedication(true);
+                                }}
+                                onEdit={(medication) => {
+                                    setSelectedMedication(medication);
+                                    setEditingMedication(true)
+                                }}
                             />
                         )}
                     </div>
                     <div>
-                        {/* <Conditions onCancel={() => { }} /> */}
-                        {editingConditions ? (
-                            <Conditions onCancel={() => setEditingConditions(false)} />
+                        {editingCondition ? (
+                            <Conditions onCancel={() => {
+                                setSelectedCondition(null);
+                                setEditingCondition(false)
+                            }}
+                                initialData={selectedCondition}
+                            />
                         ) : (
                             <ConditionsDisplay
-                                onAdd={() => setEditingConditions(true)}
-                                onEdit={() => setEditingConditions(true)}
+                                onAdd={() => {
+                                    setSelectedCondition(null);
+                                    setEditingCondition(true)
+                                }}
+                                onEdit={(condition) => {
+                                    setSelectedCondition(condition);
+                                    setEditingCondition(true)
+                                }}
                             />
                         )}
                     </div>

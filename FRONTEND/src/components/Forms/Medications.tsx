@@ -6,13 +6,16 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface MedicationsProps {
   onCancel: () => void;
+  initialData?: MedicationFormData | null;
 }
 
-const Medications = ({ onCancel }: MedicationsProps) => {
+const Medications = ({ onCancel, initialData }: MedicationsProps) => {
   const queryClient = useQueryClient();
+  const isEditing = !!initialData;
 
   const {
     register,
@@ -21,14 +24,45 @@ const Medications = ({ onCancel }: MedicationsProps) => {
     reset,
   } = useForm<MedicationFormData>({
     resolver: zodResolver(medicationSchema),
+    defaultValues: initialData || {
+      medication_name: '',
+      medication_purpose: '',
+      dosage: '',
+      frequency: '',
+      route: undefined,
+      is_active: undefined,
+      notes: '',
+    }
   });
 
-  const createMedication = async (payload: MedicationFormData) => {
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    } else {
+      reset({
+        medication_name: '',
+        medication_purpose: '',
+        dosage: '',
+        frequency: '',
+        route: undefined,
+        is_active: undefined,
+        notes: '',
+      });
+    }
+  }, [initialData, reset]);
+
+  async function createMedication(payload: MedicationFormData) {
     const res = await api.post("/medications/", payload);
     return res.data;
-  };
+  }
 
-  const {
+  async function updateMedication(payload: MedicationFormData) {
+    if (!payload.id) throw new Error("Medication ID is required for update");
+    const res = await api.put(`/medications/${payload.id}`, payload);
+    return res.data;
+  }
+
+  /* const {
     mutate: createMutation,
     isPending,
     isError,
@@ -41,15 +75,73 @@ const Medications = ({ onCancel }: MedicationsProps) => {
       reset();
       onCancel();
     },
+  }); */
+
+  const createMutation = useMutation({
+    mutationFn: createMedication,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["medications"] });
+      reset();
+      onCancel();
+    },
   });
 
+  /*   const updateMutation = useMutation({
+      mutationFn: updateMedication,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["medications"] });
+        reset();
+        onCancel();
+      },
+    }); */
+
+  const updateMutation = useMutation({
+    mutationFn: updateMedication,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["medications"] });
+      reset();
+      onCancel();
+    },
+    onError: (e) => {
+      console.error("Update failed:", e);
+    },
+  });
+
+  /*   const onSubmit = (data: MedicationFormData) => {
+      if (isEditing) {
+        updateMutation.mutate({ ...data, id: initialData?.id });
+      } else {
+        createMutation.mutate(data);
+      }
+    }; */
+
   const onSubmit = (data: MedicationFormData) => {
-    createMutation(data);
+    if (isEditing) {
+      const payload = {
+        ...data,
+        id: initialData?.id,
+        route: data.route ?? undefined,
+      };
+      console.log("Submitting update payload:", payload);
+      updateMutation.mutate(payload);
+    } else {
+      createMutation.mutate(data);
+    }
   };
+
+  console.log("Form errors:", errors);
+  console.log("Is editing:", isEditing);
+  console.log("Initial data:", initialData);
+
+  const isPending = isEditing ? updateMutation.isPending : createMutation.isPending;
+  const isError = isEditing ? updateMutation.isError : createMutation.isError;
+  const error = isEditing ? updateMutation.error : createMutation.error;
+  const isSuccess = isEditing ? updateMutation.isSuccess : createMutation.isSuccess;
 
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
-      <h3 className="text-center mb-6">Add Medication Information</h3>
+      <h3 className="text-center mb-6">
+        {isEditing ? "Edit" : "Add"} Medication Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="border border-gray-300 bg-gray-100 p-6 rounded"
@@ -82,24 +174,12 @@ const Medications = ({ onCancel }: MedicationsProps) => {
             )}
           </div>
           <div>
-            <label className="block mb-2">Dosage</label>
-            <input
-              type="number"
-              min={0}
-              {...register("dosage")}
-              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
-            />
-            {errors.dosage && (
-              <p className="text-red-500 mt-1">{errors.dosage.message}</p>
-            )}
-          </div>
-          <div>
             <label className="block mb-2">Frequency</label>
             <input
-              type="number"
-              min={0}
+              type="text"
               {...register("frequency")}
               className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+              placeholder="e.g., twice per day, one puff every 8 hours"
             />
             {errors.frequency && (
               <p className="text-red-500 mt-1">{errors.frequency.message}</p>
@@ -116,6 +196,8 @@ const Medications = ({ onCancel }: MedicationsProps) => {
               <option value="Injection">Injection</option>
               <option value="Topical">Topical</option>
               <option value="Inhalation">Inhalation</option>
+              <option value="Rectal">Rectal</option>
+
             </select>
             {errors.route && (
               <p className="text-red-500 mt-1">{errors.route.message}</p>
@@ -124,15 +206,15 @@ const Medications = ({ onCancel }: MedicationsProps) => {
           <div>
             <label className="block mb-2">Is Active</label>
             <select
-              {...register("isActive")}
+              {...register("is_active")}
               className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
             >
               <option value="">Select Option</option>
               <option value="yes">Yes</option>
-              <option value="no">Injection</option>
+              <option value="no">No</option>
             </select>
-            {errors.route && (
-              <p className="text-red-500 mt-1">{errors.route.message}</p>
+            {errors.is_active && (
+              <p className="text-red-500 mt-1">{errors.is_active.message}</p>
             )}
           </div>
           <div>
@@ -163,15 +245,16 @@ const Medications = ({ onCancel }: MedicationsProps) => {
           </div>
         </div>
         {isSuccess && (
-          <p className="text-[#4caf50] mt-2">Medication added successfully!</p>
+          <p className="text-[#4caf50] mt-2">
+            Medication {isEditing ? "updated" : "added"} successfully!</p>
         )}
         {isError && (
           <p className="text-red-500 mt-2">
-            {error.message || "failed to add medication"}
+            {error?.message || `Failed to ${isEditing ? "update" : "add"} medication`}
           </p>
         )}
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };
 

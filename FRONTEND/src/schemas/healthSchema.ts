@@ -24,35 +24,39 @@ export const personalSchema = z.object({
 });
 
 export const allergySchema = z.object({
+  id: z.number().optional(),
   allergen: z.string().min(1, "Allergen is required"),
   allergy_type: z.string().optional(),
-  reaction: z.string().optional(),
-  severity: z
-    .enum(["Mild", "Moderate", "Severe"], {
-      message: "Please select a severity level",
-    })
-    .optional(),
+  reaction: z.string(),
+  severity: z.enum(["Mild", "Moderate", "Severe"], {
+    message: "Please select a severity level",
+  }),
 });
 
 export const medicationSchema = z.object({
+  id: z.number().optional(),
   medication_name: z.string().min(1, "Medication name is required"),
   medication_purpose: z.string().optional(),
   dosage: z.string().optional(),
   frequency: z.string().optional(),
   route: z
-    .enum(["Oral", "Injection", "Topical", "Inhalation"], {
+    .enum(["Oral", "Injection", "Topical", "Inhalation", "Rectal"], {
       message: "Please select a route",
     })
+    .nullable()
     .optional(),
-  isActive: z.boolean({ message: "Please choose an option" }),
+  is_active: z
+    .enum(["yes", "no"], { message: "Please choose an option" })
+    .optional(),
   notes: z.string().optional(),
 });
 
 export const conditionSchema = z.object({
+  id: z.number().optional(),
   condition_name: z
     .string()
     .min(1, "Name of the medical condition is required"),
-  isChronic: z.boolean({ message: "Please choose an option" }),
+  is_chronic: z.enum(["yes", "no"], { message: "Please choose an option" }),
   notes: z.string().optional(),
 });
 
