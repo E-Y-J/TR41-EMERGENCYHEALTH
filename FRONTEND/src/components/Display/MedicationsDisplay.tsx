@@ -92,13 +92,34 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                     <div key={index} className="border border-gray-200 bg-gray-100 p-4 rounded">
                         <div className="flex justify-between items-start mb-3">
                             <h4 className="font-semibold text-lg">{medication.medication_name}</h4>
-                            <button
-                                className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
-                                onClick={() => onEdit(medication)}
-                            >
-                                Edit
-                            </button>
+
+                            <div className="flex gap-2">
+                                <button
+                                    className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
+                                    //onClick={() => onEdit(medication)}
+                                    onClick={() => onEdit({
+                                        ...medication,
+                                        is_active: medication.is_active === "yes" ? "yes" : "no"
+                                    })}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className={`border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm ${confirmDelete === medication.id
+                                        ? 'text-red-600'
+                                        : 'text-[#81c784]'
+                                        }`}
+                                    onClick={() => handleDelete(medication)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === medication.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
                         </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {medication.medication_purpose && (
                                 <div>
@@ -130,7 +151,7 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
 
                             <div>
                                 <p className="text-sm text-gray-600">Active</p>
-                                <p className="text-md">{medication.isActive ? "Yes" : "No"}</p>
+                                <p className="text-md">{medication.is_active === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {medication.notes && (
@@ -139,21 +160,6 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                                     <p className="text-md">{medication.notes}</p>
                                 </div>
                             )}
-                            <div className="flex justify-end align-text-bottom">
-                                <button
-                                    className={`focus:outline-none pe-1 pt-4 px-auto rounded ${confirmDelete === medication.id
-                                        ? 'text-red-600 text-sm'
-                                        : 'text-[#81c784] text-lg'
-                                        }`}
-                                    onClick={() => handleDelete(medication)}
-                                    disabled={deleteMutation.isPending}
-                                >
-                                    {confirmDelete === medication.id
-                                        ? "Are you sure?"
-                                        : "X"}
-                                </button>
-                            </div>
-
                         </div>
                     </div>
                 ))}

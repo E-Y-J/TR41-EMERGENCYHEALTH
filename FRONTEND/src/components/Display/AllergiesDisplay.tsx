@@ -91,13 +91,30 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
                     <div key={index} className="border border-gray-300 bg-gray-100 p-4 rounded">
                         <div className="flex justify-between items-start mb-3">
                             <h4 className="font-semibold">{allergy.allergen}</h4>
-                            <button
-                                className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
-                                onClick={() => onEdit(allergy)}
-                            >
-                                Edit
-                            </button>
+
+                            <div className="flex gap-2">
+                                <button
+                                    className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
+                                    onClick={() => onEdit(allergy)}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className={`border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm ${confirmDelete === allergy.id
+                                        ? 'text-red-600'
+                                        : 'text-[#81c784]'
+                                        }`}
+                                    onClick={() => handleDelete(allergy)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === allergy.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
                         </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {allergy.allergy_type && (
                                 <div>
@@ -120,20 +137,6 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
                                 </div>
 
                             )}
-                            <div className="flex justify-end align-text-bottom">
-                                <button
-                                    className={`focus:outline-none pe-1 pt-4 px-auto rounded ${confirmDelete === allergy.id
-                                        ? 'text-red-600 text-sm'
-                                        : 'text-[#81c784] text-lg'
-                                        }`}
-                                    onClick={() => handleDelete(allergy)}
-                                    disabled={deleteMutation.isPending}
-                                >
-                                    {confirmDelete === allergy.id
-                                        ? "Are you sure?"
-                                        : "X"}
-                                </button>
-                            </div>
                         </div>
                     </div>
                 ))}

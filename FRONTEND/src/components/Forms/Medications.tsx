@@ -24,13 +24,13 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
     reset,
   } = useForm<MedicationFormData>({
     resolver: zodResolver(medicationSchema),
-    defaultValues: initialData ?? {
+    defaultValues: initialData || {
       medication_name: '',
       medication_purpose: '',
       dosage: '',
       frequency: '',
       route: undefined,
-      isActive: undefined,
+      is_active: undefined,
       notes: '',
     }
   });
@@ -45,7 +45,7 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
         dosage: '',
         frequency: '',
         route: undefined,
-        isActive: undefined,
+        is_active: undefined,
         notes: '',
       });
     }
@@ -59,7 +59,7 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
   async function updateMedication(payload: MedicationFormData) {
     if (!payload.id) throw new Error("Medication ID is required for update");
     const res = await api.put(`/medications/${payload.id}`, payload);
-    return res.data
+    return res.data;
   }
 
   /* const {
@@ -86,6 +86,15 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
     },
   });
 
+  /*   const updateMutation = useMutation({
+      mutationFn: updateMedication,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["medications"] });
+        reset();
+        onCancel();
+      },
+    }); */
+
   const updateMutation = useMutation({
     mutationFn: updateMedication,
     onSuccess: () => {
@@ -93,19 +102,36 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
       reset();
       onCancel();
     },
+    onError: (e) => {
+      console.error("Update failed:", e);
+    },
   });
 
-  /* const onSubmit = (data: MedicationFormData) => {
-  createMutation(data);
-}; */
+  /*   const onSubmit = (data: MedicationFormData) => {
+      if (isEditing) {
+        updateMutation.mutate({ ...data, id: initialData?.id });
+      } else {
+        createMutation.mutate(data);
+      }
+    }; */
 
   const onSubmit = (data: MedicationFormData) => {
     if (isEditing) {
-      updateMutation.mutate(data);
+      const payload = {
+        ...data,
+        id: initialData?.id,
+        route: data.route ?? undefined,
+      };
+      console.log("Submitting update payload:", payload);
+      updateMutation.mutate(payload);
     } else {
       createMutation.mutate(data);
     }
   };
+
+  console.log("Form errors:", errors);
+  console.log("Is editing:", isEditing);
+  console.log("Initial data:", initialData);
 
   const isPending = isEditing ? updateMutation.isPending : createMutation.isPending;
   const isError = isEditing ? updateMutation.isError : createMutation.isError;
@@ -158,28 +184,6 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
             {errors.frequency && (
               <p className="text-red-500 mt-1">{errors.frequency.message}</p>
             )}
-            {/* <label className="block mb-2">Dosage</label>
-            <input
-              type="number"
-              min={0}
-              {...register("dosage")}
-              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
-            />
-            {errors.dosage && (
-              <p className="text-red-500 mt-1">{errors.dosage.message}</p>
-            )}
-          </div>
-          <div>
-            <label className="block mb-2">Frequency</label>
-            <input
-              type="number"
-              min={0}
-              {...register("frequency")}
-              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
-            />
-            {errors.frequency && (
-              <p className="text-red-500 mt-1">{errors.frequency.message}</p>
-            )}
           </div>
           <div>
             <label className="block mb-2">Route</label>
@@ -197,23 +201,20 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
             </select>
             {errors.route && (
               <p className="text-red-500 mt-1">{errors.route.message}</p>
-            )} */}
+            )}
           </div>
           <div>
             <label className="block mb-2">Is Active</label>
             <select
-              {...register("isActive", {
-                setValueAs: (value) =>
-                  value === "yes" ? true : value === "no" ? false : undefined,
-              })}
+              {...register("is_active")}
               className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
             >
               <option value="">Select Option</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
             </select>
-            {errors.isActive && (
-              <p className="text-red-500 mt-1">{errors.isActive.message}</p>
+            {errors.is_active && (
+              <p className="text-red-500 mt-1">{errors.is_active.message}</p>
             )}
           </div>
           <div>

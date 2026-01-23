@@ -1,5 +1,6 @@
 import { api } from "../../api/http";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import type { ConditionFormData } from "../../schemas/healthSchema";
 
 interface ConditionsDisplayProps {
@@ -8,15 +9,42 @@ interface ConditionsDisplayProps {
 }
 
 const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
+    const queryClient = useQueryClient();
+    const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+
     const fetchConditions = async (): Promise<ConditionFormData[]> => {
         const res = await api.get("/conditions/");
         return res.data;
     };
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["condition"],
+        queryKey: ["conditions"],
         queryFn: fetchConditions,
     });
+
+    async function deleteCondition(id: number) {
+        const res = await api.delete(`/conditions/${id}`);
+        return res.data;
+    }
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteCondition,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["conditions"] });
+            setConfirmDelete(null);
+        }
+    });
+
+    const handleDelete = (condition: ConditionFormData) => {
+        if (!condition.id) return;
+
+        if (confirmDelete === condition.id) {
+            deleteMutation.mutate(condition.id);
+        } else {
+            setConfirmDelete(condition.id);
+            setTimeout(() => setConfirmDelete(null), 3000);
+        }
+    };
 
     if (isLoading) {
         return <div className="text-center p-4">Loading...</div>;
@@ -33,7 +61,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
     if (!data || data.length === 0) {
         return (
             <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <h3 className="text-xl font-semibold mb-6">Conditions</h3>
+                <h3 className="text-xl font-semibold mb-6">Medical Conditions</h3>
                 <div className="border border-gray-300 bg-gray-100 p-4 rounded">
                     <button
                         onClick={onAdd}
@@ -47,12 +75,12 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+        <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-semibold">Medical Conditions</h3>
                 <button
                     onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-gray-100 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
                 >
                     Add New
                 </button>
@@ -60,26 +88,46 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((condition, index) => (
-                    <div key={index} className="border border-gray-200 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-4 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold text-lg">{condition.condition_name}</h4>
-                            <button
-                                onClick={() => onEdit(condition)}
-                                className="border border-gray-200 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
-                            >
-                                Edit
-                            </button>
+                            <h4 className="font-semibold">{condition.condition_name}</h4>
+
+                            <div className="flex gap-2">
+                                <button
+                                    className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
+                                    onClick={() => onEdit({
+                                        ...condition,
+                                        is_chronic: condition.is_chronic === "yes" ? "yes" : "no"
+                                    })}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className={`border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm ${confirmDelete === condition.id
+                                        ? 'text-red-600'
+                                        : 'text-[#81c784]'
+                                        }`}
+                                    onClick={() => handleDelete(condition)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === condition.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
                         </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
                                 <p className="text-sm text-gray-600">Chronic</p>
-                                <p className="font-medium">{condition.isChronic ? "Yes" : "No"}</p>
+                                <p className="text-md">{condition.is_chronic === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {condition.notes && (
                                 <div className="md:col-span-2">
                                     <p className="text-sm text-gray-600">Notes</p>
-                                    <p className="font-medium">{condition.notes}</p>
+                                    <p className="text-md">{condition.notes}</p>
                                 </div>
                             )}
                         </div>

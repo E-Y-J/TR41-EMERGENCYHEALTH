@@ -197,3 +197,23 @@ Task#9(Jessica)
   - Implemented "Are you sure?" confirmation that appears for 3 seconds before resetting
   - Added useMutation and useQueryClient to handle delete operations
   - Fixed query key from "medication" to "medications" in MedicationsDisplay
+
+  Task#10(Jessica)
+
+- Medications Form Fixes
+  - Fixed is_active field to use string enum ("yes"/"no") instead of boolean
+  - Fixed data prepopulation for editing medications
+- Medications Display Updates
+  - Fixed is_active display logic to handle string comparison (`=== "yes"`)
+  - Normalized edit data to ensure proper field types
+- Conditions Form Implementation
+  - Built complete CRUD functionality matching Allergies/Medications pattern
+  - Added is_chronic field with "yes"/"no" enum
+  - Implemented dual mutations for create/update operations
+  - Ensured condition_name field consistency
+- Conditions Display Enhancement
+  - Added delete functionality with 3-second confirmation
+- Schema Consistency
+  - Updated healthSchema.ts to use string enums for all boolean-like fields
+  - Made route field nullable and optional
+  - Added id fields for edit mode support
