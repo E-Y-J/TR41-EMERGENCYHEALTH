@@ -79,20 +79,6 @@ const EmergiChatBot = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4 md:mt-6 p-3 md:p-4 bg-blue-50 rounded-lg">
-             <h3 className="font-semibold text-blue-800 mb-2 text-sm md:text-base">Responder Info</h3>
-            <div className="space-y-1 text-xs md:text-sm">
-              <p><span className="font-medium">First Name:</span> Jane</p>
-              <p><span className="font-medium">Last Name:</span> Smith</p>
-              <p><span className="font-medium">Personnel ID/Badge Number:</span> 12344555</p> 
-            </div>
-        </div>
-        <div className="mt-4 md:mt-6 p-3 md:p-4 bg-green-50 rounded-lg">
-             <h3 className="font-semibold text-green-800 mb-2 text-sm md:text-base">Chat Topic</h3>
-            <div className="space-y-1 text-xs md:text-sm">
-              <p> Car accident </p>
-            </div>
-        </div>
       </div>
 
       {/* Right Side - Chat */}
