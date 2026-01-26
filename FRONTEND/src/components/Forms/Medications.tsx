@@ -174,6 +174,18 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
             )}
           </div>
           <div>
+            <label className="block mb-2">Dosage</label>
+            <input
+              type="text"
+              {...register("dosage")}
+              className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
+              placeholder="e.g., 10mg, 1 puff"
+            />
+            {errors.dosage && (
+              <p className="text-red-500 mt-1">{errors.dosage.message}</p>
+            )}
+          </div>
+          <div>
             <label className="block mb-2">Frequency</label>
             <input
               type="text"
