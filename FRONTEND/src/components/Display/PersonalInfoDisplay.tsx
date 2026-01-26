@@ -44,7 +44,7 @@ const PersonalInfoDisplay = ({ onEdit }: PersonalInfoDisplayProps) => {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+        <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-semibold">Personal Information</h3>
                 <button
