@@ -1,3 +1,4 @@
+from EmergiScan_App.utils.qr import get_or_create_qr_token #added
 from . import patients_bp
 from marshmallow import ValidationError
 from flask import request, jsonify
@@ -32,6 +33,10 @@ def login_patient():
         return jsonify({"error": "Invalid email or password"}), 401
     
     token = encode_token(patient.id)
+    #added - generate or get qr token
+    qr = get_or_create_qr_token(patient.id) 
+    FRONTEND_BASE_URL = "http://localhost:5173/chatbot"
+    qr_url = f"{FRONTEND_BASE_URL}/{qr.token}"
 
     return jsonify({
         "response": "Success",
@@ -42,7 +47,8 @@ def login_patient():
             "last_name": patient.last_name,
             "email": patient.email
         },
-        "token": token
+        "token": token,
+        "qr_url": qr_url #added
     }), 200
     
 #Signup routes for patient

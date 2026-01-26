@@ -1,3 +1,4 @@
+import secrets
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -9,6 +10,19 @@ class Base(DeclarativeBase):
     pass
 
 db = SQLAlchemy(model_class=Base)
+# added - Define the PatientsQRToken model
+class PatientsQRToken(Base):
+    __tablename__ = "qrTokens"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"), nullable=False)
+    token: Mapped[str] = mapped_column(db.String(128), nullable=False)
+    is_revoked: Mapped[bool] = mapped_column(default=False, nullable=False)
+
+    patientToken: Mapped["Patients"] = db.relationship(back_populates="qr_tokens")
+
+    def generate_token():
+        return secrets.token_urlsafe(32)
 
 class Patients(Base):
     __tablename__ = "patients"
@@ -31,6 +45,8 @@ class Patients(Base):
     allergies: Mapped[List["Allergy"]] = db.relationship(back_populates="patient_allergy")
     health_conditions: Mapped[List["Conditions"]] = db.relationship(back_populates="patient_health_condition")
     medical_record: Mapped[List["Medications"]] =db.relationship(back_populates="patient_medical_record")
+    #added
+    qr_tokens: Mapped[List["PatientsQRToken"]] = db.relationship(back_populates="patientToken") 
     
 
 
