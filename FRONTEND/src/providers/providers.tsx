@@ -51,8 +51,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     console.log("Logging out");
     localStorage.removeItem("auth_token");
     localStorage.removeItem("auth_user");
+    localStorage.removeItem("auth_qr");
     setToken(null);
     setUser(null);
+    setQrURL(null);
     navigate("/");
   };
 
@@ -96,7 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    login(loginData.token, loginData.User, loginData.qr);
+    login(loginData.token, loginData.User, loginData.qr_url);
   };
 
   return (

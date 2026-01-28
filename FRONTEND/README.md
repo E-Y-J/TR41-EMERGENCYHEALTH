@@ -71,6 +71,34 @@ Task#4: Forms(Ali)
   - Displayed validation error messages below respective input fields
   - Disabled submit button while form is submitting
 
+Task#5: Display qr-token(Ali)
+
+- QRCodePage Component
+  - Updated to display QR code and URL only when user is logged in
+  - display the qr-token url from the backend
+
+Task#6: chatbot(Ali)
+- EmergiChatBot Component
+  - Created chat interface with message display area and input form
+  - Implemented state management for messages and input message
+  - Developed function to handle sending messages and receiving responses from backend API
+  - Styled chat interface using Tailwind CSS for responsiveness and visual appeal
+
+
+Task#5: Display qr-token(Ali)
+
+- QRCodePage Component
+  - Updated to display QR code and URL only when user is logged in
+  - display the qr-token url from the backend
+
+Task#6: chatbot(Ali)
+- EmergiChatBot Component
+  - Created chat interface with message display area and input form
+  - Implemented state management for messages and input message
+  - Developed function to handle sending messages and receiving responses from backend API
+  - Styled chat interface using Tailwind CSS for responsiveness and visual appeal
+
+
 Task#4(Jessica)
 
 - Login and Logout Forms
