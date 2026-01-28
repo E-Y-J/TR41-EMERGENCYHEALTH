@@ -24,12 +24,12 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
                         <p className="text-lg font-medium">No previous chats</p>
                     </div>
                 ) : (
-                    <div>
+                    <div className="flex flex-col gap-4 ">
                         {chats.map((chat) => (
                             <div
                                 key={chat.id}
                                 onClick={() => onSelectChat(chat.id)}
-                                className={selectedChatId === chat.id ? 'bg-[#81c784] border-l-4 border-gray-500' : ''}
+                                className={selectedChatId === chat.id ? 'p-1 bg-[#4caf50]/25 border rounded border-gray-300' : ''}
                             >
                                 <p className="text-sm text-gray-500 mb-1">{chat.timestamp.toLocaleDateString()}</p>
                                 <p className="text-lg font-medium">{chat.title}</p>
@@ -39,7 +39,6 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
                 )}
             </div>
         </div >
-
     );
 };
 

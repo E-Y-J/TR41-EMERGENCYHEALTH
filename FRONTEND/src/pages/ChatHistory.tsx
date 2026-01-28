@@ -18,8 +18,24 @@ interface ChatSession {
 }
 
 const ChatHistory = () => {
-    // Load from localStorage or API
-    const [chatSessions] = useState<ChatSession[]>([]);
+    // Load from localStorage for testing for now 
+    const [chatSessions] = useState<ChatSession[]>(() => {
+        //only for testing
+        const saved = localStorage.getItem('chatHistory');
+        if (!saved) return [];
+
+        const parsed = JSON.parse(saved);
+        return parsed.map((chat: any) => ({
+            ...chat,
+            timestamp: new Date(chat.timestamp),
+            messages: chat.messages.map((msg: any) => ({
+                ...msg,
+                timestamp: new Date(msg.timestamp)
+            }))
+        }))
+    });
+    //only for testing
+
     const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
 
     const currentChat = chatSessions.find(chat => chat.id === selectedChatId);
@@ -45,13 +61,11 @@ const ChatHistory = () => {
                 </div>
 
                 <div className="col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
-                    {!selectedChatId ? (
-                        <ChatMessage isPlaceholder />
-                    ) : messages.length === 0 ? (
+                    {!selectedChatId || messages.length === 0 ? (
                         <ChatMessage isPlaceholder />
                     ) : (
-                        messages.map((message) => <ChatMessage key={message.id} message={message} />)
-                    )}
+                        <ChatMessage messages={messages} />)
+                    }
                 </div>
             </div>
         </div >

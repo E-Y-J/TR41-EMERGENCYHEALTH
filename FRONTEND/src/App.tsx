@@ -14,7 +14,6 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="chat-history" element={<ChatHistory />} />
         <Route path="/my-qr" element={<QRCodePage />} />
-        {/* <Route path="/allergy" element={<Allergy />} /> */}
         <Route path="/chatbot/:token" element={<EmergencyChatPage />} />
       </Routes>
     </PageLayout>
