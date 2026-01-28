@@ -10,7 +10,7 @@ interface Message {
 }
 
 const EmergiChatBot = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -20,13 +20,13 @@ const EmergiChatBot = () => {
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  
+
   // created a reference to an invisible <div> at the bottom of the chat messages
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  
+
   // scroll to bottom whenever messages change
   useEffect(() => {
     scrollToBottom();
@@ -69,7 +69,7 @@ const EmergiChatBot = () => {
             <div className="space-y-1 text-xs md:text-sm">
               <p><span className="font-medium">First Name:</span> {user?.first_name}</p>
               <p><span className="font-medium">Last Name:</span> {user?.last_name}</p>
-              <p><span className="font-medium">Gender:</span> Male</p> 
+              <p><span className="font-medium">Gender:</span> Male</p>
               <p><span className="font-medium">Email:</span> {user?.email}</p>
               <p><span className="font-medium">Emergency Contact:</span></p>
               <ol className="ml-4">
@@ -96,11 +96,10 @@ const EmergiChatBot = () => {
               className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 ${
-                  message.sender === "user"
-                    ? "bg-[#81c784] text-white"
-                    : "bg-gray-100 text-gray-800"
-                }`}
+                className={`max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 ${message.sender === "user"
+                  ? "bg-[#81c784] text-white"
+                  : "bg-gray-100 text-gray-800"
+                  }`}
               >
                 <p className="text-sm md:text-base">{message.text}</p>
                 <p className="text-xs mt-1 opacity-70">

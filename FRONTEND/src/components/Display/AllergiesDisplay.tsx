@@ -88,9 +88,9 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((allergy, index) => (
-                    <div key={index} className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold">{allergy.allergen}</h4>
+                            <h4 className="font-semibold wrap-anywhere">{allergy.allergen}</h4>
 
                             <div className="flex gap-2">
                                 <button
@@ -118,22 +118,22 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {allergy.allergy_type && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Type</p>
-                                    <p className="text-md">{allergy.allergy_type}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Type</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.allergy_type}</p>
                                 </div>
                             )}
 
                             {allergy.reaction && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Reaction</p>
-                                    <p className="text-md">{allergy.reaction}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Reaction</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.reaction}</p>
                                 </div>
                             )}
 
                             {allergy.severity && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Severity</p>
-                                    <p className="text-md">{allergy.severity}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Severity</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.severity}</p>
                                 </div>
 
                             )}

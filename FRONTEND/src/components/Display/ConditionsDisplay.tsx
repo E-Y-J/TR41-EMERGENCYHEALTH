@@ -88,9 +88,9 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((condition, index) => (
-                    <div key={index} className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold">{condition.condition_name}</h4>
+                            <h4 className="font-semibold wrap-anywhere">{condition.condition_name}</h4>
 
                             <div className="flex gap-2">
                                 <button
@@ -120,14 +120,14 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
-                                <p className="text-sm text-gray-600">Chronic</p>
-                                <p className="text-md">{condition.is_chronic === "yes" ? "Yes" : "No"}</p>
+                                <p className="text-sm text-gray-500 mb-1">Chronic</p>
+                                <p className="text-lg wrap-break-word mb-1">{condition.is_chronic === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {condition.notes && (
                                 <div className="md:col-span-2">
-                                    <p className="text-sm text-gray-600">Notes</p>
-                                    <p className="text-md">{condition.notes}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Notes</p>
+                                    <p className="text-lg wrap-break-word mb-1">{condition.notes}</p>
                                 </div>
                             )}
                         </div>

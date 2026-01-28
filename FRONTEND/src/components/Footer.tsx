@@ -39,6 +39,11 @@ export default function Footer() {
                                         </Link>
                                     </li>
                                     <li>
+                                        <Link to="/chat-history" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
+                                            Chat History
+                                        </Link>
+                                    </li>
+                                    <li>
                                         <Link to="/my-qr" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
                                             My QR Code
                                         </Link>
@@ -46,7 +51,7 @@ export default function Footer() {
                                 </>
                             )}
                         </ul>
-                        <AuthModal 
+                        <AuthModal
                             isOpen={isAuthModalOpen}
                             onClose={() => setIsAuthModalOpen(false)} />
                     </div>

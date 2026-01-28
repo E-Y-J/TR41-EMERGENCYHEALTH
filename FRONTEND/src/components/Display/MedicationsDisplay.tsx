@@ -89,14 +89,13 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((medication, index) => (
-                    <div key={index} className="border border-gray-200 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold text-lg">{medication.medication_name}</h4>
+                            <h4 className="font-semibold text-lg wrap-anywhere">{medication.medication_name}</h4>
 
-                            <div className="flex gap-2">
+                            <div className="flex ms-3 gap-2">
                                 <button
                                     className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
-                                    //onClick={() => onEdit(medication)}
                                     onClick={() => onEdit({
                                         ...medication,
                                         is_active: medication.is_active === "yes" ? "yes" : "no"
@@ -123,41 +122,41 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {medication.medication_purpose && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Purpose</p>
-                                    <p className="text-md">{medication.medication_purpose}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Purpose</p>
+                                    <p className="text-lg wrap-break-word mb-1">{medication.medication_purpose}</p>
                                 </div>
                             )}
 
                             {medication.dosage && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Dosage</p>
-                                    <p className="text-md">{medication.dosage}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Dosage</p>
+                                    <p className="text-lg wrap-break-word mb-1">{medication.dosage}</p>
                                 </div>
                             )}
 
                             {medication.frequency && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Frequency</p>
-                                    <p className="text-md">{medication.frequency}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Frequency</p>
+                                    <p className="text-lg wrap-break-word mb-1">{medication.frequency}</p>
                                 </div>
                             )}
 
                             {medication.route && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Route</p>
-                                    <p className="text-md">{medication.route}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Route</p>
+                                    <p className="text-lg wrap-break-word mb-1">{medication.route}</p>
                                 </div>
                             )}
 
                             <div>
-                                <p className="text-sm text-gray-600">Active</p>
-                                <p className="text-md">{medication.is_active === "yes" ? "Yes" : "No"}</p>
+                                <p className="text-sm text-gray-500 mb-1">Active</p>
+                                <p className="text-lg wrap-break-word mb-1">{medication.is_active === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {medication.notes && (
                                 <div className="md:col-span-2">
-                                    <p className="text-sm text-gray-600">Notes</p>
-                                    <p className="text-md">{medication.notes}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Notes</p>
+                                    <p className="text-lg wrap-break-word mb-1">{medication.notes}</p>
                                 </div>
                             )}
                         </div>
