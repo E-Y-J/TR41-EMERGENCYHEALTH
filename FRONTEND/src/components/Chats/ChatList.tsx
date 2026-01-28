@@ -29,7 +29,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
                             <div
                                 key={chat.id}
                                 onClick={() => onSelectChat(chat.id)}
-                                className={selectedChatId === chat.id ? 'p-1 bg-[#4caf50]/25 border rounded border-gray-300' : ''}
+                                className={selectedChatId === chat.id ? 'p-3 bg-[#4caf50]/25 border rounded border-gray-300' : ''}
                             >
                                 <p className="text-sm text-gray-500 mb-1">{chat.timestamp.toLocaleDateString()}</p>
                                 <p className="text-lg font-medium">{chat.title}</p>

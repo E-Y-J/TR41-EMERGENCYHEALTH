@@ -59,66 +59,66 @@ const PersonalInfoDisplay = ({ onEdit }: PersonalInfoDisplayProps) => {
                 <div className="flex flex-col gap-4">
                     <div>
                         <p className="text-sm text-gray-500 mb-1">First Name</p>
-                        <p className="text-lg font-medium">{data.first_name}</p>
+                        <p className="text-lg font-medium wrap-break-word">{data.first_name}</p>
                     </div>
 
                     {data.middle_name && (
                         <div>
                             <p className="text-sm text-gray-500 mb-1">Middle Name</p>
-                            <p className="text-lg font-medium">{data.middle_name}</p>
+                            <p className="text-lg wrap-break-word">{data.middle_name}</p>
                         </div>
                     )}
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Last Name</p>
-                        <p className="text-lg font-medium">{data.last_name}</p>
+                        <p className="text-lg wrap-break-word">{data.last_name}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Address</p>
-                        <p className="text-lg font-medium">{data.address}</p>
+                        <p className="text-lg wrap-break-word">{data.address}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Phone Number</p>
-                        <p className="text-lg font-medium">{data.phone}</p>
+                        <p className="text-lg wrap-break-word">{data.phone}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Date of Birth</p>
-                        <p className="text-lg font-medium">{data.date_of_birth}</p>
+                        <p className="text-lg wrap-break-word">{data.date_of_birth}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Gender</p>
-                        <p className="text-lg font-medium">{data.gender}</p>
+                        <p className="text-lg wrap-break-word">{data.gender}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Blood Type</p>
-                        <p className="text-lg font-medium">{data.blood_type}</p>
+                        <p className="text-lg wrap-break-word">{data.blood_type}</p>
                     </div>
 
                     {data.preferred_hospital && (
                         <div>
                             <p className="text-sm text-gray-500 mb-1">Preferred Hospital</p>
-                            <p className="text-lg font-medium">{data.preferred_hospital}</p>
+                            <p className="text-lg wrap-break-word">{data.preferred_hospital}</p>
                         </div>
                     )}
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Emergency Contact Name</p>
-                        <p className="text-lg font-medium">{data.emergency_contact_name}</p>
+                        <p className="text-lg wrap-break-word">{data.emergency_contact_name}</p>
                     </div>
 
                     <div>
                         <p className="text-sm text-gray-500 mb-1">Emergency Contact Relationship</p>
-                        <p className="text-lg font-medium">{data.emergency_contact_relationship}</p>
+                        <p className="text-lg wrap-break-word">{data.emergency_contact_relationship}</p>
                     </div>
                     {data.emergency_contact_phone && (
                         <div>
                             <p className="text-sm text-gray-600 mb-1">Emergency Contact Phone</p>
-                            <p className="text-lg font-medium">{data.emergency_contact_phone}</p>
+                            <p className="text-lg">{data.emergency_contact_phone}</p>
                         </div>
                     )}
                 </div>
