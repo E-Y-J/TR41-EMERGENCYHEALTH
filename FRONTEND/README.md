@@ -78,26 +78,20 @@ Task#5: Display qr-token(Ali)
   - display the qr-token url from the backend
 
 Task#6: chatbot(Ali)
+
 - EmergiChatBot Component
   - Created chat interface with message display area and input form
   - Implemented state management for messages and input message
   - Developed function to handle sending messages and receiving responses from backend API
   - Styled chat interface using Tailwind CSS for responsiveness and visual appeal
-
+  - Added automatic scrolling to the latest message using useRef and useEffect
+  - setting up local storage to save chat history between sessions
 
 Task#5: Display qr-token(Ali)
 
 - QRCodePage Component
   - Updated to display QR code and URL only when user is logged in
   - display the qr-token url from the backend
-
-Task#6: chatbot(Ali)
-- EmergiChatBot Component
-  - Created chat interface with message display area and input form
-  - Implemented state management for messages and input message
-  - Developed function to handle sending messages and receiving responses from backend API
-  - Styled chat interface using Tailwind CSS for responsiveness and visual appeal
-
 
 Task#4(Jessica)
 
@@ -206,7 +200,7 @@ Task#9(Jessica)
   - Fixed "Is Active" dropdown values from "yes"/"Injection" to "yes"/"no"
   - Fixed error display to show isActive errors instead of route errors
   - Updated defaultValues to include all medication fields
-  - Implemented dual mutations (create and update) 
+  - Implemented dual mutations (create and update)
   - Fixed query key from "medication" to "medications" for consistency
   - Updated success/error messages to dynamically display "added" or "updated"
 - Allergies Form Enhancement

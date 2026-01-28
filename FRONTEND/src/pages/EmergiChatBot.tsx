@@ -21,7 +21,7 @@ const EmergiChatBot = () => {
   ]);
   const [inputMessage, setInputMessage] = useState("");
 
-  // created a reference to an invisible <div> at the bottom of the chat messages
+  // created a reference to an invisible <div> at the bottom of the chat messages to enable automatic scrolling
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -47,7 +47,7 @@ const EmergiChatBot = () => {
     setMessages([...messages, newMessage]);
     setInputMessage("");
 
-    // Simulate bot response
+    // Simulate AI agent bot response
     setTimeout(() => {
       const botResponse: Message = {
         id: messages.length + 2,
@@ -55,9 +55,22 @@ const EmergiChatBot = () => {
         sender: "bot",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, botResponse]);
+      setMessages((prev) => {
+        const newMessages = [...prev, botResponse];
+        const chatSession = {
+          id: 1,
+          title: "EmergiScan Chat",
+          lastMessage: botResponse.text,
+          timestamp: new Date(),
+          messages: newMessages,
+        };
+        localStorage.setItem("chatHistory", JSON.stringify([chatSession]));
+        return newMessages;
+      });
     }, 1000);
   };
+
+
 
   return (
     <div className="flex flex-col md:flex-row h-screen max-h-screen overflow-hidden">
