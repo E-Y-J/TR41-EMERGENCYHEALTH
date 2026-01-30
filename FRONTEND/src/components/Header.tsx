@@ -28,6 +28,9 @@ const Header = () => {
                 <Link to="/account">Account</Link>
               </li>
               <li>
+                <Link to="/chat-history">Chat History</Link>
+              </li>
+              <li>
                 <a onClick={logout}>Logout</a>
               </li>
             </ul>

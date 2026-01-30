@@ -6,13 +6,17 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface AllergiesProps {
   onCancel: () => void;
+  initialData?: AllergyFormData | null;
 }
 
-const Allergies = ({ onCancel }: AllergiesProps) => {
+const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
   const queryClient = useQueryClient();
+  const isEditing = !!initialData;
+
 
   const {
     register,
@@ -21,14 +25,39 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
     reset,
   } = useForm<AllergyFormData>({
     resolver: zodResolver(allergySchema),
+    defaultValues: initialData || {
+      allergen: '',
+      allergy_type: '',
+      reaction: '',
+      severity: undefined,
+    }
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    } else {
+      reset({
+        allergen: '',
+        allergy_type: '',
+        reaction: '',
+        severity: undefined,
+      });
+    }
+  }, [initialData, reset]);
 
   async function createAllergy(payload: AllergyFormData) {
     const res = await api.post("/allergies/", payload);
     return res.data;
   }
 
-  //Post mutation to submit allergy data
+  async function updateAllergy(payload: AllergyFormData) {
+    if (!payload.id) throw new Error("Allergy ID is required for update");
+    const res = await api.put(`/allergies/${payload.id}`, payload);
+    return res.data;
+  }
+
+  /* //Post mutation to submit allergy data
   const {
     mutate: createMutation,
     isPending,
@@ -43,15 +72,48 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
       reset();
       onCancel();
     },
+  }); */
+
+  const createMutation = useMutation({
+    mutationFn: createAllergy,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allergies"] });
+      reset();
+      onCancel();
+    },
   });
 
-  const onSubmit = (data: AllergyFormData) => {
+  const updateMutation = useMutation({
+    mutationFn: updateAllergy,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allergies"] });
+      reset();
+      onCancel();
+    }
+  })
+
+  /* const onSubmit = (data: AllergyFormData) => {
     createMutation(data);
+  }; */
+
+  const onSubmit = (data: AllergyFormData) => {
+    if (isEditing) {
+      updateMutation.mutate(data);
+    } else {
+      createMutation.mutate(data);
+    }
   };
+
+  const isPending = isEditing ? updateMutation.isPending : createMutation.isPending;
+  const isError = isEditing ? updateMutation.isError : createMutation.isError;
+  const error = isEditing ? updateMutation.error : createMutation.error;
+  const isSuccess = isEditing ? updateMutation.isSuccess : createMutation.isSuccess;
+
 
   return (
     <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-md shadow">
-      <h3 className="text-center mb-6">Add Allergy Information</h3>
+      <h3 className="text-center mb-6">
+        {isEditing ? "Edit" : "Add"} Allergy Information</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="border border-gray-300 bg-gray-100 p-6 rounded"
@@ -123,11 +185,12 @@ const Allergies = ({ onCancel }: AllergiesProps) => {
           </div>
         </div>
         {isSuccess && (
-          <p className="text-[#4caf50] mt-2">Allergy added successfully!</p>
+          <p className="text-[#4caf50] mt-2">
+            Allergy {isEditing ? "updated" : "added"} successfully!</p>
         )}
         {isError && (
           <p className="text-red-500 mt-2">
-            {error.message || "failed to add allergy"}
+            {error?.message || `failed to ${isEditing ? "update" : "add"} allergy`}
           </p>
         )}
       </form>

@@ -1,5 +1,6 @@
 import { api } from "../../api/http";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from 'react';
 import type { AllergyFormData } from "../../schemas/healthSchema";
 
 interface AllergiesDisplayProps {
@@ -8,6 +9,8 @@ interface AllergiesDisplayProps {
 }
 
 const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
+    const queryClient = useQueryClient();
+    const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
     const fetchAllergies = async (): Promise<AllergyFormData[]> => {
         const res = await api.get("/allergies/");
@@ -18,6 +21,30 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
         queryKey: ["allergies"],
         queryFn: fetchAllergies,
     });
+
+    async function deleteAllergy(id: number) {
+        const res = await api.delete(`/allergies/${id}`);
+        return res.data;
+    }
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteAllergy,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["allergies"] });
+            setConfirmDelete(null);
+        }
+    });
+
+    const handleDelete = (allergy: AllergyFormData) => {
+        if (!allergy.id) return;
+
+        if (confirmDelete === allergy.id) {
+            deleteMutation.mutate(allergy.id);
+        } else {
+            setConfirmDelete(allergy.id);
+            setTimeout(() => setConfirmDelete(null), 3000);
+        }
+    };
 
     if (isLoading) {
         return <div className="text-center p-4">Loading...</div>;
@@ -33,24 +60,27 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
     if (!data || data.length === 0) {
         return (
-            <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <button
-                    onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block"
-                >
-                    Add Allergy
-                </button>
+            <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+                <h3 className="text-xl font-semibold mb-6">Allergies</h3>
+                <div className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <button
+                        onClick={onAdd}
+                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
+                    >
+                        Add Allergy
+                    </button>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
+        <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-semibold">Allergies</h3>
                 <button
                     onClick={onAdd}
-                    className="border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-gray-100 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
                 >
                     Add New
                 </button>
@@ -58,36 +88,54 @@ const AllergiesDisplay = ({ onAdd, onEdit }: AllergiesDisplayProps) => {
 
             <div className="space-y-4">
                 {data.map((allergy, index) => (
-                    <div key={index} className="border border-gray-200 bg-gray-100 p-4 rounded">
+                    <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold">{allergy.allergen}</h4>
-                            <button
-                                onClick={() => onEdit(allergy)}
-                                className="border border-gray-200 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
-                            >
-                                Edit
-                            </button>
+                            <h4 className="font-semibold wrap-anywhere">{allergy.allergen}</h4>
+
+                            <div className="flex gap-2">
+                                <button
+                                    className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
+                                    onClick={() => onEdit(allergy)}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className={`border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm ${confirmDelete === allergy.id
+                                        ? 'text-red-600'
+                                        : 'text-[#81c784]'
+                                        }`}
+                                    onClick={() => handleDelete(allergy)}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {confirmDelete === allergy.id
+                                        ? "Are you sure?"
+                                        : "X"}
+                                </button>
+                            </div>
                         </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {allergy.allergy_type && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Type</p>
-                                    <p className="font-medium">{allergy.allergy_type}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Type</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.allergy_type}</p>
                                 </div>
                             )}
 
                             {allergy.reaction && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Reaction</p>
-                                    <p className="font-medium">{allergy.reaction}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Reaction</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.reaction}</p>
                                 </div>
                             )}
 
                             {allergy.severity && (
                                 <div>
-                                    <p className="text-sm text-gray-600">Severity</p>
-                                    <p className="font-medium">{allergy.severity}</p>
+                                    <p className="text-sm text-gray-500 mb-1">Severity</p>
+                                    <p className="text-lg wrap-break-word mb-1">{allergy.severity}</p>
                                 </div>
+
                             )}
                         </div>
                     </div>
