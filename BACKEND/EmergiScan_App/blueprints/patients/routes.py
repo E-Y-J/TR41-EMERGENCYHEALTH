@@ -106,7 +106,10 @@ def update_patient_info(patient_id):
 
     for key, value in patient_data.items():
         if value is not None:  # allows some fields to be blank
-            setattr(patient, key, value)
+            if key == "password":
+                patient.password = ph.hash(value)  
+            else:
+                setattr(patient, key, value)
 
     db.session.commit()
     return patientschema.jsonify(patient)

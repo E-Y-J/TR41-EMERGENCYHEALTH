@@ -49,7 +49,7 @@ class Patients(Base):
     qr_tokens: Mapped[List["PatientsQRToken"]] = db.relationship(back_populates="patientToken") 
     
 
-
+000
 
 class Allergy(Base):
     __tablename__ = "allergy"
@@ -67,7 +67,7 @@ class Conditions(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
-    conditions_name: Mapped[str] = mapped_column(db.String(150), nullable=True)
+    condition_name: Mapped[str] = mapped_column(db.String(150), nullable=True)
     is_chronic: Mapped[str] = mapped_column(db.String(200))
     notes: Mapped[str] = mapped_column(db.String(300), nullable=False)
     patient_health_condition: Mapped["Patients"] = db.relationship(back_populates="health_conditions")
@@ -82,6 +82,8 @@ class Medications(Base):
     dosage: Mapped[str] = mapped_column(db.String(100), nullable=True)
     frequency: Mapped[str] = mapped_column(db.String(100), nullable=True)
     route: Mapped[str] = mapped_column(db.String(200), nullable=True)
-    isactive: Mapped[str] = mapped_column(db.String(50), nullable=True)
+    is_active: Mapped[str] = mapped_column(db.String(50), nullable=True) 
     notes: Mapped[str] = mapped_column(db.String(100), nullable=True)
     patient_medical_record: Mapped["Patients"] = db.relationship(back_populates="medical_record")
+
+

@@ -71,7 +71,7 @@ def delete_condition(patient_id, condition_id):
     if not condition or condition.patient_id != patient.id:
         return jsonify({"error": "Condition not found or unauthorized to delete!"}), 404
     
-    condition_name = condition.conditions_name #gets the name of the condition that you want to delete
+    condition_name = condition.condition_name #gets the name of the condition that you want to delete
 
     db.session.delete(condition)
     db.session.commit()
