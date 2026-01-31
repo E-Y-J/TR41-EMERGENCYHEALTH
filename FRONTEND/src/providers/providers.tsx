@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -37,13 +37,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return JSON.parse(u);
   });
 
-  const login = (newToken: string, newUser: User, newQr: string) => {
+  const [isRevoked, setIsRevoked] = useState<boolean>(false);
+
+  const login = (newToken: string, newUser: User, newQr: string, newIsRevoked: boolean) => {
     localStorage.setItem("auth_token", newToken);
     localStorage.setItem("auth_user", JSON.stringify(newUser));
     localStorage.setItem("auth_qr", newQr);
     setToken(newToken);
     setUser(newUser);
     setQrURL(newQr);
+    setIsRevoked(newIsRevoked);
     navigate("/");
   };
 
@@ -55,6 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setToken(null);
     setUser(null);
     setQrURL(null);
+    setIsRevoked(false);
     navigate("/");
   };
 
@@ -98,11 +102,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    login(loginData.token, loginData.User, loginData.qr_url);
+    login(loginData.token, loginData.User, loginData.qr_url, loginData.is_revoked);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signup, qrURL }}>
+    <AuthContext.Provider
+      value={{ token, user, login, logout, signup, qrURL, isRevoked, setIsRevoked }}
+    >
       {children}
     </AuthContext.Provider>
   );
