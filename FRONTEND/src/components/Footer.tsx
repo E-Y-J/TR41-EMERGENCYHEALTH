@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Link } from "react-router-dom";
 import AuthModal from "./Auth/AuthModal";
-import { useAuth } from '../hook/useAuth'
+import { useAuth } from '../hook/useAuth';
 
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const { user } = useAuth();
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
 
     return (
@@ -23,16 +23,15 @@ export default function Footer() {
                     <div>
                         <h4 className="mb-3 font-semibold align-bottom">Quick Links</h4>
                         <ul className="space-y-1">
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
-                                    Home
-                                </Link>
-                            </li>
+                            {!user && (
                             <li>
                                 <a className="text-gray-400 text-sm hover:text-[#81c784] cursor-pointer" onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
                             </li>
-                            {user && (
+                            )}
                                 <>
+                                    <li>
+                                    <Link to="/"className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">Home</Link>
+                                    </li>
                                     <li>
                                         <Link to="/account" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
                                             Account
@@ -49,7 +48,6 @@ export default function Footer() {
                                         </Link>
                                     </li>
                                 </>
-                            )}
                         </ul>
                         <AuthModal
                             isOpen={isAuthModalOpen}

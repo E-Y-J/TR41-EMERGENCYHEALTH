@@ -1,3 +1,5 @@
+import PrivateRoute from "./RouteProtaction-Components/Private-Route/PrivateRoute";
+import PublicRoute from "./RouteProtaction-Components/Public-Route/PublicRoute";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Account from "./pages/Account";
@@ -10,11 +12,11 @@ function App() {
   return (
     <PageLayout>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="chat-history" element={<ChatHistory />} />
-        <Route path="/my-qr" element={<QRCodePage />} />
-        <Route path="/chatbot/:token" element={<EmergencyChatPage />} />
+        <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
+        <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
+        <Route path="chat-history" element={<PrivateRoute><ChatHistory /></PrivateRoute>} />
+        <Route path="/my-qr" element={<PrivateRoute><QRCodePage /></PrivateRoute>} />
+        <Route path="/chatbot/:token" element={<PrivateRoute><EmergencyChatPage /></PrivateRoute>} />
       </Routes>
     </PageLayout>
   );

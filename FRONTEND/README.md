@@ -87,11 +87,29 @@ Task#6: chatbot(Ali)
   - Added automatic scrolling to the latest message using useRef and useEffect
   - setting up local storage to save chat history between sessions
 
-Task#5: Display qr-token(Ali)
+Task#7: Display qr-token(Ali)
 
 - QRCodePage Component
   - Updated to display QR code and URL only when user is logged in
   - display the qr-token url from the backend
+
+Task#8: Chatbot-revoke button(Ali)
+
+- QRCode Page
+  - Added "Revoke QR Code" button to chat interface
+  - Implemented function to call /revoke_qr endpoint to revoke user's QR code
+  - Updated auth context to set isRevoked state upon successful revocation
+  - Displayed confirmation message upon successful revocation
+  - Styled button using Tailwind CSS for visual consistency
+
+Task#9: Routing Protection(Ali)
+
+- Routing Protection
+  - Implemented PrivateRoute to protect routes that require authentication
+  - Redirected unauthenticated users to login page when accessing protected routes
+  - Updated App.tsx to use PrivateRoute for Account, QR Code, ChatHistory pages
+  - Implemented PublicRoute for user to access not authenticated routes
+  - Updated App.tsx to set PublicRoute for public routes such as Home page
 
 Task#4(Jessica)
 

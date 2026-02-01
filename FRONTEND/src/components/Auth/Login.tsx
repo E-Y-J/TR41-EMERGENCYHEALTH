@@ -1,6 +1,5 @@
 import "../../styles/AuthContainer.css";
 import { useAuth } from "../../hook/useAuth";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginFormData } from "../../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
@@ -13,7 +12,6 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) => {
-  const navigate = useNavigate();
   const { login } = useAuth();
   const {
     register,
@@ -37,14 +35,13 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
       });
       if (!loginRes.ok) {
         const err = await loginRes.json();
-        throw new Error(err.Message || err.message || "Login failed");
+        throw new Error(err.Message || err.message || "Email or password is incorrect");
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
       login(loginData.token, loginData.User, loginData.qr_url, loginData.is_revoked);
       reset();
       onClose();
-      navigate("/");
     } catch (error: any) {
       setError("root.serverError", {
         type: "manual",
