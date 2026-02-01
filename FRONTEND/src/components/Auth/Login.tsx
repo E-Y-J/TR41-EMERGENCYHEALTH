@@ -41,7 +41,7 @@ const Login: React.FC<LoginProps> = ({ active, switchTab, boxActive, onClose }) 
       }
       const loginData = await loginRes.json();
       console.log("login Data", loginData);
-      login(loginData.token, loginData.User, loginData.qr_url);
+      login(loginData.token, loginData.User, loginData.qr_url, loginData.is_revoked);
       reset();
       onClose();
       navigate("/");

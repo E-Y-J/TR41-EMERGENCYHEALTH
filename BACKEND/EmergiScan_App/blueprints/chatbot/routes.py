@@ -167,7 +167,9 @@ def start_chat_session():
 
     # 1) Lookup QR token -> patient_id (Good Stub: real lookup)
     qr = db.session.execute(
-        select(PatientsQRToken).where(PatientsQRToken.token == token)
+        select(PatientsQRToken).where(
+            PatientsQRToken.token == token,
+            PatientsQRToken.is_revoked == 0)
     ).scalars().first()
 
     if not qr:

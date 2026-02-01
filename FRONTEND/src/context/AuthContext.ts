@@ -8,10 +8,12 @@ interface User {
 }
 
 interface AuthContextType {
+  isRevoked: boolean;
+  setIsRevoked: (value: boolean) => void;
   qrURL: string | null;
   token: string | null;
   user: User | null;
-  login: (newToken: string, newUser: User, newQr: string) => void;
+  login: (newToken: string, newUser: User, newQr: string, newIsRevoked: boolean) => void;
   logout: () => void;
   signup: (formData: {
     first_name: string;
