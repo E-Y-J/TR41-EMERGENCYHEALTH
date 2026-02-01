@@ -47,7 +47,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(newUser);
     setQrURL(newQr);
     setIsRevoked(newIsRevoked);
-    navigate("/");
   };
 
   const logout = () => {
@@ -68,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string;
     password: string;
   }) => {
-    // call the API to create user (map first_name -> fname, last_name -> lname)
+    // call the API to create user
     const resUser = await fetch("http://127.0.0.1:5000/patients/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -16,10 +16,15 @@ const Header = () => {
           <Link to="/">
             <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
           </Link>
-          {user ? (
+
             <ul>
+              {user && (
               <li>
                 <span className="text-2xl p-6">Welcome, {user.first_name}!</span>
+              </li>
+              )}
+              <li>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <Link to="/my-qr">My QR Code</Link>
@@ -30,17 +35,21 @@ const Header = () => {
               <li>
                 <Link to="/chat-history">Chat History</Link>
               </li>
+              {user && (
               <li>
                 <a onClick={logout}>Logout</a>
               </li>
+              )}
+
             </ul>
-          ) : (
+         {!user && (
             <ul>
               <li>
                 <a onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
               </li>
             </ul>
-          )}
+         )}
+         
         </nav>
       </header>
       <AuthModal
