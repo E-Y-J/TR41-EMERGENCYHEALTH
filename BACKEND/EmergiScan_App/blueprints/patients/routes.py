@@ -3,7 +3,7 @@ from . import patients_bp
 from marshmallow import ValidationError
 from flask import request, jsonify
 from sqlalchemy import select
-from EmergiScan_App.models import Patients, db
+from EmergiScan_App.models import Patients, PatientsQRToken, db
 from EmergiScan_App.blueprints.patients.schema import patients_schema, patientschema, loginschema, signupschema
 from EmergiScan_App.utils.util import encode_token, ph, required_token
 from argon2.exceptions import VerifyMismatchError
@@ -48,6 +48,7 @@ def login_patient():
             "email": patient.email
         },
         "token": token,
+        "is_revoked": qr.is_revoked, #added
         "qr_url": qr_url #added
     }), 200
     
@@ -85,6 +86,21 @@ def signup():
         "email": new_patient.email
     }), 201
 
+#added
+#route to revoke patient QR token 
+@patients_bp.route("/me/revoke_qr", methods=["POST"])
+@required_token
+def revoke_qr_token(patient_id):
+    query = select(PatientsQRToken).where(PatientsQRToken.patient_id == patient_id, PatientsQRToken.is_revoked == False)
+    existing_token = db.session.execute(query).scalars().first()
+
+    if not existing_token:
+        return jsonify({"error": "No active QR token found"}), 404
+
+    existing_token.is_revoked = True
+    db.session.commit()
+
+    return jsonify({"message": "QR token revoked successfully"}), 200
 
 # Creates patient personal information
 @patients_bp.route("/me", methods=["PUT"])
