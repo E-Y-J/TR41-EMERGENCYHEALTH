@@ -2,7 +2,7 @@ import secrets
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from datetime import date
+from datetime import date, datetime
 from typing import List
 from sqlalchemy import select, ForeignKey
 
@@ -47,9 +47,6 @@ class Patients(Base):
     medical_record: Mapped[List["Medications"]] =db.relationship(back_populates="patient_medical_record")
     #added
     qr_tokens: Mapped[List["PatientsQRToken"]] = db.relationship(back_populates="patientToken") 
-    
-
-
 
 class Allergy(Base):
     __tablename__ = "allergy"
@@ -67,7 +64,7 @@ class Conditions(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
-    conditions_name: Mapped[str] = mapped_column(db.String(150), nullable=True)
+    condition_name: Mapped[str] = mapped_column(db.String(150), nullable=True)
     is_chronic: Mapped[str] = mapped_column(db.String(200))
     notes: Mapped[str] = mapped_column(db.String(300), nullable=False)
     patient_health_condition: Mapped["Patients"] = db.relationship(back_populates="health_conditions")
@@ -82,6 +79,52 @@ class Medications(Base):
     dosage: Mapped[str] = mapped_column(db.String(100), nullable=True)
     frequency: Mapped[str] = mapped_column(db.String(100), nullable=True)
     route: Mapped[str] = mapped_column(db.String(200), nullable=True)
-    isactive: Mapped[str] = mapped_column(db.String(50), nullable=True)
+    is_active: Mapped[str] = mapped_column(db.String(50), nullable=True)
     notes: Mapped[str] = mapped_column(db.String(100), nullable=True)
     patient_medical_record: Mapped["Patients"] = db.relationship(back_populates="medical_record")
+
+# -----------------------------
+# Chatbot tables (new)
+# -----------------------------
+
+class ChatSession(Base):
+    __tablename__ = "chat_sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    # Which patient this chat belongs to
+    patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"), nullable=False)
+
+    # Responder's first name (captured from first message)
+    responder_name: Mapped[str] = mapped_column(db.String(120), nullable=True)
+
+    # Optional: which QR token started this session (useful for auditing/debug)
+    qr_token_id: Mapped[int] = mapped_column(ForeignKey("qrTokens.id"), nullable=True)
+
+    patient_snapshot_json: Mapped[dict] = mapped_column(db.JSON, nullable=True)
+
+    created_at: Mapped[datetime] = mapped_column(
+        db.DateTime, default=datetime.utcnow, nullable=False
+    )
+
+    # NULL = active, NOT NULL = completed
+    ended_at: Mapped[datetime] = mapped_column(db.DateTime, nullable=True)
+
+
+class ChatMessage(Base):
+    __tablename__ = "chat_messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("chat_sessions.id"), nullable=False
+    )
+
+    # "assistant" or "user"
+    role: Mapped[str] = mapped_column(db.String(20), nullable=False)
+
+    content: Mapped[str] = mapped_column(db.String(4000), nullable=False)
+
+    created_at: Mapped[datetime] = mapped_column(
+        db.DateTime, default=datetime.utcnow, nullable=False
+    )

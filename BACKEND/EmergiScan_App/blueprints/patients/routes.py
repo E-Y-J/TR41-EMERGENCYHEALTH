@@ -3,11 +3,10 @@ from . import patients_bp
 from marshmallow import ValidationError
 from flask import request, jsonify
 from sqlalchemy import select
-from EmergiScan_App.models import Patients, db
+from EmergiScan_App.models import Patients, db, ChatSession, ChatMessage
 from EmergiScan_App.blueprints.patients.schema import patients_schema, patientschema, loginschema, signupschema
 from EmergiScan_App.utils.util import encode_token, ph, required_token
 from argon2.exceptions import VerifyMismatchError
-
 
 # Login route for patients
 @patients_bp.route("/login", methods=["POST"])
@@ -139,3 +138,78 @@ def delete_user(patient_id):
     db.session.delete(patient)
     db.session.commit()
     return jsonify({"message": f"User: {patient_id} deleted successfully"}), 200
+
+@patients_bp.route("/me/chats", methods=["GET"])
+@required_token
+def list_patient_chats(patient_id):
+    """
+    List completed chat sessions for the logged-in patient.
+    """
+
+    query = (
+        select(ChatSession)
+        .where(ChatSession.patient_id == patient_id)
+        .where(ChatSession.ended_at.isnot(None))
+        .order_by(ChatSession.created_at.desc())
+    )
+
+    sessions = db.session.execute(query).scalars().all()
+
+    chats = [
+        {
+            "session_id": s.id,
+            "responder_name": s.responder_name,
+            "created_at": s.created_at.isoformat() if s.created_at else None,
+            "ended_at": s.ended_at.isoformat() if s.ended_at else None,
+        }
+        for s in sessions
+    ]
+
+    return jsonify({"chats": chats}), 200
+
+@patients_bp.route("/me/chats/<int:session_id>", methods=["GET"])
+@required_token
+def get_patient_chat_detail(patient_id, session_id):
+    """
+    Get one completed chat session + its messages for the logged-in patient.
+    """
+
+    session = db.session.get(ChatSession, session_id)
+    if not session:
+        return jsonify({"error": "Chat session not found"}), 404
+
+    # Authorization: patient can only access their own session
+    if session.patient_id != int(patient_id):
+        return jsonify({"error": "Forbidden"}), 403
+
+    # Only completed chats are visible to patient
+    if session.ended_at is None:
+        return jsonify({"error": "Chat session not completed"}), 403
+
+    # Load messages ordered by time
+    msgs = db.session.execute(
+        select(ChatMessage)
+        .where(ChatMessage.session_id == session.id)
+        .order_by(ChatMessage.created_at.asc())
+    ).scalars().all()
+
+    messages = [
+        {
+            "role": m.role,
+            "content": m.content,
+            "created_at": m.created_at.isoformat() if m.created_at else None,
+        }
+        for m in msgs
+    ]
+
+    payload = {
+        "session": {
+            "session_id": session.id,
+            "responder_name": session.responder_name,
+            "created_at": session.created_at.isoformat() if session.created_at else None,
+            "ended_at": session.ended_at.isoformat() if session.ended_at else None,
+        },
+        "messages": messages,
+    }
+
+    return jsonify(payload), 200
