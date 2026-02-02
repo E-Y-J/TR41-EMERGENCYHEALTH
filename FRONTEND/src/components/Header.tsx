@@ -11,7 +11,6 @@ const Header = () => {
   const activeLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-[#81c784]" : ""
 
-
   return (
     <>
       <header>
@@ -19,36 +18,38 @@ const Header = () => {
           <NavLink to="/">
             <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
           </NavLink>
-          {user ? (
-            <ul>
+          <ul>
+            {user && (
               <li>
                 <span className="text-2xl p-6">Welcome, {user.first_name}!</span>
               </li>
-              <li>
-                <NavLink to="/" className={activeLink}>Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/my-qr" className={activeLink}>My QR Code</NavLink>
-              </li>
-              <li>
-                <NavLink to="/account" className={activeLink}>Account</NavLink>
-              </li>
-              <li>
-                <NavLink to="/chat-history" className={activeLink}>Chat History</NavLink>
-              </li>
+            )}
+            <li>
+              <NavLink to="/" className={activeLink}>Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/my-qr" className={activeLink}>My QR Code</NavLink>
+            </li>
+            <li>
+              <NavLink to="/account" className={activeLink}>Account</NavLink>
+            </li>
+            <li>
+              <NavLink to="/chat-history" className={activeLink}>Chat History</NavLink>
+            </li>
+            {user && (
               <li>
                 <a onClick={logout}>Logout</a>
               </li>
-            </ul>
-          ) : (
-            <ul>
+            )}
+            {!user && (
               <li>
                 <a onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
               </li>
-            </ul>
-          )}
+            )}
+          </ul>
+
         </nav>
-      </header >
+      </header>
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
