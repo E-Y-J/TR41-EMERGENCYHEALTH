@@ -35,20 +35,22 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
         }
     });
 
-    const handleDelete = (condition: ConditionFormData) => {
-        if (!condition.id) return;
+    const handleDelete = (id: number) => {
+        setConfirmDelete(id);
+        setTimeout(() => setConfirmDelete(null), 5000)
+    };
 
-        if (confirmDelete === condition.id) {
-            deleteMutation.mutate(condition.id);
-        } else {
-            setConfirmDelete(condition.id);
-            setTimeout(() => setConfirmDelete(null), 3000);
-        }
+    const handleConfirmDelete = (id: number) => {
+        deleteMutation.mutate(id);
+    };
+
+    const handleCancelDelete = () => {
+        setConfirmDelete(null);
     };
 
     if (isLoading) {
         return <div className="text-center p-4">Loading...</div>;
-    }
+    };
 
     if (isError) {
         return (
@@ -56,7 +58,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                 Error: {error instanceof Error ? error.message : "Failed to load conditions"}
             </div>
         );
-    }
+    };
 
     if (!data || data.length === 0) {
         return (
@@ -72,7 +74,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                 </div>
             </div>
         );
-    }
+    };
 
     return (
         <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
@@ -80,7 +82,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                 <h3 className="text-xl font-semibold">Medical Conditions</h3>
                 <button
                     onClick={onAdd}
-                    className="border bg-gray-100 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
                 >
                     Add New
                 </button>
@@ -93,28 +95,43 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                             <h4 className="font-semibold wrap-anywhere">{condition.condition_name}</h4>
 
                             <div className="flex gap-2">
-                                <button
-                                    className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm"
-                                    onClick={() => onEdit({
-                                        ...condition,
-                                        is_chronic: condition.is_chronic === "yes" ? "yes" : "no"
-                                    })}
-                                >
-                                    Edit
-                                </button>
+                                {confirmDelete === condition.id ? null : (
+                                    <button
+                                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm"
+                                        onClick={() => onEdit({
+                                            ...condition,
+                                            is_chronic: condition.is_chronic === "yes" ? "yes" : "no"
+                                        })}
+                                    >
+                                        Edit
+                                    </button>
+                                )}
 
-                                <button
-                                    className={`border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-1 px-3 rounded text-sm ${confirmDelete === condition.id
-                                        ? 'text-red-600'
-                                        : 'text-[#81c784]'
-                                        }`}
-                                    onClick={() => handleDelete(condition)}
-                                    disabled={deleteMutation.isPending}
-                                >
-                                    {confirmDelete === condition.id
-                                        ? "Are you sure?"
-                                        : "X"}
-                                </button>
+                                {confirmDelete === condition.id ? (
+                                    <div className="flex gap-2">
+                                        <button
+                                            className='border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-600'
+                                            onClick={() => condition.id && handleConfirmDelete(condition.id)}
+                                            disabled={deleteMutation.isPending}
+                                        >
+                                            Confirm
+                                        </button>
+                                        <button
+                                            className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm"
+                                            onClick={handleCancelDelete}
+                                            disabled={deleteMutation.isPending}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800"
+                                        onClick={() => condition.id && handleDelete(condition.id)}
+                                    >
+                                        <img src="../../public/trashcan.png" alt="delete" className="w-4.5 h-4.5" />
+                                    </button>
+                                )}
                             </div>
                         </div>
 
@@ -134,7 +151,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };
 

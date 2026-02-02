@@ -171,14 +171,14 @@ const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
             <button
               type="button"
               onClick={onCancel}
-              className="bg-gray-200 hover:bg-gray-300 border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/5"
+              className="bg-gray-200 hover:bg-gray-300 border border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/5"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="bg-[#81c784] hover:bg-[#2e7d32] border border-gray-200 active:bg-gray-100 focus:outline-none p-2 rounded w-1/5"
+              className="bg-[#81c784] hover:bg-[#2e7d32] border border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/5"
             >
               {isPending ? "Saving..." : "Save"}
             </button>

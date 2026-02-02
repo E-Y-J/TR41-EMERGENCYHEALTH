@@ -26,6 +26,7 @@ header nav ul li {
 header nav a {
   cursor: pointer;
   text-decoration: none;
+  outline-style: none;
 }
 
 header nav a:hover {

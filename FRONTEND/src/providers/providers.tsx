@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -47,6 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(newUser);
     setQrURL(newQr);
     setIsRevoked(newIsRevoked);
+    navigate("/account");
   };
 
   const logout = () => {
