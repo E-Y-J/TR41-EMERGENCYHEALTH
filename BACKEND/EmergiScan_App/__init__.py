@@ -6,6 +6,7 @@ from EmergiScan_App.blueprints.patients import patients_bp
 from EmergiScan_App.blueprints.allergies import allergies_bp
 from EmergiScan_App.blueprints.conditions import conditions_bp
 from EmergiScan_App.blueprints.medications import medications_bp
+from EmergiScan_App.blueprints.chatbot.routes import chatbot_bp
 from flask_swagger_ui import get_swaggerui_blueprint
 
 SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
@@ -44,6 +45,7 @@ def create_app(config_name):
     emergiscan_app.register_blueprint(allergies_bp, url_prefix="/allergies")
     emergiscan_app.register_blueprint(conditions_bp, url_prefix="/conditions")
     emergiscan_app.register_blueprint(medications_bp, url_prefix="/medications")
-    emergiscan_app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL) #Registering our swagger blueprint
 
+    emergiscan_app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL) #Registering our swagger blueprint
+    emergiscan_app.register_blueprint(chatbot_bp, url_prefix="/chatbot")
     return emergiscan_app
