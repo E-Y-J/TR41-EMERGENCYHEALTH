@@ -36,6 +36,19 @@ h4 {
   line-height: 1.75rem;
 }
 
+html {
+  overflow-y: scroll;
+}
+
+/* html {
+  scrollbar-gutter: stable;
+} */
+
+/* make rule for this where on smaller screens (<1400px), it 
+doesn't include the space for scrollbars because things will 
+be stacked ontop of eachother.
+w-screen overflow-x-hidden in pagelayout.tsx */
+
 /* for reference only */
 Color Palette {
   primary: #4caf50 Accents #81c784 #2e7d32 text #2b2b2b Bg if needed #ffffff;

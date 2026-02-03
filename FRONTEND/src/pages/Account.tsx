@@ -19,6 +19,7 @@ const Account = () => {
     const [selectedMedication, setSelectedMedication] = useState<MedicationFormData | null>(null);
     const [selectedCondition, setSelectedCondition] = useState<ConditionFormData | null>(null);
 
+
     return (
         <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-10">Account</h1>

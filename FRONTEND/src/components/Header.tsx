@@ -11,6 +11,7 @@ const Header = () => {
   const activeLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-[#81c784]" : ""
 
+
   return (
     <>
       <header>
@@ -47,7 +48,6 @@ const Header = () => {
               </li>
             )}
           </ul>
-
         </nav>
       </header>
       <AuthModal
