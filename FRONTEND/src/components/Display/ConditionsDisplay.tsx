@@ -129,7 +129,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                                         className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800"
                                         onClick={() => condition.id && handleDelete(condition.id)}
                                     >
-                                        <img src="../../public/trashcan.png" alt="delete" className="w-4.5 h-4.5" />
+                                        <img src="/trashcan.png" alt="Delete" className="w-4.5 h-4.5" />
                                     </button>
                                 )}
                             </div>

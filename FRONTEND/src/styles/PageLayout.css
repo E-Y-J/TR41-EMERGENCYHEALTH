@@ -40,14 +40,9 @@ html {
   overflow-y: scroll;
 }
 
-/* html {
+/* body {
   scrollbar-gutter: stable;
 } */
-
-/* make rule for this where on smaller screens (<1400px), it 
-doesn't include the space for scrollbars because things will 
-be stacked ontop of eachother.
-w-screen overflow-x-hidden in pagelayout.tsx */
 
 /* for reference only */
 Color Palette {
