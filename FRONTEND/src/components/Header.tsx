@@ -33,7 +33,7 @@ function Header() {
   return (
     <>
       <header>
-        <nav ref={navRef} className="ms-2 me-3 relative">
+        <nav ref={navRef} className="ms-2 me-3 mt-2 relative">
           <NavLink to="/">
             <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo pe-8" />
           </NavLink>
