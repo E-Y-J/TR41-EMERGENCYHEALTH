@@ -263,3 +263,20 @@ Task#9(Jessica)
   -Created ChatHistory.tsx page to display chat history and setup routing.
   -Created ChatList.tsx and ChatMessage.tsx components to display saved lists and display messages when a specific message is selected.
   -Styled to match forms and displays in Account.
+
+Task#12(Jessica)
+
+- Responsive Layout Updates
+  - Updated Account.tsx grid layout to be responsive
+  - Updated ChatHistory.tsx with same responsive grid pattern
+  
+- Header Navigation Enhancements
+  - Added hamburger menu for smaller screens (below md breakpoint at 768px)
+  - Styled hamburger
+  - Implemented click-outside detection using useRef and useEffect to auto-close menu
+  - Login / Sign Up link displays outside hamburger on mobile for quick access
+
+- .gitignore Updates
+  - Added comprehensive Python cache exclusions (__pycache__/, *.pyc, *.pyo, *.egg-info/)
+  - Added Python virtual environment directories (venv/, env/, .venv)
+  - Removed committed .pyc files from git tracking to prevent merge conflicts

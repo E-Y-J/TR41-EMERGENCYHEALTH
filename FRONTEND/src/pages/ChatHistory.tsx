@@ -48,10 +48,10 @@ const ChatHistory = () => {
     return (
         <div className='max-w-7xl mx-auto'>
             <h1 className="text-2xl font-bold text-center mb-10">Chat History</h1>
-            <div className='grid grid-cols-5 gap-8'>
+            <div className='grid grid-cols-1 lg:grid-cols-5 gap-8'>
 
-                <div className='col-span-2'>
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6">
+                <div className='lg:col-span-2'>
+                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 lg:sticky lg:top-6">
                         <ChatList
                             chats={chatSessions}
                             selectedChatId={selectedChatId}
@@ -60,7 +60,7 @@ const ChatHistory = () => {
                     </div>
                 </div>
 
-                <div className="col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                <div className="lg:col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
                     {!selectedChatId || messages.length === 0 ? (
                         <ChatMessage isPlaceholder />
                     ) : (

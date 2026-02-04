@@ -23,9 +23,9 @@ const Account = () => {
     return (
         <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-10">Account</h1>
-            <div className="grid grid-cols-5 gap-8">
-                <div className="col-span-2">
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div className="md:col-span-2">
+                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 md:sticky md:top-6 md:max-h-[calc(100vh-3rem)] md:overflow-y-auto">
                         {editingPersonalInfo ? (
                             <PersonalInfo onCancel={() => setEditingPersonalInfo(false)} />
                         ) : (
@@ -33,7 +33,7 @@ const Account = () => {
                         )}
                     </div>
                 </div>
-                <div className="col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                <div className="md:col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
                     <div>
                         {editingAllergy ? (
                             <Allergies onCancel={() => {
