@@ -19,12 +19,13 @@ const Account = () => {
     const [selectedMedication, setSelectedMedication] = useState<MedicationFormData | null>(null);
     const [selectedCondition, setSelectedCondition] = useState<ConditionFormData | null>(null);
 
+
     return (
         <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-10">Account</h1>
             <div className="grid grid-cols-5 gap-8">
                 <div className="col-span-2">
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6">
+                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
                         {editingPersonalInfo ? (
                             <PersonalInfo onCancel={() => setEditingPersonalInfo(false)} />
                         ) : (

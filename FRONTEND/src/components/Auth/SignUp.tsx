@@ -36,7 +36,6 @@ const SignUp: React.FC<SignUpProps> = ({ active, switchTab, boxActive, onClose }
             await signup(payload);
             reset();
             onClose();
-            navigate("/");
         } catch (error: any) {
             setError("root.serverError", {
                 type: "manual",

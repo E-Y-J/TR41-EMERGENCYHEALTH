@@ -24,30 +24,30 @@ export default function Footer() {
                         <h4 className="mb-3 font-semibold align-bottom">Quick Links</h4>
                         <ul className="space-y-1">
                             {!user && (
-                            <li>
-                                <a className="text-gray-400 text-sm hover:text-[#81c784] cursor-pointer" onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
-                            </li>
+                                <li>
+                                    <a className="text-gray-400 text-sm hover:text-[#81c784] cursor-pointer" onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
+                                </li>
                             )}
-                                <>
-                                    <li>
-                                    <Link to="/"className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">Home</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/account" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
-                                            Account
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/chat-history" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
-                                            Chat History
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/my-qr" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
-                                            My QR Code
-                                        </Link>
-                                    </li>
-                                </>
+                            <>
+                                <li>
+                                    <Link to="/" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">Home</Link>
+                                </li>
+                                <li>
+                                    <Link to="/my-qr" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
+                                        My QR Code
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/account" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
+                                        Account
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/chat-history" className="text-gray-400 hover:text-[#81c784] text-sm transition-colors">
+                                        Chat History
+                                    </Link>
+                                </li>
+                            </>
                         </ul>
                         <AuthModal
                             isOpen={isAuthModalOpen}

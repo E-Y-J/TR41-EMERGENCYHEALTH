@@ -8,9 +8,8 @@ type PageLayoutProps = {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     return (
-        <div className="flex flex-col min-h-screen">
-            {/* add the print hidden class to the header and footer so i can print the qr-code only */}
-            <div className='mb-6 print:hidden'>
+        <div className="flex flex-col min-h-screen overflow-x-hidden">
+            <div className='mb-10 print:hidden'>
                 <Header />
             </div>
             <div className="grow mx-6">

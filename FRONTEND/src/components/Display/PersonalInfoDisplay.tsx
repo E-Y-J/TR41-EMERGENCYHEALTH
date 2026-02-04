@@ -49,7 +49,7 @@ const PersonalInfoDisplay = ({ onEdit }: PersonalInfoDisplayProps) => {
                 <h3 className="text-xl font-semibold">Personal Information</h3>
                 <button
                     onClick={onEdit}
-                    className="text-sm bg-gray-100 border border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2"
+                    className="text-sm bg-[#81c784] hover:bg-[#2e7d32] border border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2"
                 >
                     Edit
                 </button>

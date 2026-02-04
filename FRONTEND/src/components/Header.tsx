@@ -1,6 +1,6 @@
 import { useAuth } from "../hook/useAuth";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthModal from "./Auth/AuthModal";
 import "../styles/Header.css";
 
@@ -8,48 +8,46 @@ const Header = () => {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
+  const activeLink = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "text-[#81c784]" : ""
+
 
   return (
     <>
       <header>
         <nav className="ms-2 me-3">
-          <Link to="/">
+          <NavLink to="/">
             <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
-          </Link>
-
-            <ul>
-              {user && (
+          </NavLink>
+          <ul>
+            {user && (
               <li>
                 <span className="text-2xl p-6">Welcome, {user.first_name}!</span>
               </li>
-              )}
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/my-qr">My QR Code</Link>
-              </li>
-              <li>
-                <Link to="/account">Account</Link>
-              </li>
-              <li>
-                <Link to="/chat-history">Chat History</Link>
-              </li>
-              {user && (
+            )}
+            <li>
+              <NavLink to="/" className={activeLink}>Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/my-qr" className={activeLink}>My QR Code</NavLink>
+            </li>
+            <li>
+              <NavLink to="/account" className={activeLink}>Account</NavLink>
+            </li>
+            <li>
+              <NavLink to="/chat-history" className={activeLink}>Chat History</NavLink>
+            </li>
+            {user && (
               <li>
                 <a onClick={logout}>Logout</a>
               </li>
-              )}
-
-            </ul>
-         {!user && (
-            <ul>
+            )}
+            {!user && (
               <li>
                 <a onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
               </li>
-            </ul>
-         )}
-         
+            )}
+          </ul>
         </nav>
       </header>
       <AuthModal
