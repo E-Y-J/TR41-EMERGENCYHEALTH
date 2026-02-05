@@ -2,7 +2,7 @@ from EmergiScan_App.utils.qr import get_or_create_qr_token #added
 from . import patients_bp
 from marshmallow import ValidationError
 from flask import request, jsonify
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from EmergiScan_App.models import Patients, PatientsQRToken, db, ChatSession, ChatMessage
 from EmergiScan_App.blueprints.patients.schema import patients_schema, patientschema, loginschema, signupschema
 from EmergiScan_App.utils.util import encode_token, ph, required_token
@@ -47,7 +47,6 @@ def login_patient():
             "email": patient.email
         },
         "token": token,
-        "is_revoked": qr.is_revoked, #added
         "qr_url": qr_url #added
     }), 200
     
@@ -144,7 +143,18 @@ def get_user(patient_id):
     patient = db.session.get(Patients, patient_id)
     if not patient:
         return jsonify({"error": "Sorry, user not found"}), 404
-    return patientschema.jsonify(patient), 200
+    #added
+    # Get QR token status
+    query = select(PatientsQRToken).where(
+        PatientsQRToken.patient_id == patient_id
+    ).order_by(desc(PatientsQRToken.created_at))
+    qr_token = db.session.execute(query).scalars().first()
+    is_revoked = qr_token.is_revoked if qr_token else False
+    
+    patient_data = patientschema.dump(patient)
+    patient_data["is_revoked"] = is_revoked
+    
+    return jsonify(patient_data), 200
 
 #Deletes a user
 @patients_bp.route("/me", methods=['DELETE'])

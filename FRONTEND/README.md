@@ -111,6 +111,21 @@ Task#9: Routing Protection(Ali)
   - Implemented PublicRoute for user to access not authenticated routes
   - Updated App.tsx to set PublicRoute for public routes such as Home page
 
+Task#10: QRCodePage/RespondersChat(Ali)
+
+- QRCodePage Component 
+  - Added useEffect to fetch QR code revocation status on component mount
+  - Implemented API call to /patients/me endpoint to get current revocation status
+  - Updated isRevoked state based on fetched data
+- RespondersChat Component
+  - implemented useEffect to fetch QR code revocation status on component mount
+  - Implemented API call to /patients/me endpoint to get current revocation status
+  - Implemented logic to call /chatbot/session/${sessionId}/end when QR code is revoked
+  - Implemented isRevoked state management
+  - Styled loading indicator using Tailwind CSS 
+  - Displayed message indicating chat is disabled when QR code is revoked 
+  - Disabled message input form when QR code is revoked 
+  
 Task#4(Jessica)
 
 - Login and Logout Forms

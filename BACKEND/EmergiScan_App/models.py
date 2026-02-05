@@ -18,6 +18,9 @@ class PatientsQRToken(Base):
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"), nullable=False)
     token: Mapped[str] = mapped_column(db.String(128), nullable=False)
     is_revoked: Mapped[bool] = mapped_column(default=False, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+            db.DateTime, default=datetime.utcnow, nullable=False
+        )
 
     patientToken: Mapped["Patients"] = db.relationship(back_populates="qr_tokens")
 
