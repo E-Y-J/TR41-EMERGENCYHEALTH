@@ -6,7 +6,7 @@ const HomePage = () => {
       <h4>Your emergency health companion</h4>
       <div className="flex flex-col md:flex-row items-center gap-6 max-w-7xl mx-auto mt-8 px-4">
         <img src="/paramedics.jpg" alt="Paramedics" className="w-1/2 rounded-lg" />
-        <p className="w-full md:w-1/2 text-lg text-left">
+        <p className="w-full md:w-1/2 text-lg md:text-left text-center md:text-wrap">
           Sign up and enter your medical information to receive a personal QR code!
           In an emergency, responders can scan your code to access AI-powered assistance
           that helps them make informed decisions based on your allergies, medications,

@@ -50,7 +50,7 @@ function Header() {
           <ul>
             {user && (
               <li>
-                <span className="text-2xl p-6 text-center">Welcome, {user.first_name}!</span>
+                <span className="welcome text-2xl text-wrap p-6 text-center">Welcome, {user.first_name}!</span>
               </li>
             )}
             <div className="hidden md:flex whitespace-nowrap">
@@ -82,7 +82,7 @@ function Header() {
 
           {/* hamburger menu */}
           {isMobileMenuOpen && (
-            <ul className="md:hidden absolute top-3/4 w-48 right-0 bg-white flex flex-col">
+            <ul className="md:hidden z-10 absolute top-3/4 w-48 right-0 bg-white flex flex-col">
               <li className="border-b border-gray-300">
                 <NavLink to="/" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
                   <span className="block p-4">Home</span>
@@ -114,7 +114,7 @@ function Header() {
           )}
           {!user && (
             <div className="md:hidden">
-              <a onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="block p-11">
+              <a onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="block py-11 text-center ">
                 Login / Sign Up
               </a>
             </div>

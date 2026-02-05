@@ -268,7 +268,10 @@ Task#12(Jessica)
 
 - Responsive Layout Updates
   - Updated Account.tsx grid layout to be responsive
+  - Fixed scrolling and box sizing issue and copied code to Chathistory.tsx
   - Updated ChatHistory.tsx with same responsive grid pattern
+  - Updated Footer to be more responsive and created custom CSS file Footer.css
+  - Made Homepage.tsx image and text responsive
   
 - Header Navigation Enhancements
   - Added hamburger menu for smaller screens (below md breakpoint at 768px)
@@ -280,3 +283,5 @@ Task#12(Jessica)
   - Added comprehensive Python cache exclusions (__pycache__/, *.pyc, *.pyo, *.egg-info/)
   - Added Python virtual environment directories (venv/, env/, .venv)
   - Removed committed .pyc files from git tracking to prevent merge conflicts
+
+
