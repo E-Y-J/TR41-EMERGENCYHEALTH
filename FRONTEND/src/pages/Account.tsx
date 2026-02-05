@@ -23,9 +23,9 @@ const Account = () => {
     return (
         <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-10">Account</h1>
-            <div className="grid grid-cols-5 gap-8">
-                <div className="col-span-2">
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
+            <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-2/5">
+                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6">
                         {editingPersonalInfo ? (
                             <PersonalInfo onCancel={() => setEditingPersonalInfo(false)} />
                         ) : (
@@ -33,69 +33,71 @@ const Account = () => {
                         )}
                     </div>
                 </div>
-                <div className="col-span-3 space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
-                    <div>
-                        {editingAllergy ? (
-                            <Allergies onCancel={() => {
-                                setSelectedAllergy(null);
-                                setEditingAllergy(false);
-                            }}
-                                initialData={selectedAllergy}
-                            />
-                        ) : (
-                            <AllergiesDisplay
-                                onAdd={() => {
+                <div className="md:w-3/5">
+                    <div className="space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                        <div>
+                            {editingAllergy ? (
+                                <Allergies onCancel={() => {
                                     setSelectedAllergy(null);
-                                    setEditingAllergy(true);
+                                    setEditingAllergy(false);
                                 }}
-                                onEdit={(allergy) => {
-                                    setSelectedAllergy(allergy);
-                                    setEditingAllergy(true);
-                                }}
-                            />
-                        )}
-                    </div>
-                    <div>
-                        {editingMedication ? (
-                            <Medications onCancel={() => {
-                                setSelectedMedication(null);
-                                setEditingMedication(false)
-                            }}
-                                initialData={selectedMedication}
-                            />
-                        ) : (
-                            <MedicationsDisplay
-                                onAdd={() => {
+                                    initialData={selectedAllergy}
+                                />
+                            ) : (
+                                <AllergiesDisplay
+                                    onAdd={() => {
+                                        setSelectedAllergy(null);
+                                        setEditingAllergy(true);
+                                    }}
+                                    onEdit={(allergy) => {
+                                        setSelectedAllergy(allergy);
+                                        setEditingAllergy(true);
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {editingMedication ? (
+                                <Medications onCancel={() => {
                                     setSelectedMedication(null);
-                                    setEditingMedication(true);
+                                    setEditingMedication(false)
                                 }}
-                                onEdit={(medication) => {
-                                    setSelectedMedication(medication);
-                                    setEditingMedication(true)
-                                }}
-                            />
-                        )}
-                    </div>
-                    <div>
-                        {editingCondition ? (
-                            <Conditions onCancel={() => {
-                                setSelectedCondition(null);
-                                setEditingCondition(false)
-                            }}
-                                initialData={selectedCondition}
-                            />
-                        ) : (
-                            <ConditionsDisplay
-                                onAdd={() => {
+                                    initialData={selectedMedication}
+                                />
+                            ) : (
+                                <MedicationsDisplay
+                                    onAdd={() => {
+                                        setSelectedMedication(null);
+                                        setEditingMedication(true);
+                                    }}
+                                    onEdit={(medication) => {
+                                        setSelectedMedication(medication);
+                                        setEditingMedication(true)
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {editingCondition ? (
+                                <Conditions onCancel={() => {
                                     setSelectedCondition(null);
-                                    setEditingCondition(true)
+                                    setEditingCondition(false)
                                 }}
-                                onEdit={(condition) => {
-                                    setSelectedCondition(condition);
-                                    setEditingCondition(true)
-                                }}
-                            />
-                        )}
+                                    initialData={selectedCondition}
+                                />
+                            ) : (
+                                <ConditionsDisplay
+                                    onAdd={() => {
+                                        setSelectedCondition(null);
+                                        setEditingCondition(true)
+                                    }}
+                                    onEdit={(condition) => {
+                                        setSelectedCondition(condition);
+                                        setEditingCondition(true)
+                                    }}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

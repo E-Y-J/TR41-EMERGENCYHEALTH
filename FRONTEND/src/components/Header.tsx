@@ -1,12 +1,30 @@
 import { useAuth } from "../hook/useAuth";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import AuthModal from "./Auth/AuthModal";
 import "../styles/Header.css";
 
-const Header = () => {
+function Header() {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const activeLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-[#81c784]" : ""
@@ -15,39 +33,92 @@ const Header = () => {
   return (
     <>
       <header>
-        <nav className="ms-2 me-3">
+        <nav ref={navRef} className="ms-2 me-3 mt-2 relative">
           <NavLink to="/">
-            <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo" />
+            <img src="/EmergiScanLogo.png" alt="Logo" className="navbar-logo pe-8" />
           </NavLink>
+
+          <button
+            className="md:hidden flex flex-col gap-1.5 px-6 pt-11 order-last"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <span className="w-9 h-1 rounded-4xl bg-gray-700"></span>
+            <span className="w-9 h-1 rounded-4xl bg-gray-700"></span>
+            <span className="w-9 h-1 rounded-4xl bg-gray-700"></span>
+          </button>
+
           <ul>
             {user && (
               <li>
-                <span className="text-2xl p-6">Welcome, {user.first_name}!</span>
+                <span className="welcome text-2xl text-wrap p-6 text-center">Welcome, {user.first_name}!</span>
               </li>
             )}
-            <li>
-              <NavLink to="/" className={activeLink}>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/my-qr" className={activeLink}>My QR Code</NavLink>
-            </li>
-            <li>
-              <NavLink to="/account" className={activeLink}>Account</NavLink>
-            </li>
-            <li>
-              <NavLink to="/chat-history" className={activeLink}>Chat History</NavLink>
-            </li>
-            {user && (
+            <div className="hidden md:flex whitespace-nowrap">
+
               <li>
-                <a onClick={logout}>Logout</a>
+                <NavLink to="/" className={activeLink}>Home</NavLink>
               </li>
-            )}
-            {!user && (
               <li>
-                <a onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
+                <NavLink to="/my-qr" className={activeLink}>My QR Code</NavLink>
               </li>
-            )}
+              <li>
+                <NavLink to="/account" className={activeLink}>Account</NavLink>
+              </li>
+              <li>
+                <NavLink to="/chat-history" className={activeLink}>Chat History</NavLink>
+              </li>
+              {user && (
+                <li>
+                  <a onClick={logout}>Logout</a>
+                </li>
+              )}
+              {!user && (
+                <li>
+                  <a onClick={() => setIsAuthModalOpen(true)}>Login / Sign Up</a>
+                </li>
+              )}
+            </div>
           </ul>
+
+          {/* hamburger menu */}
+          {isMobileMenuOpen && (
+            <ul className="md:hidden z-10 absolute top-3/4 w-48 right-0 bg-white flex flex-col">
+              <li className="border-b border-gray-300">
+                <NavLink to="/" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="block p-4">Home</span>
+                </NavLink>
+              </li>
+              <li className="border-b border-gray-300">
+                <NavLink to="/my-qr" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="block p-4">My QR Code</span>
+                </NavLink>
+              </li>
+              <li className="border-b border-gray-300">
+                <NavLink to="/account" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="block p-4">Account</span>
+                </NavLink>
+              </li>
+              <li className="border-b border-gray-300">
+                <NavLink to="/chat-history" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="block p-4">Chat History</span>
+                </NavLink>
+              </li>
+              {user && (
+                <li className="border-b border-gray-300">
+                  <a onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="block p-4">
+                    Logout
+                  </a>
+                </li>
+              )}
+            </ul>
+          )}
+          {!user && (
+            <div className="md:hidden">
+              <a onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="block py-11 text-center ">
+                Login / Sign Up
+              </a>
+            </div>
+          )}
         </nav>
       </header>
       <AuthModal

@@ -1,0 +1,27 @@
+footer p {
+  font-size: 0.75rem;
+}
+
+footer h4 {
+  font-size: 1.05rem;
+}
+
+.spacing {
+  line-height: 1rem;
+}
+
+@media (min-width: 850px) {
+  footer p,
+  footer a,
+  footer li {
+    font-size: 0.875rem;
+  }
+
+  footer h4 {
+    font-size: 1.25rem;
+  }
+
+  .spacing {
+    line-height: 1.5rem;
+  }
+}
