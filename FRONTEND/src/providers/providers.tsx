@@ -37,17 +37,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return JSON.parse(u);
   });
 
-  const [isRevoked, setIsRevoked] = useState<boolean>(false);
-
-  const login = (newToken: string, newUser: User, newQr: string, newIsRevoked: boolean) => {
+  const login = (newToken: string, newUser: User, newQr: string) => {
     localStorage.setItem("auth_token", newToken);
     localStorage.setItem("auth_user", JSON.stringify(newUser));
     localStorage.setItem("auth_qr", newQr);
     setToken(newToken);
     setUser(newUser);
     setQrURL(newQr);
-    setIsRevoked(newIsRevoked);
-    navigate("/account");
   };
 
   const logout = () => {
@@ -58,7 +54,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setToken(null);
     setUser(null);
     setQrURL(null);
-    setIsRevoked(false);
     navigate("/");
   };
 
@@ -102,12 +97,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const loginData = await loginRes.json();
     console.log("login Data", loginData);
-    login(loginData.token, loginData.User, loginData.qr_url, loginData.is_revoked);
+    login(loginData.token, loginData.User, loginData.qr_url);
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, user, login, logout, signup, qrURL, isRevoked, setIsRevoked }}
+      value={{ token, user, login, logout, signup, qrURL }}
     >
       {children}
     </AuthContext.Provider>

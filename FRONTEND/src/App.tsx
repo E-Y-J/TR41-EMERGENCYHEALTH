@@ -1,14 +1,27 @@
-import PrivateRoute from "./RouteProtaction-Components/Private-Route/PrivateRoute";
-import PublicRoute from "./RouteProtaction-Components/Public-Route/PublicRoute";
-import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "./RouteProtaction/Private-Route/PrivateRoute";
+import PublicRoute from "./RouteProtaction/Public-Route/PublicRoute";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Account from "./pages/Account";
 import QRCodePage from "./pages/QRCodePage";
 import PageLayout from "./components/PageLayout";
 import ChatHistory from "./pages/ChatHistory";
-import EmergencyChatPage from "./pages/EmergiChatBot";
+import RespondersChat from "./pages/RespondersChat";
 
 function App() {
+
+  // Get the current location and Check if the current path starts with /chatbot/
+  const location = useLocation();
+  const isResponderChat = location.pathname.startsWith("/chatbot/");
+
+  if (isResponderChat) {
+    return (
+      <Routes>
+        <Route path="/chatbot/:token" element={<RespondersChat />} />
+      </Routes>
+    );
+  }
+
   return (
     <PageLayout>
       <Routes>
@@ -16,7 +29,6 @@ function App() {
         <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path="chat-history" element={<PrivateRoute><ChatHistory /></PrivateRoute>} />
         <Route path="/my-qr" element={<PrivateRoute><QRCodePage /></PrivateRoute>} />
-        <Route path="/chatbot/:token" element={<PrivateRoute><EmergencyChatPage /></PrivateRoute>} />
       </Routes>
     </PageLayout>
   );
