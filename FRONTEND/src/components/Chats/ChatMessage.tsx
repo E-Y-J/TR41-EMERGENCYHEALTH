@@ -24,9 +24,11 @@ const ChatMessage = ({ messages, isPlaceholder }: ChatMessageProps) => {
                 ) : (
                     messages.map((message: Message) => (
                         <div key={message.id}
-                            className={`p-3 rounded ${message.sender === 'user' ? 'bg-[#4caf50]/25 border border-gray-300 ml-auto w-fit max-w-xs' : 'bg-white border border-gray-300 w-fit'}`}>
-                            <p className="text-lg mb-1">{message.text}</p>
-                            <p className="text-sm text-gray-500 mb-1">
+                            className={`p-3 rounded mb-4 ${message.sender === 'user' ?
+                                'bg-[#4caf50]/25 border border-gray-300 ml-auto w-fit max-w-xs' :
+                                'bg-white border border-gray-300 w-fit'}`}>
+                            <p className="text-md sm:text-lg mb-1 text-wrap">{message.text}</p>
+                            <p className="text-xs md:text-sm text-gray-500 mb-1">
                                 {message.timestamp.toLocaleTimeString([], {
                                     hour: "2-digit",
                                     minute: "2-digit",
