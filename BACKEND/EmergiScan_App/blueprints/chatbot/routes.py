@@ -105,7 +105,10 @@ def build_patient_snapshot(patient: Patients) -> dict:
 
     # 4) Medications
     meds = db.session.execute(
-        select(Medications).where(Medications.patient_id == patient.id)
+    select(Medications).where(
+        Medications.patient_id == patient.id,
+        Medications.is_active == "Yes"
+    )
     ).scalars().all()
 
     meds_list = [
@@ -209,7 +212,6 @@ def start_chat_session():
         "patient_panel": patient_display_panel
     }), 201
 
-
 @chatbot_bp.route("/message", methods=["POST"])
 def post_message():
     """
@@ -279,11 +281,6 @@ def post_message():
         "session_id": session.id,
         "assistant_message": assistant_text
     }), 200
-
-from datetime import datetime
-from flask import jsonify
-from EmergiScan_App.models import db, ChatSession
-
 
 @chatbot_bp.route("/session/<int:session_id>/end", methods=["POST"])
 def end_chat_session(session_id):
