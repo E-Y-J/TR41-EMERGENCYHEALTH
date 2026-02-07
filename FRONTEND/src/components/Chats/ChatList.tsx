@@ -1,7 +1,6 @@
 interface ChatSession {
     id: number;
     title: string;
-    lastMessage: string;
     timestamp: Date;
 }
 
