@@ -285,6 +285,7 @@ Task#12(Jessica)
   - Updated Account.tsx grid layout to be responsive
   - Fixed scrolling and box sizing issue and copied code to Chathistory.tsx
   - Updated ChatHistory.tsx with same responsive grid pattern
+  - Updated responsive text sizes in Footer.tsx, ChatHistory.tsx, and all h4's
   - Updated Footer to be more responsive and created custom CSS file Footer.css
   - Made Homepage.tsx image and text responsive
   
@@ -299,4 +300,5 @@ Task#12(Jessica)
   - Added Python virtual environment directories (venv/, env/, .venv)
   - Removed committed .pyc files from git tracking to prevent merge conflicts
 
-
+- Chat History updates
+  - Added text-wrap to chats and space between replies.
