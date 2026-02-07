@@ -288,6 +288,12 @@ Task#12(Jessica)
   - Updated responsive text sizes in Footer.tsx, ChatHistory.tsx, and all h4's
   - Updated Footer to be more responsive and created custom CSS file Footer.css
   - Made Homepage.tsx image and text responsive
+  - Made MedicationsDisplay match other form displays.
+  - Made QR code smaller on very small screens to accommodate accessability options, as well as buttons. 
+  - Made RespondersChat buttons responsive
+  - Made cancel/save buttons responsive
+  - Implemented breakpoints and made all display consistent
+  - Kept accessability in mind across displays
   
 - Header Navigation Enhancements
   - Added hamburger menu for smaller screens (below md breakpoint at 768px)
@@ -302,3 +308,4 @@ Task#12(Jessica)
 
 - Chat History updates
   - Added text-wrap to chats and space between replies.
+  - Updated timestamp to display in local time.

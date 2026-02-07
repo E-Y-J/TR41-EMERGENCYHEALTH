@@ -46,10 +46,10 @@ const PersonalInfoDisplay = ({ onEdit }: PersonalInfoDisplayProps) => {
     return (
         <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold">Personal Information</h3>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold">Personal Information</h3>
                 <button
                     onClick={onEdit}
-                    className="text-sm bg-[#81c784] hover:bg-[#2e7d32] border border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2"
+                    className="bg-[#81c784] hover:bg-[#2e7d32] border border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2 text-xs min-[500px]:text-sm"
                 >
                     Edit
                 </button>
@@ -58,67 +58,67 @@ const PersonalInfoDisplay = ({ onEdit }: PersonalInfoDisplayProps) => {
             <div className="border border-gray-300 bg-gray-100 p-6 rounded">
                 <div className="flex flex-col gap-4">
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">First Name</p>
-                        <p className="text-lg font-medium wrap-break-word">{data.first_name}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">First Name</p>
+                        <p className="text-base min-[500px]:text-lg font-medium wrap-break-word">{data.first_name}</p>
                     </div>
 
                     {data.middle_name && (
                         <div>
-                            <p className="text-sm text-gray-500 mb-1">Middle Name</p>
-                            <p className="text-lg wrap-break-word">{data.middle_name}</p>
+                            <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Middle Name</p>
+                            <p className="text-base min-[500px]:text-lg wrap-break-word">{data.middle_name}</p>
                         </div>
                     )}
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Last Name</p>
-                        <p className="text-lg wrap-break-word">{data.last_name}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Last Name</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.last_name}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Address</p>
-                        <p className="text-lg wrap-break-word">{data.address}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Address</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.address}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Phone Number</p>
-                        <p className="text-lg wrap-break-word">{data.phone}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Phone Number</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.phone}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Date of Birth</p>
-                        <p className="text-lg wrap-break-word">{data.date_of_birth}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Date of Birth</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.date_of_birth}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Gender</p>
-                        <p className="text-lg wrap-break-word">{data.gender}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Gender</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.gender}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Blood Type</p>
-                        <p className="text-lg wrap-break-word">{data.blood_type}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Blood Type</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.blood_type}</p>
                     </div>
 
                     {data.preferred_hospital && (
                         <div>
-                            <p className="text-sm text-gray-500 mb-1">Preferred Hospital</p>
-                            <p className="text-lg wrap-break-word">{data.preferred_hospital}</p>
+                            <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Preferred Hospital</p>
+                            <p className="text-base min-[500px]:text-lg wrap-break-word">{data.preferred_hospital}</p>
                         </div>
                     )}
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Emergency Contact Name</p>
-                        <p className="text-lg wrap-break-word">{data.emergency_contact_name}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Emergency Contact Name</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.emergency_contact_name}</p>
                     </div>
 
                     <div>
-                        <p className="text-sm text-gray-500 mb-1">Emergency Contact Relationship</p>
-                        <p className="text-lg wrap-break-word">{data.emergency_contact_relationship}</p>
+                        <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Emergency Contact Relationship</p>
+                        <p className="text-base min-[500px]:text-lg wrap-break-word">{data.emergency_contact_relationship}</p>
                     </div>
                     {data.emergency_contact_phone && (
                         <div>
-                            <p className="text-sm text-gray-600 mb-1">Emergency Contact Phone</p>
-                            <p className="text-lg">{data.emergency_contact_phone}</p>
+                            <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Emergency Contact Phone</p>
+                            <p className="text-base min-[500px]:text-lg">{data.emergency_contact_phone}</p>
                         </div>
                     )}
                 </div>

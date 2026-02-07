@@ -63,7 +63,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
     if (!data || data.length === 0) {
         return (
             <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <h3 className="text-xl font-semibold mb-6">Medical Conditions</h3>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold mb-6">Medical Conditions</h3>
                 <div className="border border-gray-300 bg-gray-100 p-4 rounded">
                     <button
                         onClick={onAdd}
@@ -79,10 +79,10 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
     return (
         <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold">Medical Conditions</h3>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold">Medical Conditions</h3>
                 <button
                     onClick={onAdd}
-                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2 text-xs min-[500px]:text-sm"
                 >
                     Add New
                 </button>
@@ -92,12 +92,12 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                 {data.map((condition, index) => (
                     <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold wrap-anywhere">{condition.condition_name}</h4>
+                            <h4 className="max-[500px]:!text-[1.15rem] font-semibold wrap-anywhere">{condition.condition_name}</h4>
 
-                            <div className="flex gap-2">
+                            <div className="flex ms-3 gap-2">
                                 {confirmDelete === condition.id ? null : (
                                     <button
-                                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm"
+                                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-xs min-[500px]:text-sm"
                                         onClick={() => onEdit({
                                             ...condition,
                                             is_chronic: condition.is_chronic === "yes" ? "yes" : "no"
@@ -110,14 +110,14 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                                 {confirmDelete === condition.id ? (
                                     <div className="flex gap-2">
                                         <button
-                                            className='border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-600'
+                                            className='border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-xs min-[500px]:text-sm text-red-600'
                                             onClick={() => condition.id && handleConfirmDelete(condition.id)}
                                             disabled={deleteMutation.isPending}
                                         >
                                             Confirm
                                         </button>
                                         <button
-                                            className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm"
+                                            className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-xs min-[500px]:text-sm"
                                             onClick={handleCancelDelete}
                                             disabled={deleteMutation.isPending}
                                         >
@@ -126,7 +126,7 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
                                     </div>
                                 ) : (
                                     <button
-                                        className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800"
+                                        className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800 shrink-0"
                                         onClick={() => condition.id && handleDelete(condition.id)}
                                     >
                                         <img src="/trashcan.png" alt="Delete" className="w-4.5 h-4.5" />
@@ -137,14 +137,14 @@ const ConditionsDisplay = ({ onAdd, onEdit }: ConditionsDisplayProps) => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
-                                <p className="text-sm text-gray-500 mb-1">Chronic</p>
-                                <p className="text-lg wrap-break-word mb-1">{condition.is_chronic === "yes" ? "Yes" : "No"}</p>
+                                <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Chronic</p>
+                                <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{condition.is_chronic === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {condition.notes && (
                                 <div className="md:col-span-2">
-                                    <p className="text-sm text-gray-500 mb-1">Notes</p>
-                                    <p className="text-lg wrap-break-word mb-1">{condition.notes}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Notes</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{condition.notes}</p>
                                 </div>
                             )}
                         </div>

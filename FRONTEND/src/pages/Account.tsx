@@ -25,7 +25,7 @@ const Account = () => {
             <h1 className="text-2xl font-bold text-center mb-10">Account</h1>
             <div className="flex flex-col md:flex-row gap-8">
                 <div className="md:w-2/5">
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6">
+                    <div className="min-[450px]:bg-white min-[450px]:shadow-md min-[450px]:rounded-lg min-[450px]:p-6 min-[450px]:border min-[450px]:border-gray-200 sticky top-6">
                         {editingPersonalInfo ? (
                             <PersonalInfo onCancel={() => setEditingPersonalInfo(false)} />
                         ) : (
@@ -34,7 +34,7 @@ const Account = () => {
                     </div>
                 </div>
                 <div className="md:w-3/5">
-                    <div className="space-y-6 bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <div className="space-y-6 min-[450px]:bg-white min-[450px]:shadow-md min-[450px]:rounded-lg min-[450px]:p-6 min-[450px]:border min-[450px]:border-gray-200">
                         <div>
                             {editingAllergy ? (
                                 <Allergies onCancel={() => {

@@ -64,15 +64,13 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
     if (!data || data.length === 0) {
         return (
             <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
-                <h3 className="text-xl font-semibold mb-6">Medications</h3>
-                <div className="border border-gray-300 bg-gray-100 p-4 rounded">
-                    <button
-                        onClick={onAdd}
-                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
-                    >
-                        Add Medication
-                    </button>
-                </div>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold mb-6">Medications</h3>
+                <button
+                    onClick={onAdd}
+                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2"
+                >
+                    Add Medication
+                </button>
             </div>
         );
     }
@@ -80,10 +78,10 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
     return (
         <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold">Medications</h3>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold">Medications</h3>
                 <button
                     onClick={onAdd}
-                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded px-4"
+                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2 text-xs min-[500px]:text-sm"
                 >
                     Add New
                 </button>
@@ -93,12 +91,12 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                 {data.map((medication, index) => (
                     <div key={index} className="border border-gray-300 bg-gray-100 p-6 rounded">
                         <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold text-lg wrap-anywhere">{medication.medication_name}</h4>
+                            <h4 className="max-[500px]:!text-[1.15rem] font-semibold wrap-anywhere">{medication.medication_name}</h4>
 
                             <div className="flex ms-3 gap-2">
                                 {confirmDelete === medication.id ? null : (
                                     <button
-                                        className="border bg-gray-50 border-gray-300 hover:bg-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-sm"
+                                        className="border bg-gray-50 border-gray-300 hover:bg-gray-300 active:bg-gray-100 focus:outline-none px-3 py-1 rounded text-xs min-[500px]:text-sm"
                                         onClick={() => onEdit({
                                             ...medication,
                                             is_active: medication.is_active === "yes" ? "yes" : "no"
@@ -111,14 +109,14 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                                 {confirmDelete === medication.id ? (
                                     <div className="flex gap-2">
                                         <button
-                                            className='border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none px-3 py-1 rounded text-sm text-red-600'
+                                            className='border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-xs min-[500px]:text-sm text-red-600'
                                             onClick={() => medication.id && handleConfirmDelete(medication.id)}
                                             disabled={deleteMutation.isPending}
                                         >
                                             Confirm
                                         </button>
                                         <button
-                                            className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm"
+                                            className="border bg-gray-50 border-gray-300 active:bg-gray-100 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-xs min-[500px]:text-sm"
                                             onClick={handleCancelDelete}
                                             disabled={deleteMutation.isPending}
                                         >
@@ -127,7 +125,7 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                                     </div>
                                 ) : (
                                     <button
-                                        className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800"
+                                        className="border bg-gray-50 border-gray-300 active:bg-gray-50 hover:bg-gray-300 focus:outline-none p-1 px-3 rounded text-sm text-red-800 shrink-0"
                                         onClick={() => medication.id && handleDelete(medication.id)}
                                     >
                                         <img src="/trashcan.png" alt="Delete" className="w-4.5 h-4.5" />
@@ -139,41 +137,41 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {medication.medication_purpose && (
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Purpose</p>
-                                    <p className="text-lg wrap-break-word mb-1">{medication.medication_purpose}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Purpose</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.medication_purpose}</p>
                                 </div>
                             )}
 
                             {medication.dosage && (
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Dosage</p>
-                                    <p className="text-lg wrap-break-word mb-1">{medication.dosage}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Dosage</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.dosage}</p>
                                 </div>
                             )}
 
                             {medication.frequency && (
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Frequency</p>
-                                    <p className="text-lg wrap-break-word mb-1">{medication.frequency}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Frequency</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.frequency}</p>
                                 </div>
                             )}
 
                             {medication.route && (
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Route</p>
-                                    <p className="text-lg wrap-break-word mb-1">{medication.route}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Route</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.route}</p>
                                 </div>
                             )}
 
                             <div>
-                                <p className="text-sm text-gray-500 mb-1">Active</p>
-                                <p className="text-lg wrap-break-word mb-1">{medication.is_active === "yes" ? "Yes" : "No"}</p>
+                                <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Active</p>
+                                <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.is_active === "yes" ? "Yes" : "No"}</p>
                             </div>
 
                             {medication.notes && (
                                 <div className="md:col-span-2">
-                                    <p className="text-sm text-gray-500 mb-1">Notes</p>
-                                    <p className="text-lg wrap-break-word mb-1">{medication.notes}</p>
+                                    <p className="text-xs min-[500px]:text-sm text-gray-500 mb-1">Notes</p>
+                                    <p className="text-base min-[500px]:text-lg wrap-break-word mb-1">{medication.notes}</p>
                                 </div>
                             )}
                         </div>
