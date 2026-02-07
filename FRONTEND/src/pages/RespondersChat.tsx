@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {api} from "../api/http";
+import { api } from "../api/http";
 
 interface Message {
   text: string;
@@ -47,16 +47,16 @@ const RespondersChat = () => {
   useEffect(() => {
     console.log("Starting chat session with token:", token);
     const chatSession = async () => {
-      if(!token){
+      if (!token) {
         console.error("No token found in URL parameters.");
-       return; 
+        return;
       }
-      try{
-      const response = await api.post(`/chatbot/session`, {token})
+      try {
+        const response = await api.post(`/chatbot/session`, { token })
         console.log("Chat session started:", response.data);
         setPatient(response.data.patient_panel);
         setSessionId(response.data.session_id ?? null);
-        
+
         // Add initial assistant message if backend provides one
         if (response.data.assistant_message) {
           setMessages([{
@@ -65,17 +65,17 @@ const RespondersChat = () => {
             timestamp: new Date(),
           }]);
         }
-    }catch(error: unknown){
-      console.error("Error starting chat session:", error);
-      setEndChatMessage("This QR Code has been revoked or invalid.");
-      setEndChat(true);
-    }
+      } catch (error: unknown) {
+        console.error("Error starting chat session:", error);
+        setEndChatMessage("This QR Code has been revoked or invalid.");
+        setEndChat(true);
+      }
     };
     chatSession();
   }, [token])
 
   const endChatSession = async () => {
-    if (!sessionId){
+    if (!sessionId) {
       console.error("No session_id available. Cannot end session.");
       return;
     }
@@ -119,7 +119,7 @@ const RespondersChat = () => {
           };
           setMessages((prev) => [...prev, botResponse]);
         }
-      }catch (error: unknown) {
+      } catch (error: unknown) {
         console.error("Error sending message to AI agent:", error);
       } finally {
         setIsLoading(false);
@@ -132,115 +132,114 @@ const RespondersChat = () => {
 
   return (
     <>
-    
+
       {endChat ? (
-      
-    <div className="flex items-center justify-center h-screen">
-      <p className="text-center text-red-600 font-semibold text-lg md:text-xl px-4">
-        {endChatMessage}
-      </p>
-    </div>
-  ) : (
-    <div className="flex flex-col md:flex-row h-screen max-h-screen overflow-hidden gap-4">
-      {/* Left Side - Patient Info */}
-      <div className="w-full md:w-1/3 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200 p-4 md:p-6 overflow-y-auto max-h-[40vh] md:max-h-screen">
-        <div className="space-y-3 md:space-y-4">
-          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-            <h3 className="font-semibold text-gray-700 mb-2 text-sm md:text-base">Patient Information</h3>
-            <div className="space-y-1 text-xs md:text-sm">
-              <p><span className="font-medium">First Name:</span> {patient?.first_name}</p>
-              <p><span className="font-medium">Last Name:</span> {patient?.last_name}</p>
-              <p><span className="font-medium">Gender:</span> {patient?.gender}</p>
-              <p><span className="font-medium">Date of Birth:</span> {patient?.date_of_birth}</p>
-              <p><span className="font-medium">Emergency Contact:</span></p>
-              <ol className="ml-4">
-                <li> Name: {patient?.emergency_contact_name}</li>
-                <li>Phone Number: {patient?.emergency_contact_phone}</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Right Side - Chat */}
-      <div className="flex-1 flex flex-col bg-white min-h-[60vh] md:min-h-screen p-2">
-        <div className="bg-[#81c784] text-white p-3 md:p-4 shadow-md">
-          <h2 className="text-lg md:text-xl font-semibold">EmergiScan AI Assistant</h2>
-          <p className="text-xs md:text-sm opacity-90">Ask questions about the patient's medical information</p>
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-center text-red-600 font-semibold text-lg md:text-xl px-4">
+            {endChatMessage}
+          </p>
         </div>
-
-        {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.timestamp.getTime()}
-              className={`flex ${message.sender === "responder" ? "justify-end" : "justify-start"}`}
-            >
-              <div
-                className={`max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 ${message.sender === "responder"
-                  ? "bg-gray-100 text-gray-800"
-                  : "bg-[#81c784] text-white" 
-                  }`}
-              >
-                <p className="text-sm md:text-base">{message.text}</p>
-                <p className="text-xs mt-1 opacity-70">
-                  {message.timestamp.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              </div>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 bg-[#81c784] text-white">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '0ms'}}></span>
-                    <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '150ms'}}></span>
-                    <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '300ms'}}></span>
-                  </div>
+      ) : (
+        <div className="flex flex-col md:flex-row h-screen max-h-screen overflow-hidden gap-4">
+          {/* Left Side - Patient Info */}
+          <div className="w-full md:w-1/3 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200 p-4 md:p-6 overflow-y-auto max-h-[40vh] md:max-h-screen">
+            <div className="space-y-3 md:space-y-4">
+              <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold text-gray-700 mb-2 text-sm md:text-base">Patient Information</h3>
+                <div className="space-y-1 text-xs md:text-sm">
+                  <p><span className="font-medium">First Name:</span> {patient?.first_name}</p>
+                  <p><span className="font-medium">Last Name:</span> {patient?.last_name}</p>
+                  <p><span className="font-medium">Gender:</span> {patient?.gender}</p>
+                  <p><span className="font-medium">Date of Birth:</span> {patient?.date_of_birth}</p>
+                  <p><span className="font-medium">Emergency Contact:</span></p>
+                  <ol className="ml-4">
+                    <li> Name: {patient?.emergency_contact_name}</li>
+                    <li>Phone Number: {patient?.emergency_contact_phone}</li>
+                  </ol>
                 </div>
               </div>
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+          </div>
 
-        {/* Input Area */}
-        <div className="border-t border-gray-200 p-2 md:p-4 bg-gray-50 shrink-0 rounded-2xl shadow-xl shadow-gray-400/50">
-          <form onSubmit={handleSendMessage} className="flex gap-2 md:gap-3 flex-col sm:flex-row">
-            <button 
-              type="button"
-              onClick={endChatSession}
-              className="bg-red-600 hover:bg-red-800 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg transition-colors text-sm md:text-base font-medium whitespace-nowrap shrink-0 sm:w-auto w-full"
-            >
-              End Chat
-            </button>
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask a question about the patient..."
-              className="flex-1 px-3 md:px-4 py-2 md:py-2.5 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#81c784] w-fill"
-            />
-            <button
-              type="submit"
-              className="bg-[#81c784] hover:bg-[#2e7d32] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg transition-colors text-sm md:text-base font-medium whitespace-nowrap shrink-0 sm:w-auto w-full"
-            >
-              Send
-            </button>
-            
-          </form>
+          {/* Right Side - Chat */}
+          <div className="flex-1 flex flex-col bg-white min-h-[60vh] md:min-h-screen p-2">
+            <div className="bg-[#81c784] text-white p-3 md:p-4 shadow-md">
+              <h2 className="text-lg md:text-xl font-semibold">EmergiScan AI Assistant</h2>
+              <p className="text-xs md:text-sm opacity-90">Ask questions about the patient's medical information</p>
+            </div>
+
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.timestamp.getTime()}
+                  className={`flex ${message.sender === "responder" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 ${message.sender === "responder"
+                      ? "bg-gray-100 text-gray-800"
+                      : "bg-[#81c784] text-white"
+                      }`}
+                  >
+                    <p className="text-sm md:text-base">{message.text}</p>
+                    <p className="text-xs mt-1 opacity-70">
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 bg-[#81c784] text-white">
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-1">
+                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="border-t border-gray-200 p-2 md:p-4 bg-gray-50 shrink-0 rounded-2xl shadow-xl shadow-gray-400/50">
+              <form onSubmit={handleSendMessage} className="flex gap-2 md:gap-3 flex-wrap sm:flex-nowrap justify-between sm:justify-start">
+                <button
+                  type="button"
+                  onClick={endChatSession}
+                  className="order-2 sm:order-1 bg-red-600 hover:bg-red-800 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg transition-colors text-sm md:text-base font-medium whitespace-nowrap"
+                >
+                  End Chat
+                </button>
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="Ask a question about the patient..."
+                  className="order-1 sm:order-2 w-full sm:flex-1 px-3 md:px-4 py-2 md:py-2.5 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#81c784]"
+                />
+                <button
+                  type="submit"
+                  className="order-3 sm:order-3 bg-[#81c784] hover:bg-[#2e7d32] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg transition-colors text-sm md:text-base font-medium whitespace-nowrap"
+                >
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )}
-    
+      )}
+
     </>
   );
-  
+
 };
 
 export default RespondersChat;

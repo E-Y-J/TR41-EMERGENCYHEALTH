@@ -24,14 +24,14 @@ const QRCodePage = () => {
     fetchRevocationStatus();
   }, []);
 
-  const handleRevoke = async() => {
+  const handleRevoke = async () => {
     try {
       const response = await api.post("/patients/me/revoke_qr");
       if (response.status === 200) {
         alert("QR Code revoked successfully. Please log in again to get a new QR code.");
-         fetchRevocationStatus();
-         // remove qrURL from local storage
-         localStorage.removeItem("auth_qr");
+        fetchRevocationStatus();
+        // remove qrURL from local storage
+        localStorage.removeItem("auth_qr");
       } else {
         alert("Failed to revoke QR Code. Please try again.");
       }
@@ -39,7 +39,7 @@ const QRCodePage = () => {
       console.error("Error revoking QR Code:", error);
       alert("An error occurred while revoking the QR Code.");
     }
-    
+
   };
 
   return (
@@ -48,34 +48,38 @@ const QRCodePage = () => {
       <p className="mb-2 print:hidden">Scan to open the emergency responder AI chatbot.</p>
 
       <div className="mx-auto w-fit p-4 bg-white">
-        {qrURL && isRevoked===false &&  <QRCode value={qrURL} size={250} />}
+        {qrURL && isRevoked === false && (
+          <>
+            <QRCode value={qrURL} size={185} className="max-[340px]:block min-[340px]:hidden" />
+            <QRCode value={qrURL} size={250} className="max-[340px]:hidden min-[340px]:block" />
+          </>
+        )}
       </div>
 
-      <p className="mt-4 break-all text-xl print:hidden">
+      <p className="mt-4 wrap-break-word text-lg sm:text-xl print:hidden">
         {isRevoked ? (
-          <span className="text-center bg-red-500 text-white px-4 py-2 rounded block">
+          <span className="max-w-3xl mx-auto text-center bg-red-500 text-white px-4 py-2 rounded block">
             This QR Code has been revoked. Please log in again to get a new QR code.
           </span>
         ) : (
           qrURL
         )}
       </p>
-        {isRevoked? null : (
-                <div className="mt-4 mb-12 print:hidden">
-        <button
+      {isRevoked ? null : (
+        <div className="mt-8 mb-12 flex flex-wrap justify-center gap-4 print:hidden">          <button
           onClick={() => window.print()}
           className="bg-[#81c784] hover:bg-[#2e7d32] text-white px-6 py-2 rounded"
         >
           Print
         </button>
-        <button
-          onClick={handleRevoke}
-          className="bg-red-500 hover:bg-red-700 text-white px-6 py-2 rounded ml-4"
-        >
-          Revoke
-        </button>
-      </div>
-        )}
+          <button
+            onClick={handleRevoke}
+            className="bg-red-500 hover:bg-red-700 text-white px-6 py-2 rounded"
+          >
+            Revoke
+          </button>
+        </div>
+      )}
     </div>
   );
 };

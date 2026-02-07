@@ -43,7 +43,7 @@ const ChatHistory = () => {
         id: index + 1,
         text: msg.content,
         sender: msg.role === "assistant" ? "bot" : "user",
-        timestamp: new Date(msg.created_at),
+        timestamp: new Date(msg.created_at + (msg.created_at.endsWith('Z') ? '' : 'Z')),
     })) || [];
 
     const handleSelectChat = (chatId: number) => {
