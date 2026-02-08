@@ -109,12 +109,13 @@ function Header() {
                     Logout
                   </a>
                 </li>
+
               )}
             </ul>
           )}
           {!user && (
-            <div className="md:hidden">
-              <a onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="block py-11 text-center ">
+            <div className="mobile-login md:hidden min-[399px]:flex-1 flex justify-center items-center">
+              <a onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="block min-[399px]:py-11 min-[399px]:text-center">
                 Login / Sign Up
               </a>
             </div>

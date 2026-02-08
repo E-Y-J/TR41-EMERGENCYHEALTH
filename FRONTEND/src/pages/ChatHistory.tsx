@@ -65,7 +65,7 @@ const ChatHistory = () => {
             <div className='flex flex-col lg:flex-row gap-8'>
 
                 <div className='lg:w-2/5'>
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 sticky top-6">
+                    <div className="min-[450px]:bg-white min-[450px]:shadow-md min-[450px]:rounded-lg min-[450px]:p-6 min-[450px]:border min-[450px]:border-gray-200 sticky top-6">
                         <ChatList
                             chats={chatSessions}
                             selectedChatId={selectedChatId}
@@ -74,7 +74,7 @@ const ChatHistory = () => {
                     </div>
                 </div>
                 <div className='lg:w-3/5'>
-                    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                    <div className="min-[450px]:bg-white min-[450px]:shadow-md min-[450px]:rounded-lg min-[450px]:p-6 min-[450px]:border min-[450px]:border-gray-200">
                         {isLoadingDetail ? (
                             <div className="text-center">Loading messages...</div>
                         ) : !selectedChatId || messages.length === 0 ? (
