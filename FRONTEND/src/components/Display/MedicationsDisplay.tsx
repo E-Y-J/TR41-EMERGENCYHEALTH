@@ -65,12 +65,14 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
         return (
             <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
                 <h3 className="max-[500px]:!text-[1.35rem] font-semibold mb-6">Medications</h3>
-                <button
-                    onClick={onAdd}
-                    className="border bg-[#81c784] hover:bg-[#2e7d32] border-gray-300 active:bg-gray-100 focus:outline-none p-1 rounded px-2"
-                >
-                    Add Medication
-                </button>
+                <div className="border border-gray-300 bg-gray-100 p-4 rounded">
+                    <button
+                        onClick={onAdd}
+                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
+                    >
+                        Add Medication
+                    </button>
+                </div>
             </div>
         );
     }

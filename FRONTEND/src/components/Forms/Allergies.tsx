@@ -57,23 +57,6 @@ const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
     return res.data;
   }
 
-  /* //Post mutation to submit allergy data
-  const {
-    mutate: createMutation,
-    isPending,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
-    mutationFn: createAllergy,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["allergies"] });
-      reset();
-      onCancel();
-    },
-  }); */
-
   const createMutation = useMutation({
     mutationFn: createAllergy,
     onSuccess: () => {
@@ -91,10 +74,6 @@ const Allergies = ({ onCancel, initialData }: AllergiesProps) => {
       onCancel();
     }
   })
-
-  /* const onSubmit = (data: AllergyFormData) => {
-    createMutation(data);
-  }; */
 
   const onSubmit = (data: AllergyFormData) => {
     if (isEditing) {
