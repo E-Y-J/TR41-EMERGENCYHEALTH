@@ -14,7 +14,7 @@ const ChatList = ({ chats, selectedChatId, onSelectChat }: ChatListProps) => {
     return (
         <div className="mx-auto p-6 bg-gray-50 border border-gray-200 rounded-lg shadow">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold">Chat List</h3>
+                <h3 className="max-[500px]:!text-[1.35rem] font-semibold">Chat List</h3>
             </div>
 
             <div className="border border-gray-300 bg-gray-100 p-6 rounded">

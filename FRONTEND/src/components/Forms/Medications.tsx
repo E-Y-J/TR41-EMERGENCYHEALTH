@@ -62,21 +62,6 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
     return res.data;
   }
 
-  /* const {
-    mutate: createMutation,
-    isPending,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
-    mutationFn: createMedication,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["medication"] });
-      reset();
-      onCancel();
-    },
-  }); */
-
   const createMutation = useMutation({
     mutationFn: createMedication,
     onSuccess: () => {
@@ -85,15 +70,6 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
       onCancel();
     },
   });
-
-  /*   const updateMutation = useMutation({
-      mutationFn: updateMedication,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["medications"] });
-        reset();
-        onCancel();
-      },
-    }); */
 
   const updateMutation = useMutation({
     mutationFn: updateMedication,
@@ -106,14 +82,6 @@ const Medications = ({ onCancel, initialData }: MedicationsProps) => {
       console.error("Update failed:", e);
     },
   });
-
-  /*   const onSubmit = (data: MedicationFormData) => {
-      if (isEditing) {
-        updateMutation.mutate({ ...data, id: initialData?.id });
-      } else {
-        createMutation.mutate(data);
-      }
-    }; */
 
   const onSubmit = (data: MedicationFormData) => {
     if (isEditing) {

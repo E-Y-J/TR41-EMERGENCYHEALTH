@@ -289,11 +289,14 @@ Task#12(Jessica)
   - Updated Footer to be more responsive and created custom CSS file Footer.css
   - Made Homepage.tsx image and text responsive
   - Made MedicationsDisplay match other form displays.
+  - Made ChatMessages and ChatList match other displays.
+  - Made ChatHistory match Account.
   - Made QR code smaller on very small screens to accommodate accessability options, as well as buttons. 
   - Made RespondersChat buttons responsive
   - Made cancel/save buttons responsive
   - Implemented breakpoints and made all display consistent
   - Kept accessability in mind across displays
+  - Made Login/Sign Up button responsive on screens smaller than 768px.
   
 - Header Navigation Enhancements
   - Added hamburger menu for smaller screens (below md breakpoint at 768px)
