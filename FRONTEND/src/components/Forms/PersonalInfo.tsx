@@ -134,7 +134,6 @@ const PersonalInfo = ({ onCancel }: PersonalInfoProps) => {
             <label className="block mb-1">Phone Number</label>
             <input
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               {...register("phone")}
               className="w-full border border-gray-200 focus:outline-none focus:border-gray-700 p-2 rounded bg-white text-black"
             />

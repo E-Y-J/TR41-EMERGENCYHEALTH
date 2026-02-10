@@ -68,7 +68,7 @@ const MedicationsDisplay = ({ onAdd, onEdit }: MedicationsDisplayProps) => {
                 <div className="border border-gray-300 bg-gray-100 p-4 rounded">
                     <button
                         onClick={onAdd}
-                        className="border bg-gray-50 border-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
+                        className="border bg-gray-50 border-gray-300 hover:bg-gray-300 active:bg-gray-100 focus:outline-none p-2 rounded w-1/3 mx-auto block text-sm"
                     >
                         Add Medication
                     </button>
