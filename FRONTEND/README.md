@@ -113,7 +113,7 @@ Task#9: Routing Protection(Ali)
 
 Task#10: QRCodePage/RespondersChat(Ali)
 
-- QRCodePage Component 
+- QRCodePage Component
   - Added useEffect to fetch QR code revocation status on component mount
   - Implemented API call to /patients/me endpoint to get current revocation status
   - Updated isRevoked state based on fetched data
@@ -122,10 +122,12 @@ Task#10: QRCodePage/RespondersChat(Ali)
   - Implemented API call to /patients/me endpoint to get current revocation status
   - Implemented logic to call /chatbot/session/${sessionId}/end when QR code is revoked
   - Implemented isRevoked state management
-  - Styled loading indicator using Tailwind CSS 
-  - Displayed message indicating chat is disabled when QR code is revoked 
-  - Disabled message input form when QR code is revoked 
-  
+  - Styled loading indicator using Tailwind CSS
+  - Displayed message indicating chat is disabled when QR code is revoked
+  - Disabled message input form when QR code is revoked
+
+Task#11: feedback fixes(Ali)
+
 Task#4(Jessica)
 
 - Login and Logout Forms
@@ -279,6 +281,29 @@ Task#9(Jessica)
   -Created ChatList.tsx and ChatMessage.tsx components to display saved lists and display messages when a specific message is selected.
   -Styled to match forms and displays in Account.
 
+Task#11(Ali): feedback fixes
+
+- Mailcheck Integration
+  - Added mailcheck library to package.json dependencies
+  - Integrated Mailcheck into Login.tsx component
+    - Added emailSuggestion state to track suggested email corrections
+    - Implemented runMailcheck() function to detect common typos (e.g., gggmail.com → gmail.com)
+    - Created applySuggestion() function to apply suggested corrections to email field
+    - Added email suggestion UI that displays when typos are detected
+    - Watches email field changes in real-time to trigger Mailcheck validation
+  - Integrated Mailcheck into SignUp.tsx component with same functionality
+    - Real-time typo detection for signup users
+    - User-friendly suggestion display and acceptance flow
+    - Catches invalid domains like ggmail, yahoooooo, etc.
+  - Provides better UX than regex-only validation—users get helpful suggestions instead of rejection
+- healthSchema Updates
+  - Updated porsonalSchema and medicationSchema to use .trim() for string fields to prevent whitespace and error messages for empty strings
+- authSchema Updates
+  - Updated loginSchema and signupSchema to use .trim() for email fields to prevent whitespace issues
+  - Added .toLowerCase() to email fields in both schemas to normalize input
+  - Simplified email validation to use Zod's native .email() method for better accuracy and maintainability
+  - Updated validation error messages to be clearer and more user-friendly (e.g., "Email address required" instead of "Invalid email format")
+
 Task#12(Jessica)
 
 - Responsive Layout Updates
@@ -291,13 +316,12 @@ Task#12(Jessica)
   - Made MedicationsDisplay match other form displays.
   - Made ChatMessages and ChatList match other displays.
   - Made ChatHistory match Account.
-  - Made QR code smaller on very small screens to accommodate accessability options, as well as buttons. 
+  - Made QR code smaller on very small screens to accommodate accessability options, as well as buttons.
   - Made RespondersChat buttons responsive
   - Made cancel/save buttons responsive
   - Implemented breakpoints and made all display consistent
   - Kept accessability in mind across displays
   - Made Login/Sign Up button responsive on screens smaller than 768px.
-  
 - Header Navigation Enhancements
   - Added hamburger menu for smaller screens (below md breakpoint at 768px)
   - Styled hamburger
@@ -305,7 +329,7 @@ Task#12(Jessica)
   - Login / Sign Up link displays outside hamburger on mobile for quick access
 
 - .gitignore Updates
-  - Added comprehensive Python cache exclusions (__pycache__/, *.pyc, *.pyo, *.egg-info/)
+  - Added comprehensive Python cache exclusions (**pycache**/, _.pyc, _.pyo, \*.egg-info/)
   - Added Python virtual environment directories (venv/, env/, .venv)
   - Removed committed .pyc files from git tracking to prevent merge conflicts
 

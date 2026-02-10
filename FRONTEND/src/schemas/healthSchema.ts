@@ -4,9 +4,34 @@ export const personalSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   middle_name: z.string().nullable().optional().or(z.literal("")),
   last_name: z.string().min(1, "Last name is required"),
-  address: z.string().min(1, "Address is required"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  date_of_birth: z.string().min(1, "Date of birth is required"),
+  address: z
+    .string()
+    .nullable() 
+    .refine((v) => v !== null && v.trim() !== "", {
+      message: "Address is required",
+    }),
+  phone: z.string().nullable().optional().superRefine((v, ctx) => {
+  const val = (v ?? "").trim();
+  if (val.trim() === "") {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Phone number is required",
+    });
+    return;
+  }
+  if (val.replace(/\D/g, "").length < 10) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Phone number must be at least 10 digits",
+      });
+    }
+  }),
+  date_of_birth: z
+    .string()
+    .nullable()
+    .refine((v) => v !== null && v.trim() !== "", {
+      message: "Date of birth is required",
+    }),
   gender: z.enum(["Male", "Female", "Other"], {
     message: "Please select a gender",
   }),
@@ -16,11 +41,17 @@ export const personalSchema = z.object({
   preferred_hospital: z.string().nullable().optional().or(z.literal("")),
   emergency_contact_name: z
     .string()
-    .min(1, "Emergency contact name is required"),
+    .nullable() 
+    .refine((v) => v !== null && v.trim() !== "", {
+      message: "Emergency contact name is required",
+    }),
   emergency_contact_relationship: z
     .string()
-    .min(1, "Emergency contact relationship is required"),
-  emergency_contact_phone: z.string().nullable().optional().or(z.literal("")),
+    .nullable()
+    .refine((v) => v !== null && v.trim() !== "", {
+      message: "Emergency contact relationship is required",
+    }),
+  emergency_contact_phone: z.string().nullable().optional(),
 });
 
 export const allergySchema = z.object({
@@ -48,7 +79,11 @@ export const medicationSchema = z.object({
   is_active: z
     .enum(["yes", "no"], { message: "Please choose an option" })
     .optional(),
-  notes: z.string().optional(),
+  notes: z
+  .string()
+  .max(100, "Notes cannot exceed 100 characters")
+  .optional()
+  .nullable(),
 });
 
 export const conditionSchema = z.object({
@@ -57,7 +92,11 @@ export const conditionSchema = z.object({
     .string()
     .min(1, "Name of the medical condition is required"),
   is_chronic: z.enum(["yes", "no"], { message: "Please choose an option" }),
-  notes: z.string().optional(),
+  notes: z
+  .string()
+  .max(300, "Notes cannot exceed 300 characters")
+  .optional()
+  .nullable(),
 });
 
 export type PersonalFormData = z.infer<typeof personalSchema>;
