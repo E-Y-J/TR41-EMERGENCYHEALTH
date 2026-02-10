@@ -3,7 +3,7 @@ const HomePage = () => {
   return (
     <div className="text-center">
       <h1 className="mb-4">Welcome to EmergiScan</h1>
-      <h4>Your emergency health companion</h4>
+      <h4>Your Emergency Health Companion</h4>
       <div className="flex flex-col md:flex-row items-center gap-6 max-w-7xl mx-auto mt-8 px-4">
         <img src="/paramedics.jpg" alt="Paramedics" className="w-1/2 rounded-lg" />
         <p className="w-full md:w-1/2 text-lg md:text-left text-center md:text-wrap">

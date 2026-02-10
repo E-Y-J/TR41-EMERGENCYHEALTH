@@ -26,6 +26,20 @@ function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobileMenuOpen]);
+
   const activeLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-[#81c784]" : ""
 
@@ -82,7 +96,7 @@ function Header() {
 
           {/* hamburger menu */}
           {isMobileMenuOpen && (
-            <ul className="md:hidden z-10 absolute top-3/4 w-48 right-0 bg-white flex flex-col">
+            <ul className="md:hidden z-10 absolute top-20 w-48 right-0 bg-white flex flex-col">
               <li className="border-b border-gray-300">
                 <NavLink to="/" className={activeLink} onClick={() => setIsMobileMenuOpen(false)}>
                   <span className="block p-4">Home</span>
