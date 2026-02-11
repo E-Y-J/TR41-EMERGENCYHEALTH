@@ -50,8 +50,11 @@ const QRCodePage = () => {
       <div className="mx-auto w-fit p-4 bg-white">
         {qrURL && isRevoked === false && (
           <>
-            <QRCode value={qrURL} size={185} className="max-[340px]:block min-[340px]:hidden" />
-            <QRCode value={qrURL} size={250} className="max-[340px]:hidden min-[340px]:block" />
+            <p className="text-center mb-7 font-bold text-lg hidden print:block">Please scan the following QR code <br /> for my medical information.</p>
+            <div className="flex justify-center">
+              <QRCode value={qrURL} size={185} className="max-[340px]:block min-[340px]:hidden" />
+              <QRCode value={qrURL} size={250} className="max-[340px]:hidden min-[340px]:block" />
+            </div>
           </>
         )}
       </div>
