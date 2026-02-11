@@ -179,7 +179,7 @@ const RespondersChat = () => {
                   <div
                     className={`max-w-[85%] md:max-w-[70%] rounded-lg p-3 md:p-4 ${message.sender === "responder"
                       ? "bg-gray-100 text-gray-800"
-                      : "bg-[#81c784] text-white"
+                      : "bg-[#2e7d32] text-white"
                       }`}
                   >
                     <p className="text-sm md:text-base">{message.text}</p>
